@@ -1,0 +1,119 @@
+/* ==========================================================================
+ * Base — reset complementar, tipografia do documento e foco
+ * ========================================================================== */
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--bg-grouped);
+    color: var(--label);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    letter-spacing: var(--text-body--letter-spacing);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition:
+      background-color var(--duration-base) var(--ease-standard),
+      color var(--duration-base) var(--ease-standard);
+  }
+
+  /* Títulos ganham text-wrap: balance para não deixar órfã na última linha. */
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+    color: var(--label);
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* O anel de foco da Apple: halo azul espesso, não um outline fino.
+   * :focus-visible e não :focus — clique de mouse não deve acender o anel. */
+  :focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3.5px var(--focus-ring);
+    border-radius: var(--radius-xs);
+  }
+
+  /* Seleção de texto na cor de accent */
+  ::selection {
+    background-color: var(--accent-muted);
+  }
+
+  /* Alvo mínimo de toque em ponteiros grosseiros (dedo).
+   * Só onde o ponteiro é impreciso: no desktop apertaria a interface à toa. */
+  @media (pointer: coarse) {
+    button,
+    a[role='button'],
+    [role='tab'],
+    input[type='checkbox'],
+    input[type='radio'] {
+      min-block-size: var(--touch-target);
+    }
+  }
+}
+
+@layer utilities {
+  /* Valores monetários e colunas numéricas. Reservado a dígitos que precisam
+   * alinhar verticalmente — números heroicos ficam com figuras proporcionais,
+   * que é como a Apple os desenha. */
+  .tabular-figures {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .measure {
+    max-inline-size: var(--measure);
+  }
+
+  /* Contêiner rolável para conteúdo largo: a tabela rola dentro dela mesma,
+   * o body nunca rola de lado. */
+  .scroll-x {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+  }
+}
+
+/* --- Keyframes usados pela Sheet ------------------------------------------
+ * Declarados fora de @layer para que o `animation:` inline dos componentes
+ * consiga referenciá-los. O bloco de prefers-reduced-motion em motion.css já
+ * neutraliza a duração destes. */
+@keyframes sheet-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes sheet-in {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (min-width: 40rem) {
+  @keyframes sheet-in {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -46%) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+}

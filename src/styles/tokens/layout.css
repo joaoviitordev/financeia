@@ -1,0 +1,52 @@
+/* ==========================================================================
+ * Layout — espaçamento, raios e alturas de controle
+ * --------------------------------------------------------------------------
+ * Sobre os raios: a Apple usa curvatura contínua (o "squircle" do
+ * cornerCurve: .continuous). O CSS não tem equivalente nativo, e as
+ * aproximações via Houdini paint() não funcionam no Safari — justamente onde
+ * a fidelidade mais importaria. Usamos border-radius padrão com os valores da
+ * Apple e assumimos a diferença conscientemente.
+ *
+ * A regra concêntrica do iOS 26 está codificada como fórmula, não como raios
+ * soltos: o raio interno acompanha o externo menos o padding, de modo que
+ * cantos aninhados fiquem paralelos em vez de brigarem.
+ * ========================================================================== */
+
+/* Estáticos: viram utilitários do Tailwind (rounded-md, rounded-xl, …) */
+@theme {
+  --radius-xs: 6px; /* controles pequenos, badges */
+  --radius-sm: 8px;
+  --radius-md: 10px; /* botões */
+  --radius-lg: 12px;
+  --radius-xl: 16px; /* cards, listas inset */
+  --radius-2xl: 22px; /* sheets */
+  --radius-full: 9999px;
+}
+
+:root {
+  /* --- Alturas de controle ---
+   * 44px é o alvo mínimo de toque do HIG no idioma iOS. Não reduza em
+   * elementos tocáveis; os 28px são para linha de sidebar do macOS,
+   * navegada por ponteiro. */
+  --control-sm: 28px;
+  --control-md: 34px;
+  --control-lg: 44px;
+  --touch-target: 44px;
+
+  --row-height: 44px; /* linha de lista iOS */
+  --sidebar-row-height: 28px; /* linha de sidebar macOS */
+  --toolbar-height: 52px;
+  --tabbar-height: 49px;
+  --segmented-height: 32px;
+
+  /* --- Larguras --- */
+  --sidebar-width: 260px;
+  --content-max: 68rem;
+  --measure: 65ch; /* largura de leitura confortável */
+}
+
+/* Raio concêntrico: cantos aninhados ficam paralelos ao pai.
+ * Uso: defina --radius-outer e --inset no elemento pai. */
+.concentric {
+  border-radius: max(var(--radius-xs), calc(var(--radius-outer, 16px) - var(--inset, 8px)));
+}

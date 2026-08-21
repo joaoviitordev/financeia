@@ -1,0 +1,127 @@
+/* ==========================================================================
+ * Motion — curvas e durações da Apple
+ * --------------------------------------------------------------------------
+ * As três molas do SwiftUI estão expressas com linear(), que representa uma
+ * mola de verdade. Uma cubic-bezier não consegue: ela é monotônica e por
+ * definição não pode ultrapassar 1, então o overshoot — a parte que faz a
+ * animação parecer da Apple — se perde.
+ *
+ * Os valores vieram de simulação do sistema massa-mola de Spring(duration:bounce:),
+ * com zeta = 1 - bounce e omega = 2*pi/duration. Note os passos acima de 1.0
+ * em snappy e bouncy: é o overshoot, e é intencional.
+ * ========================================================================== */
+
+:root {
+  /* --- Curvas --- */
+
+  /* A curva de sheet do iOS: entrada decidida, saída longa e calma. */
+  --ease-standard: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+
+  /* smooth — sem overshoot; use quando o movimento não deve chamar atenção */
+  --spring-smooth: linear(
+    0 0%,
+    0.0288 4.2%,
+    0.0974 8.3%,
+    0.186 12.5%,
+    0.2816 16.7%,
+    0.3764 20.8%,
+    0.4656 25%,
+    0.5468 29.2%,
+    0.6189 33.3%,
+    0.6819 37.5%,
+    0.7361 41.7%,
+    0.7822 45.8%,
+    0.821 50%,
+    0.8535 54.2%,
+    0.8806 58.3%,
+    0.9029 62.5%,
+    0.9213 66.7%,
+    0.9364 70.8%,
+    0.9487 75%,
+    0.9587 79.2%,
+    0.9668 83.3%,
+    0.9734 87.5%,
+    0.9787 91.7%,
+    0.983 95.8%,
+    1 100%
+  );
+
+  /* snappy — overshoot discreto; o padrão para controles e seleção */
+  --spring-snappy: linear(
+    0 0%,
+    0.0295 4.2%,
+    0.1018 8.3%,
+    0.1976 12.5%,
+    0.3031 16.7%,
+    0.409 20.8%,
+    0.5094 25%,
+    0.6007 29.2%,
+    0.6812 33.3%,
+    0.7503 37.5%,
+    0.8083 41.7%,
+    0.856 45.8%,
+    0.8945 50%,
+    0.925 54.2%,
+    0.9486 58.3%,
+    0.9666 62.5%,
+    0.98 66.7%,
+    0.9896 70.8%,
+    0.9964 75%,
+    1.0009 79.2%,
+    1.0038 83.3%,
+    1.0054 87.5%,
+    1.0061 91.7%,
+    1.0063 95.8%,
+    1 100%
+  );
+
+  /* bouncy — overshoot pronunciado; reserve para momentos de celebração */
+  --spring-bouncy: linear(
+    0 0%,
+    0.0303 4.2%,
+    0.1066 8.3%,
+    0.2105 12.5%,
+    0.3275 16.7%,
+    0.447 20.8%,
+    0.5614 25%,
+    0.6657 29.2%,
+    0.7571 33.3%,
+    0.8343 37.5%,
+    0.8972 41.7%,
+    0.9467 45.8%,
+    0.9841 50%,
+    1.0109 54.2%,
+    1.0288 58.3%,
+    1.0396 62.5%,
+    1.0449 66.7%,
+    1.0459 70.8%,
+    1.044 75%,
+    1.0402 79.2%,
+    1.0353 83.3%,
+    1.0298 87.5%,
+    1.0244 91.7%,
+    1.0192 95.8%,
+    1 100%
+  );
+
+  /* --- Durações --- */
+  --duration-micro: 150ms; /* hover, pressed */
+  --duration-fast: 200ms;
+  --duration-base: 300ms; /* padrão */
+  --duration-slow: 500ms; /* sheets, transições de tela */
+}
+
+/* Respeitar a preferência do sistema não é opcional: movimento pode causar
+ * enjoo e desorientação em quem tem sensibilidade vestibular. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,134 @@
+/* ==========================================================================
+ * Materiais — Liquid Glass, restrito à navegação
+ * --------------------------------------------------------------------------
+ * Decisão de projeto: vidro APENAS em sidebar, toolbar, tab bar, sheets e
+ * popovers. Superfícies de conteúdo — cards, listas, gráficos, tabelas —
+ * ficam opacas. É o que a própria Apple faz, e por um bom motivo: vidro atrás
+ * de dado financeiro denso destrói a legibilidade e transforma cada valor num
+ * problema de contraste variável, que depende do que passa por baixo.
+ *
+ * Um material da Apple é composição, não só blur:
+ *   1. desfoque do fundo
+ *   2. realce de saturação (a "vibrancy" — o fundo fica mais colorido, não menos)
+ *   3. tinta translúcida por cima
+ *   4. hairline de borda
+ *   5. realce especular na aresta superior, que dá o volume do vidro
+ * ========================================================================== */
+
+:root {
+  --material-blur-ultra-thin: 20px;
+  --material-blur-thin: 30px;
+  --material-blur-regular: 40px;
+  --material-blur-thick: 50px;
+  --material-saturate: 180%;
+
+  --material-tint-ultra-thin: rgba(255, 255, 255, 0.44);
+  --material-tint-thin: rgba(255, 255, 255, 0.6);
+  --material-tint-regular: rgba(255, 255, 255, 0.72);
+  --material-tint-thick: rgba(255, 255, 255, 0.84);
+
+  --material-border: rgba(0, 0, 0, 0.08);
+  --material-specular: rgba(255, 255, 255, 0.65);
+
+  /* Fallback opaco, usado onde backdrop-filter não existe */
+  --material-fallback: #f7f7fa;
+
+  /* Sombras — a Apple as reserva para o que flutua de fato.
+   * Listas agrupadas NÃO levam sombra: a separação vem da cor de fundo. */
+  --shadow-popover: 0 8px 28px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.08);
+  --shadow-sheet: 0 -2px 40px rgba(0, 0, 0, 0.18);
+  --shadow-dragging: 0 12px 32px rgba(0, 0, 0, 0.22);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme='light'])) {
+    --material-tint-ultra-thin: rgba(30, 30, 32, 0.44);
+    --material-tint-thin: rgba(30, 30, 32, 0.62);
+    --material-tint-regular: rgba(30, 30, 32, 0.74);
+    --material-tint-thick: rgba(30, 30, 32, 0.86);
+
+    --material-border: rgba(255, 255, 255, 0.1);
+    --material-specular: rgba(255, 255, 255, 0.14);
+    --material-fallback: #1a1a1c;
+
+    --shadow-popover: 0 8px 28px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4);
+    --shadow-sheet: 0 -2px 40px rgba(0, 0, 0, 0.6);
+    --shadow-dragging: 0 12px 32px rgba(0, 0, 0, 0.65);
+  }
+}
+
+:root[data-theme='light'] {
+  --material-tint-ultra-thin: rgba(255, 255, 255, 0.44);
+  --material-tint-thin: rgba(255, 255, 255, 0.6);
+  --material-tint-regular: rgba(255, 255, 255, 0.72);
+  --material-tint-thick: rgba(255, 255, 255, 0.84);
+  --material-border: rgba(0, 0, 0, 0.08);
+  --material-specular: rgba(255, 255, 255, 0.65);
+  --material-fallback: #f7f7fa;
+  --shadow-popover: 0 8px 28px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.08);
+  --shadow-sheet: 0 -2px 40px rgba(0, 0, 0, 0.18);
+  --shadow-dragging: 0 12px 32px rgba(0, 0, 0, 0.22);
+}
+
+:root[data-theme='dark'] {
+  --material-tint-ultra-thin: rgba(30, 30, 32, 0.44);
+  --material-tint-thin: rgba(30, 30, 32, 0.62);
+  --material-tint-regular: rgba(30, 30, 32, 0.74);
+  --material-tint-thick: rgba(30, 30, 32, 0.86);
+  --material-border: rgba(255, 255, 255, 0.1);
+  --material-specular: rgba(255, 255, 255, 0.14);
+  --material-fallback: #1a1a1c;
+  --shadow-popover: 0 8px 28px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4);
+  --shadow-sheet: 0 -2px 40px rgba(0, 0, 0, 0.6);
+  --shadow-dragging: 0 12px 32px rgba(0, 0, 0, 0.65);
+}
+
+/* --- Classes de material --------------------------------------------------
+ * O fallback vem PRIMEIRO e é opaco. Sem isso, onde backdrop-filter não
+ * existe, o vidro degrada para um retângulo semitransparente com texto
+ * ilegível por cima — pior do que não ter vidro nenhum. */
+
+.material {
+  background-color: var(--material-fallback);
+  border: 1px solid var(--material-border);
+}
+
+.material-ultra-thin,
+.material-thin,
+.material-regular,
+.material-thick {
+  background-color: var(--material-fallback);
+  border: 1px solid var(--material-border);
+}
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .material-ultra-thin,
+  .material-thin,
+  .material-regular,
+  .material-thick {
+    box-shadow: inset 0 1px 0 0 var(--material-specular);
+    -webkit-backdrop-filter: blur(var(--_blur)) saturate(var(--material-saturate));
+    backdrop-filter: blur(var(--_blur)) saturate(var(--material-saturate));
+    background-color: var(--_tint);
+  }
+
+  .material-ultra-thin {
+    --_blur: var(--material-blur-ultra-thin);
+    --_tint: var(--material-tint-ultra-thin);
+  }
+
+  .material-thin {
+    --_blur: var(--material-blur-thin);
+    --_tint: var(--material-tint-thin);
+  }
+
+  .material-regular {
+    --_blur: var(--material-blur-regular);
+    --_tint: var(--material-tint-regular);
+  }
+
+  .material-thick {
+    --_blur: var(--material-blur-thick);
+    --_tint: var(--material-tint-thick);
+  }
+}

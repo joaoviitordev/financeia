@@ -1,0 +1,115 @@
+/* ==========================================================================
+ * Paleta de gráficos — derivada das matizes da Apple, validada por script
+ * --------------------------------------------------------------------------
+ * As system colors da Apple REPROVAM como paleta categórica: systemYellow fica
+ * fora da faixa de luminosidade (L 0.865), verde↔rosa medem ΔE 6.5 sob
+ * deuteranopia e quatro delas ficam abaixo de 3:1 no branco.
+ *
+ * O que está aqui preserva os ângulos de matiz OKLCH da Apple e re-passa
+ * luminosidade e chroma para dentro da faixa exigida (light L=0.58,
+ * dark L=0.62, chroma <= 0.20). A ORDEM dos slots é o mecanismo de segurança
+ * para daltonismo, não escolha estética — foi resolvida como caminho de
+ * gargalo máximo exigindo aprovação simultânea nos dois modos.
+ *
+ * Validação (dataviz/scripts/validate_palette.js), superfícies #FFFFFF/#1C1C1E:
+ *   CVD adjacente     ΔE 18.0 light / 18.4 dark   (alvo >= 8)
+ *   Visão normal      ΔE 21.6 light / 21.7 dark   (piso >= 15)
+ *   Contraste         todos os 8 >= 3:1 nas duas superfícies
+ *   Faixa e chroma    aprovados
+ *
+ * REGRAS DE USO
+ * - Atribua os slots em ordem fixa, do 1 ao 8. Nunca cicle nem pule.
+ * - A cor segue a entidade, nunca a posição no ranking: um filtro que muda a
+ *   quantidade de séries não pode repintar as que sobraram.
+ * - Dispersão, bolha, small multiples e mapas usam o tema --chart-scatter-*
+ *   e param em 3 séries. Motivo: azul e índigo medem ΔE 0.2 sob deuteranopia.
+ *   São inofensivos enquanto não forem vizinhos, fatais quando todos os pares
+ *   entram em jogo. Acima de 3, agrupe em "Outros" ou facete.
+ * - Texto sempre usa tokens de label, nunca a cor da série. A marca colorida
+ *   ao lado do texto é que carrega a identidade.
+ * ========================================================================== */
+
+:root {
+  /* Tema categórico padrão — barras, linhas, áreas empilhadas */
+  --chart-1: #1275ed; /* blue   */
+  --chart-2: #009436; /* green  */
+  --chart-3: #6564ec; /* indigo */
+  --chart-4: #b06500; /* orange */
+  --chart-5: #a24ccd; /* purple */
+  --chart-6: #d7314b; /* pink   */
+  --chart-7: #0085b7; /* cyan   */
+  --chart-8: #d7352b; /* red    */
+
+  /* Tema para formas que comparam todos os pares — teto de 3 séries */
+  --chart-scatter-1: #1275ed; /* blue   */
+  --chart-scatter-2: #b06500; /* orange */
+  --chart-scatter-3: #008d86; /* mint   */
+
+  /* Chrome do gráfico */
+  --chart-surface: #ffffff;
+  --chart-grid: rgba(60, 60, 67, 0.12);
+  --chart-axis: rgba(60, 60, 67, 0.29);
+  --chart-ink: rgba(60, 60, 67, 0.6);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme='light'])) {
+    --chart-1: #2582fb;
+    --chart-2: #00a23c;
+    --chart-3: #6f71fa;
+    --chart-4: #c16f00;
+    --chart-5: #ae59db;
+    --chart-6: #e54057;
+    --chart-7: #0091c8;
+    --chart-8: #e64438;
+
+    --chart-scatter-1: #2582fb;
+    --chart-scatter-2: #c16f00;
+    --chart-scatter-3: #009a93;
+
+    --chart-surface: #1c1c1e;
+    --chart-grid: rgba(235, 235, 245, 0.12);
+    --chart-axis: rgba(84, 84, 88, 0.6);
+    --chart-ink: rgba(235, 235, 245, 0.6);
+  }
+}
+
+:root[data-theme='light'] {
+  --chart-1: #1275ed;
+  --chart-2: #009436;
+  --chart-3: #6564ec;
+  --chart-4: #b06500;
+  --chart-5: #a24ccd;
+  --chart-6: #d7314b;
+  --chart-7: #0085b7;
+  --chart-8: #d7352b;
+
+  --chart-scatter-1: #1275ed;
+  --chart-scatter-2: #b06500;
+  --chart-scatter-3: #008d86;
+
+  --chart-surface: #ffffff;
+  --chart-grid: rgba(60, 60, 67, 0.12);
+  --chart-axis: rgba(60, 60, 67, 0.29);
+  --chart-ink: rgba(60, 60, 67, 0.6);
+}
+
+:root[data-theme='dark'] {
+  --chart-1: #2582fb;
+  --chart-2: #00a23c;
+  --chart-3: #6f71fa;
+  --chart-4: #c16f00;
+  --chart-5: #ae59db;
+  --chart-6: #e54057;
+  --chart-7: #0091c8;
+  --chart-8: #e64438;
+
+  --chart-scatter-1: #2582fb;
+  --chart-scatter-2: #c16f00;
+  --chart-scatter-3: #009a93;
+
+  --chart-surface: #1c1c1e;
+  --chart-grid: rgba(235, 235, 245, 0.12);
+  --chart-axis: rgba(84, 84, 88, 0.6);
+  --chart-ink: rgba(235, 235, 245, 0.6);
+}

@@ -2,8 +2,31 @@
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f2f2f7" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000" />
     <title>FinanceIA</title>
+    <script>
+      /* Aplica o tema antes da primeira pintura.
+       * Precisa ser bloqueante e inline: se esperar o bundle, a página pinta
+       * clara e depois vira escura — o "flash" branco que incomoda de verdade
+       * em ambiente escuro. Mantido em JS puro, sem depender do módulo. */
+      (function () {
+        try {
+          var stored = window.localStorage.getItem('financeia-theme');
+          var preference = stored === 'light' || stored === 'dark' ? stored : 'system';
+          var resolved =
+            preference === 'system'
+              ? window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light'
+              : preference;
+          document.documentElement.dataset.theme = resolved;
+        } catch (error) {
+          document.documentElement.dataset.theme = 'light';
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

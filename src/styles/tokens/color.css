@@ -1,0 +1,229 @@
+/* ==========================================================================
+ * Cores semânticas — Apple HIG
+ * --------------------------------------------------------------------------
+ * Valores oficiais das system colors da Apple, cada papel com par light/dark.
+ *
+ * Sobre os neutros: a ramp de cinza da Apple é deliberadamente enviesada para
+ * o azul (#8E8E93, #F2F2F7 têm componente azul acima do vermelho). Isso a torna
+ * análoga ao accent systemBlue — é um neutro escolhido, não um cinza herdado.
+ *
+ * Os papéis são declarados três vezes:
+ *   1. :root                      → light, o padrão
+ *   2. @media prefers-color-scheme → segue o SO, com guard para o toggle
+ *   3. :root[data-theme=…]        → o toggle explícito, que vence nos dois sentidos
+ * ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  /* --- Fundos agrupados (telas com listas inset e cards) --- */
+  --bg-grouped: #f2f2f7;
+  --bg-grouped-secondary: #ffffff;
+  --bg-grouped-tertiary: #f2f2f7;
+
+  /* --- Fundos planos --- */
+  --bg-base: #ffffff;
+  --bg-secondary: #f2f2f7;
+  --bg-tertiary: #ffffff;
+
+  /* --- Labels --- */
+  --label: #000000;
+  --label-secondary: rgba(60, 60, 67, 0.75); /* Apple usa .6 (3.44:1) — subido para AA */
+  --label-tertiary: rgba(60, 60, 67, 0.6); /* Apple usa .3 (1.72:1) — subido para AA */
+  --label-quaternary: rgba(60, 60, 67, 0.18);
+  --label-placeholder: rgba(60, 60, 67, 0.3);
+  --label-on-accent: #ffffff;
+
+  /* --- Separadores --- */
+  --separator: rgba(60, 60, 67, 0.29);
+  --separator-opaque: #c6c6c8;
+
+  /* --- Fills (pílulas, campos, trilhos) --- */
+  --fill: rgba(120, 120, 128, 0.2);
+  --fill-secondary: rgba(120, 120, 128, 0.16);
+  --fill-tertiary: rgba(118, 118, 128, 0.12);
+  --fill-quaternary: rgba(116, 116, 128, 0.08);
+
+  /* --- Ramp de cinza --- */
+  --gray-1: #8e8e93;
+  --gray-2: #aeaeb2;
+  --gray-3: #c7c7cc;
+  --gray-4: #d1d1d6;
+  --gray-5: #e5e5ea;
+  --gray-6: #f2f2f7;
+
+  /* --- Accent --- */
+  --accent: #007aff; /* preenchimento — hex exato da Apple */
+  --accent-text: #0068d9; /* texto/link — systemBlue reprova em texto (4.02:1) */
+  --accent-hover: #0a6fe0;
+  --accent-muted: rgba(0, 122, 255, 0.12);
+  --focus-ring: rgba(0, 122, 255, 0.5);
+
+  /* --- Status (system colors da Apple, verbatim) ---
+   * Contraste baixo no light é intencional e igual ao da paleta de referência
+   * da skill dataviz. A mitigação é obrigatória: ícone + rótulo, nunca a cor
+   * sozinha. Separação das séries: good ΔE 15.1, serious ΔE 19.1 — folgado.
+   * critical fica a ΔE 8.1 do vermelho de série: nunca use os dois no mesmo
+   * gráfico sem rótulo direto. */
+  --status-good: #34c759;
+  --status-warning: #ffcc00;
+  --status-serious: #ff9500;
+  --status-critical: #ff3b30;
+
+  /* --- Delta financeiro, como TEXTO ---
+   * Papel distinto do status: texto exige 4.5:1, marca exige 3:1.
+   * systemGreen puro reprova como texto no branco (2.22:1), por isso o ganho
+   * no light é um passo mais escuro na mesma matiz da Apple (147.4°). */
+  --delta-gain: #008932; /* 4.54:1 sobre #FFFFFF */
+  --delta-loss: #d70015; /* 5.38:1 sobre #FFFFFF — Apple Increased Contrast */
+  --delta-flat: var(--label-secondary);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme='light'])) {
+    color-scheme: dark;
+
+    --bg-grouped: #000000;
+    --bg-grouped-secondary: #1c1c1e;
+    --bg-grouped-tertiary: #2c2c2e;
+
+    --bg-base: #000000;
+    --bg-secondary: #1c1c1e;
+    --bg-tertiary: #2c2c2e;
+
+    --label: #ffffff;
+    --label-secondary: rgba(235, 235, 245, 0.6);
+    --label-tertiary: rgba(235, 235, 245, 0.4); /* Apple usa .3 (2.48:1) — subido para AA */
+    --label-quaternary: rgba(235, 235, 245, 0.16);
+    --label-placeholder: rgba(235, 235, 245, 0.3);
+    --label-on-accent: #ffffff;
+
+    --separator: rgba(84, 84, 88, 0.6);
+    --separator-opaque: #38383a;
+
+    --fill: rgba(120, 120, 128, 0.36);
+    --fill-secondary: rgba(120, 120, 128, 0.32);
+    --fill-tertiary: rgba(118, 118, 128, 0.24);
+    --fill-quaternary: rgba(118, 118, 128, 0.18);
+
+    --gray-1: #8e8e93;
+    --gray-2: #636366;
+    --gray-3: #48484a;
+    --gray-4: #3a3a3c;
+    --gray-5: #2c2c2e;
+    --gray-6: #1c1c1e;
+
+    --accent: #0a84ff; /* preenchimento — hex exato da Apple */
+    --accent-text: #0a84ff; /* no escuro o hex da Apple ja passa (4.66:1) */
+    --accent-hover: #3d9bff;
+    --accent-muted: rgba(10, 132, 255, 0.24);
+    --focus-ring: rgba(10, 132, 255, 0.6);
+
+    --status-good: #30d158;
+    --status-warning: #ffd60a;
+    --status-serious: #ff9f0a;
+    --status-critical: #ff453a;
+
+    --delta-gain: #30d158; /* 8.42:1 sobre #1C1C1E — Apple verbatim */
+    --delta-loss: #ff453a; /* 4.99:1 sobre #1C1C1E — Apple verbatim */
+    --delta-flat: var(--label-secondary);
+  }
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --bg-grouped: #f2f2f7;
+  --bg-grouped-secondary: #ffffff;
+  --bg-grouped-tertiary: #f2f2f7;
+
+  --bg-base: #ffffff;
+  --bg-secondary: #f2f2f7;
+  --bg-tertiary: #ffffff;
+
+  --label: #000000;
+  --label-secondary: rgba(60, 60, 67, 0.75); /* Apple usa .6 (3.44:1) — subido para AA */
+  --label-tertiary: rgba(60, 60, 67, 0.6); /* Apple usa .3 (1.72:1) — subido para AA */
+  --label-quaternary: rgba(60, 60, 67, 0.18);
+  --label-placeholder: rgba(60, 60, 67, 0.3);
+  --label-on-accent: #ffffff;
+
+  --separator: rgba(60, 60, 67, 0.29);
+  --separator-opaque: #c6c6c8;
+
+  --fill: rgba(120, 120, 128, 0.2);
+  --fill-secondary: rgba(120, 120, 128, 0.16);
+  --fill-tertiary: rgba(118, 118, 128, 0.12);
+  --fill-quaternary: rgba(116, 116, 128, 0.08);
+
+  --gray-1: #8e8e93;
+  --gray-2: #aeaeb2;
+  --gray-3: #c7c7cc;
+  --gray-4: #d1d1d6;
+  --gray-5: #e5e5ea;
+  --gray-6: #f2f2f7;
+
+  --accent: #007aff; /* preenchimento — hex exato da Apple */
+  --accent-text: #0068d9; /* texto/link — systemBlue reprova em texto (4.02:1) */
+  --accent-hover: #0a6fe0;
+  --accent-muted: rgba(0, 122, 255, 0.12);
+  --focus-ring: rgba(0, 122, 255, 0.5);
+
+  --status-good: #34c759;
+  --status-warning: #ffcc00;
+  --status-serious: #ff9500;
+  --status-critical: #ff3b30;
+
+  --delta-gain: #008932;
+  --delta-loss: #d70015;
+  --delta-flat: var(--label-secondary);
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --bg-grouped: #000000;
+  --bg-grouped-secondary: #1c1c1e;
+  --bg-grouped-tertiary: #2c2c2e;
+
+  --bg-base: #000000;
+  --bg-secondary: #1c1c1e;
+  --bg-tertiary: #2c2c2e;
+
+  --label: #ffffff;
+  --label-secondary: rgba(235, 235, 245, 0.6);
+  --label-tertiary: rgba(235, 235, 245, 0.4); /* Apple usa .3 (2.48:1) — subido para AA */
+  --label-quaternary: rgba(235, 235, 245, 0.16);
+  --label-placeholder: rgba(235, 235, 245, 0.3);
+  --label-on-accent: #ffffff;
+
+  --separator: rgba(84, 84, 88, 0.6);
+  --separator-opaque: #38383a;
+
+  --fill: rgba(120, 120, 128, 0.36);
+  --fill-secondary: rgba(120, 120, 128, 0.32);
+  --fill-tertiary: rgba(118, 118, 128, 0.24);
+  --fill-quaternary: rgba(118, 118, 128, 0.18);
+
+  --gray-1: #8e8e93;
+  --gray-2: #636366;
+  --gray-3: #48484a;
+  --gray-4: #3a3a3c;
+  --gray-5: #2c2c2e;
+  --gray-6: #1c1c1e;
+
+  --accent: #0a84ff; /* preenchimento — hex exato da Apple */
+  --accent-text: #0a84ff; /* no escuro o hex da Apple ja passa (4.66:1) */
+  --accent-hover: #3d9bff;
+  --accent-muted: rgba(10, 132, 255, 0.24);
+  --focus-ring: rgba(10, 132, 255, 0.6);
+
+  --status-good: #30d158;
+  --status-warning: #ffd60a;
+  --status-serious: #ff9f0a;
+  --status-critical: #ff453a;
+
+  --delta-gain: #30d158;
+  --delta-loss: #ff453a;
+  --delta-flat: var(--label-secondary);
+}
