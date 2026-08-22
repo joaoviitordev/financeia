@@ -1,7 +1,7 @@
 # Spec: Diagnóstico com IA
 
 > feature: diagnostico-ia
-> status: rascunho
+> status: auditada
 
 ## Contexto
 

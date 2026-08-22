@@ -1,11 +1,82 @@
 {
   "feature": "diagnostico-ia",
-  "timestamp": "2026-08-22T22:09:19.941Z",
-  "gitRev": "968e144",
+  "timestamp": "2026-08-22T22:38:10.551Z",
+  "gitRev": "4bf278e",
   "command": "npx vitest run --reporter=json --outputFile=.spec/verification/raw.json",
   "reporter": "vitest-json",
   "exitCode": 0,
-  "testsParsed": 77,
-  "results": {},
+  "testsParsed": 114,
+  "results": {
+    "AC-013": {
+      "status": "pass",
+      "testName": "InsightContent AC-013: O diagnóstico chega em seis seções @spec:AC-013 AC-013: O diagnóstico chega em seis seções @spec:AC-013",
+      "method": "vitest-json"
+    },
+    "AC-014": {
+      "status": "pass",
+      "testName": "InsightContent AC-014: O selo de viabilidade diz em texto o que a cor diz @spec:AC-014 AC-014: O selo de viabilidade diz em texto o que a cor diz @spec:AC-014",
+      "method": "vitest-json"
+    },
+    "AC-015": {
+      "status": "pass",
+      "testName": "InsightContent AC-015: Viabilidade desconhecida não quebra a tela @spec:AC-015 AC-015: Viabilidade desconhecida não quebra a tela @spec:AC-015",
+      "method": "vitest-json"
+    },
+    "AC-016": {
+      "status": "pass",
+      "testName": "InsightContent AC-016: Seção sem itens não deixa título órfão @spec:AC-016 AC-016: Seção sem itens não deixa título órfão @spec:AC-016",
+      "method": "vitest-json"
+    },
+    "AC-017": {
+      "status": "pass",
+      "testName": "buildInsightPrompt AC-017: O pedido à IA carrega os números da simulação @spec:AC-017 AC-017: O pedido à IA carrega os números da simulação @spec:AC-017",
+      "method": "vitest-json"
+    },
+    "AC-018": {
+      "status": "pass",
+      "testName": "assessFeasibility AC-018: A viabilidade sai da conta, não da opinião da IA @spec:AC-018 AC-018: A viabilidade sai da conta, não da opinião da IA @spec:AC-018",
+      "method": "vitest-json"
+    },
+    "AC-019": {
+      "status": "pass",
+      "testName": "InsightPanel AC-019: Enquanto o diagnóstico não chega, a tela mostra que está vindo @spec:AC-019 AC-019: Enquanto o diagnóstico não chega, a tela mostra que está vindo @spec:AC-019",
+      "method": "vitest-json"
+    },
+    "AC-020": {
+      "status": "pass",
+      "testName": "InsightPanel AC-020: Cada falha é dita pelo nome, com caminho de volta @spec:AC-020 AC-020: Cada falha é dita pelo nome, com caminho de volta @spec:AC-020",
+      "method": "vitest-json"
+    },
+    "AC-021": {
+      "status": "pass",
+      "testName": "InsightPanel AC-021: Nunca dois estados ao mesmo tempo @spec:AC-021 AC-021: Nunca dois estados ao mesmo tempo @spec:AC-021",
+      "method": "vitest-json"
+    },
+    "AC-022": {
+      "status": "pass",
+      "testName": "InsightPanel AC-022: Sem chave configurada, o aplicativo continua de pé @spec:AC-022 AC-022: Sem chave configurada, o aplicativo continua de pé @spec:AC-022",
+      "method": "vitest-json"
+    },
+    "AC-023": {
+      "status": "pass",
+      "testName": "useInsight AC-023: Uma conclusão, uma chamada @spec:AC-023 AC-023: Uma conclusão, uma chamada @spec:AC-023",
+      "method": "vitest-json"
+    },
+    "AC-024": {
+      "status": "pass",
+      "testName": "useInsight AC-024: Reabrir a simulação não chama a API @spec:AC-024 AC-024: Reabrir a simulação não chama a API @spec:AC-024",
+      "method": "vitest-json"
+    },
+    "AC-025": {
+      "status": "pass",
+      "testName": "generateInsight AC-025: Resposta fora do formato vira erro tratado, não tela branca @spec:AC-025 AC-025: Resposta fora do formato vira erro tratado, não tela branca @spec:AC-025",
+      "method": "vitest-json"
+    },
+    "AC-026": {
+      "status": "pass",
+      "testName": "reconclusão da simulação AC-026: Mudar uma resposta refaz o diagnóstico @spec:AC-026 AC-026: Mudar uma resposta refaz o diagnóstico @spec:AC-026",
+      "method": "vitest-json"
+    }
+  },
   "principles": {}
 }

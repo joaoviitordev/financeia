@@ -617,10 +617,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "resultado-persistido",
       "ref": "—",
-      "ocorrencias": 3,
+      "ocorrencias": 4,
       "primeiraVez": "2026-08-22T21:52:49.120Z",
-      "ultimaVez": "2026-08-22T22:09:20.360Z",
-      "gitRev": "968e144"
+      "ultimaVez": "2026-08-22T22:37:27.553Z",
+      "gitRev": "4bf278e"
     },
     "ARQUIVO_INEXISTENTE::diagnostico-ia::T-006": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -689,10 +689,10 @@
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
       "feature": "diagnostico-ia",
       "ref": "T-006",
-      "ocorrencias": 2,
+      "ocorrencias": 4,
       "primeiraVez": "2026-08-22T22:09:20.360Z",
-      "ultimaVez": "2026-08-22T22:09:20.360Z",
-      "gitRev": "968e144"
+      "ultimaVez": "2026-08-22T22:37:27.553Z",
+      "gitRev": "4bf278e"
     },
     "TASK_CONCLUIDA_SEM_PROVA::diagnostico-ia::T-008": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -738,6 +738,24 @@
       "primeiraVez": "2026-08-22T22:09:20.360Z",
       "ultimaVez": "2026-08-22T22:09:20.360Z",
       "gitRev": "968e144"
+    },
+    "AC_SEM_PROVA::diagnostico-ia::AC-017": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "diagnostico-ia",
+      "ref": "AC-017",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-22T22:37:27.553Z",
+      "ultimaVez": "2026-08-22T22:37:27.553Z",
+      "gitRev": "4bf278e"
+    },
+    "AC_SEM_PROVA::diagnostico-ia::AC-018": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "diagnostico-ia",
+      "ref": "AC-018",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-22T22:37:27.553Z",
+      "ultimaVez": "2026-08-22T22:37:27.553Z",
+      "gitRev": "4bf278e"
     }
   }
 }
