@@ -24,7 +24,7 @@
 - Esforço: alto
 - Notas: depende de T-014. Um componente só, usado pela sheet do cabeçalho e pela rota (ASM-013). Ordena por `createdAt`, do mais recente para o mais antigo (ASM-018), e mostra objetivo, custo da meta e data — o custo sai de `buildPlan`, como no resto do produto, nunca recalculado à mão. O indicador de diagnóstico carrega texto, não só cor (AC-028), pela mesma razão do `StatTile` e do selo de viabilidade. Excluir abre confirmação na `Sheet` do design system, com o `footer` dela para as ações; `window.confirm` é proibido (ASM-014). Cancelar mantém a simulação. Estado vazio com saída para começar uma simulação (AC-029). "Apagar tudo" fica discreto, no fim da lista, e passa pela mesma confirmação (ASM-016). O componente recebe por props o que fazer ao abrir uma simulação — quem conhece rotas é quem o usa, não ele.
 
-## T-016 — O histórico na sheet e no endereço próprio [pendente]
+## T-016 — O histórico na sheet e no endereço próprio [concluida]
 
 - Refs: US-010, US-012, AC-030, AC-031, AC-035, AC-036
 - Arquivos: src/App.tsx, src/router.tsx, src/routes/HistoryPage.tsx, src/routes/HistoryPage.test.tsx, src/features/simulations/historico-navegacao.test.tsx

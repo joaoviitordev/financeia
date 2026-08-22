@@ -54,6 +54,8 @@ describe('App', () => {
 
     expect(screen.getByRole('dialog', { name: 'Histórico' })).toBeInTheDocument();
     expect(screen.getByText('Nenhuma simulação por aqui ainda')).toBeInTheDocument();
-    expect(screen.getByText(/ficam guardadas neste dispositivo/i)).toBeInTheDocument();
+    expect(screen.getByText(/fica guardada neste dispositivo/i)).toBeInTheDocument();
+    // A sheet passou a hospedar a lista de verdade: o estado vazio agora é o dela.
+    expect(screen.getByRole('button', { name: 'Começar uma simulação' })).toBeInTheDocument();
   });
 });

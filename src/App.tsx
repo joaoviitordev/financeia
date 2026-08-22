@@ -1,10 +1,10 @@
-import { History } from 'lucide-react';
 import { useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 import { Sheet } from '@/components/ui/Sheet';
+import { HistoryList } from '@/features/simulations/HistoryList';
 
 /**
  * Casca da aplicação: cabeçalho fixo, conteúdo cresce, rodapé encosta embaixo.
@@ -15,7 +15,13 @@ import { Sheet } from '@/components/ui/Sheet';
  */
 function App() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [historyOpen, setHistoryOpen] = useState(false);
+
+  const goTo = (path: string) => {
+    setHistoryOpen(false);
+    void navigate(path);
+  };
 
   return (
     <div className="flex min-h-dvh flex-col bg-grouped">
@@ -38,15 +44,21 @@ function App() {
       <Footer />
 
       <Sheet open={historyOpen} onOpenChange={setHistoryOpen} title="Histórico">
-        <div className="flex flex-col items-center gap-3 py-6 text-center">
-          <History aria-hidden="true" className="h-9 w-9 text-label-tertiary" strokeWidth={1.5} />
-          <p className="text-headline text-label">Nenhuma simulação por aqui ainda</p>
-          <p className="text-subheadline text-balance text-label-secondary">
-            As simulações que você concluir ficam guardadas neste dispositivo, e só nele — dá para
-            apagá-las quando quiser, limpando os dados do navegador. A listagem delas chega numa
-            próxima etapa.
-          </p>
-        </div>
+        <HistoryList
+          onOpen={(id) => {
+            goTo(`/resultado/${id}`);
+          }}
+          onStart={() => {
+            goTo('/');
+          }}
+          onDeleted={(ids) => {
+            // Apagou justamente a simulação que está na tela: ficar ali seria
+            // mostrar números de algo que deixou de existir (ASM-017).
+            if (ids.some((id) => location.pathname === `/resultado/${id}`)) {
+              goTo('/');
+            }
+          }}
+        />
       </Sheet>
     </div>
   );
