@@ -56,7 +56,7 @@
 - Esforço: baixo
 - Notas: depende de T-009. Hoje voltar do resumo e confirmar de novo corrige as respostas da mesma simulação; o diagnóstico guardado precisa ir junto, senão o texto contradiz os números na mesma tela (ASM-012). Uma linha no `updateSimulation` já existente — o hook continua sem conhecer rotas nem IA.
 
-## T-012 — O diagnóstico na tela [pendente]
+## T-012 — O diagnóstico na tela [concluida]
 
 - Refs: US-005, AC-013, AC-014, AC-015, AC-016
 - Arquivos: src/features/insights/InsightContent.tsx, src/features/insights/InsightContent.test.tsx
@@ -64,7 +64,7 @@
 - Esforço: alto
 - Notas: depende de T-006 (tipos). Seis seções na ordem da especificação, listas como `<ol>`, títulos `text-headline text-label` e parágrafos `text-body text-label-secondary`. O selo de viabilidade usa os tokens de status (`--status-good`, `--status-warning`, `--status-critical`) e carrega rótulo em texto — nunca só cor, pela mesma razão do `StatTile`. Viabilidade desconhecida cai em fallback neutro sem selo, jamais em `undefined.className`. Lista vazia não renderiza o título da seção.
 
-## T-013 — Esqueleto, carregando, erro e o painel na página [pendente]
+## T-013 — Esqueleto, carregando, erro e o painel na página [concluida]
 
 - Refs: US-007, AC-019, AC-020, AC-021, AC-022
 - Arquivos: src/components/ui/Skeleton.tsx, src/components/ui/Skeleton.test.tsx, src/features/insights/InsightPanel.tsx, src/features/insights/InsightPanel.test.tsx, src/routes/ResultPage.tsx
