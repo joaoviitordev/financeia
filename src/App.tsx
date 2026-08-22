@@ -37,7 +37,10 @@ function App() {
         }}
       />
 
-      <main className="flex flex-1 justify-center px-4 py-10 md:py-16">
+      {/* O respiro vertical encolhe com a altura da janela: fixo em 64px ele
+          empurrava o passo do questionário para fora da tela e criava barra de
+          rolagem em conteúdo que cabia. Em tela alta continua generoso. */}
+      <main className="flex flex-1 justify-center px-4 py-[clamp(1rem,4vh,4rem)]">
         <Outlet />
       </main>
 
