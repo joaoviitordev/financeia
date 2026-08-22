@@ -1,0 +1,130 @@
+{
+  "runId": "financeia-diagnostico-ia-mt4x2zof",
+  "feature": "diagnostico-ia",
+  "agent": "claude",
+  "modo": "paralelo",
+  "paralelizar": ["T-006", "T-007"],
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-08-22 21:55",
+  "branchTrabalho": "spec/diagnostico-ia",
+  "baseDir": ".spec/features/diagnostico-ia",
+  "specDir": ".spec",
+  "repoName": "financeia",
+  "logsDir": "../onp-worktrees/financeia-diagnostico-ia-logs",
+  "ondas": [["faixa-1", "faixa-2"]],
+  "faixas": [
+    {
+      "id": "faixa-1",
+      "branch": "spec/diagnostico-ia-faixa-1",
+      "worktree": "../onp-worktrees/financeia-diagnostico-ia-faixa-1",
+      "tarefas": [
+        {
+          "id": "T-006",
+          "titulo": "Contrato do diagnóstico, viabilidade e prompt",
+          "modelo": "claude-sonnet-5",
+          "esforco": "high",
+          "arquivos": [
+            "src/features/insights/types.ts",
+            "src/features/insights/feasibility.ts",
+            "src/features/insights/feasibility.test.ts",
+            "src/features/insights/prompt.ts",
+            "src/features/insights/prompt.test.ts"
+          ],
+          "refs": ["US-006", "AC-017", "AC-018"]
+        }
+      ]
+    },
+    {
+      "id": "faixa-2",
+      "branch": "spec/diagnostico-ia-faixa-2",
+      "worktree": "../onp-worktrees/financeia-diagnostico-ia-faixa-2",
+      "tarefas": [
+        {
+          "id": "T-007",
+          "titulo": "Chave da API e ambiente",
+          "modelo": "claude-sonnet-5",
+          "esforco": "low",
+          "arquivos": [
+            ".env.example",
+            "src/env.d.ts",
+            "src/features/insights/config.ts",
+            "src/features/insights/config.test.ts",
+            "README.md"
+          ],
+          "refs": ["US-007"]
+        }
+      ]
+    }
+  ],
+  "sequenciais": [
+    {
+      "id": "T-008",
+      "titulo": "Serviço do Gemini e leitura da resposta",
+      "modelo": "claude-sonnet-5",
+      "esforco": "high",
+      "arquivos": ["src/features/insights/gemini.ts", "src/features/insights/gemini.test.ts"],
+      "refs": ["US-008", "AC-025"]
+    },
+    {
+      "id": "T-009",
+      "titulo": "O diagnóstico guardado junto da simulação",
+      "modelo": "claude-sonnet-5",
+      "esforco": "medium",
+      "arquivos": [
+        "src/features/simulations/storage.ts",
+        "src/features/simulations/storage.test.ts"
+      ],
+      "refs": ["US-008"]
+    },
+    {
+      "id": "T-010",
+      "titulo": "Hook do diagnóstico, com cache e trava",
+      "modelo": "claude-sonnet-5",
+      "esforco": "high",
+      "arquivos": [
+        "src/features/insights/useInsight.ts",
+        "src/features/insights/useInsight.test.tsx"
+      ],
+      "refs": ["US-008", "AC-023", "AC-024"]
+    },
+    {
+      "id": "T-011",
+      "titulo": "Concluir de novo descarta o diagnóstico velho",
+      "modelo": "claude-sonnet-5",
+      "esforco": "low",
+      "arquivos": [
+        "src/features/onboarding/useOnboarding.ts",
+        "src/features/insights/reconclusao.test.tsx"
+      ],
+      "refs": ["US-008", "AC-026"]
+    },
+    {
+      "id": "T-012",
+      "titulo": "O diagnóstico na tela",
+      "modelo": "claude-sonnet-5",
+      "esforco": "high",
+      "arquivos": [
+        "src/features/insights/InsightContent.tsx",
+        "src/features/insights/InsightContent.test.tsx"
+      ],
+      "refs": ["US-005", "AC-013", "AC-014", "AC-015", "AC-016"]
+    },
+    {
+      "id": "T-013",
+      "titulo": "Esqueleto, carregando, erro e o painel na página",
+      "modelo": "claude-sonnet-5",
+      "esforco": "high",
+      "arquivos": [
+        "src/components/ui/Skeleton.tsx",
+        "src/components/ui/Skeleton.test.tsx",
+        "src/features/insights/InsightPanel.tsx",
+        "src/features/insights/InsightPanel.test.tsx",
+        "src/routes/ResultPage.tsx"
+      ],
+      "refs": ["US-007", "AC-019", "AC-020", "AC-021", "AC-022"]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}
