@@ -24,7 +24,7 @@
 - Esforço: baixo
 - Notas: não depende de nenhuma outra tarefa. `.env.example` versionado com a chave vazia; `.env.local` é do dono do projeto e o `.gitignore` já cobre. `src/env.d.ts` declara `VITE_GEMINI_API_KEY` — sem isso o `noPropertyAccessFromIndexSignature` recusa o acesso. `config.ts` expõe a chave como `string | null` (vazia ou ausente é null) para o painel poder avisar em vez de tentar a rede (AC-022). Uma linha no README dizendo que sem a chave o app roda e o diagnóstico não é gerado. Nenhum segredo entra no repositório.
 
-## T-008 — Serviço do Gemini e leitura da resposta [pendente]
+## T-008 — Serviço do Gemini e leitura da resposta [concluida]
 
 - Refs: US-008, AC-025
 - Arquivos: src/features/insights/gemini.ts, src/features/insights/gemini.test.ts
@@ -32,7 +32,7 @@
 - Esforço: alto
 - Notas: depende de T-006 (tipos) e T-007 (chave). HTTP puro, sem React. `POST` para `generativelanguage.googleapis.com/v1beta/models/<modelo>:generateContent` com a chave no header `x-goog-api-key` (fora da URL e dos logs de proxy) e `generationConfig.responseMimeType: 'application/json'`. Nada de cast sobre o `JSON.parse`: `parseInsight(raw: unknown): InsightData | null` confere as seis chaves e os tipos, e o `null` é erro de geração. Remova a cerca de código antes de ler — o mime type reduz, mas não elimina. Erros distintos, mensagens distintas: 401/403 chave inválida, 429 cota, 5xx e falha de rede tentam de novo, JSON inválido é resposta inesperada. Testes com `vi.stubGlobal('fetch', …)`; nenhum teste encosta na API de verdade.
 
-## T-009 — O diagnóstico guardado junto da simulação [pendente]
+## T-009 — O diagnóstico guardado junto da simulação [concluida]
 
 - Refs: US-008
 - Arquivos: src/features/simulations/storage.ts, src/features/simulations/storage.test.ts

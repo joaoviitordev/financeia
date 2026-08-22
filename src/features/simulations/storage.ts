@@ -1,3 +1,4 @@
+import { type InsightData, isInsightData } from '@/features/insights/types';
 import type { Answers } from '@/features/onboarding/questions';
 
 /**
@@ -16,10 +17,17 @@ export interface SimulationRecord {
   id: string;
   createdAt: string;
   answers: Answers;
+  /** O diagnóstico já gerado. Ausente enquanto ninguém abriu o resultado. */
+  insight?: InsightData;
 }
 
-/** O que pode ser corrigido depois de guardado. O id nunca muda. */
-export type SimulationPatch = Partial<Pick<SimulationRecord, 'answers'>>;
+/**
+ * O que pode ser corrigido depois de guardado. O id nunca muda.
+ *
+ * `insight: undefined` apaga o diagnóstico: é assim que uma resposta alterada
+ * descarta o texto que falava dos números antigos (AC-026).
+ */
+export type SimulationPatch = Partial<Pick<SimulationRecord, 'answers' | 'insight'>>;
 
 function isUnknownArray(value: unknown): value is unknown[] {
   return Array.isArray(value);
@@ -44,6 +52,20 @@ function isSimulationRecord(value: unknown): value is SimulationRecord {
   );
 }
 
+/**
+ * Um diagnóstico corrompido custa o diagnóstico daquele registro, nunca o
+ * registro nem a lista: as respostas continuam lá, e a próxima abertura da
+ * página de resultado simplesmente gera outro.
+ */
+function withValidInsight(record: SimulationRecord): SimulationRecord {
+  if (record.insight === undefined || isInsightData(record.insight)) {
+    return record;
+  }
+  const { insight: _descartado, ...semInsight } = record;
+
+  return semInsight;
+}
+
 /** Lê a chave inteira, descartando qualquer entrada que não seja uma simulação válida. */
 function readAll(): SimulationRecord[] {
   let raw: string | null;
@@ -66,7 +88,7 @@ function readAll(): SimulationRecord[] {
   if (!isUnknownArray(parsed)) {
     return [];
   }
-  return parsed.filter(isSimulationRecord);
+  return parsed.filter(isSimulationRecord).map(withValidInsight);
 }
 
 /** Grava a lista inteira. Devolve false quando o navegador recusa a escrita. */
