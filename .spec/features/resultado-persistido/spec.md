@@ -1,7 +1,7 @@
 # Spec: Resultado persistido
 
 > feature: resultado-persistido
-> status: rascunho
+> status: auditada
 
 ## Contexto
 
