@@ -26,7 +26,7 @@
 - Esforço: alto
 - Notas: `listSimulations`, `getSimulation(id)`, `saveSimulation(answers): string` (id por `crypto.randomUUID()`) e `updateSimulation(id, patch)`. Chave `financeia:simulations:v1`, registro `{ id, createdAt, answers }`. Trate o armazenamento como hostil: JSON corrompido, quota estourada e escrita que lança não podem derrubar a tela — leitura devolve lista vazia, escrita devolve false. Nada de cast cru sobre o `JSON.parse`: valide array e `id` string (`any` e `!` são erro de lint aqui).
 
-## T-004 — Página de resultado [pendente]
+## T-004 — Página de resultado [concluida]
 
 - Refs: US-004, AC-011, AC-012
 - Arquivos: src/routes/ResultPage.tsx, src/features/simulations/SimulationCards.tsx, src/routes/ResultPage.test.tsx
