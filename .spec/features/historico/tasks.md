@@ -8,7 +8,7 @@
   Status: pendente | em-andamento | concluida
 -->
 
-## T-014 — Excluir e limpar no armazenamento [pendente]
+## T-014 — Excluir e limpar no armazenamento [concluida]
 
 - Refs: US-011, AC-033, AC-034
 - Arquivos: src/features/simulations/storage.ts, src/features/simulations/storage.test.ts
@@ -16,7 +16,7 @@
 - Esforço: medio
 - Notas: `deleteSimulation(id): boolean` e `clearSimulations(): boolean`, no mesmo estilo hostil do resto do módulo — id inexistente devolve false, escrita recusada devolve false, nada lança. Excluir uma simulação não pode encostar nas outras, e o efeito precisa sobreviver a uma releitura do armazenamento (é o que o AC-033 chama de "não volta ao recarregar"). `clearSimulations` remove a chave inteira em vez de gravar um array vazio: menos lixo e a leitura já trata chave ausente. A ordenação NÃO entra aqui — `listSimulations` continua devolvendo o que está guardado, na ordem em que está.
 
-## T-015 — A lista do histórico [pendente]
+## T-015 — A lista do histórico [concluida]
 
 - Refs: US-009, AC-027, AC-028, AC-029, AC-032
 - Arquivos: src/features/simulations/HistoryList.tsx, src/features/simulations/HistoryList.test.tsx

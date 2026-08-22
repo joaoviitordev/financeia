@@ -149,3 +149,27 @@ export function updateSimulation(id: string, patch: SimulationPatch): boolean {
 
   return writeAll(records);
 }
+
+/** Apaga uma simulação. Devolve false se o id não existe ou a escrita falha. */
+export function deleteSimulation(id: string): boolean {
+  const records = readAll();
+  const remaining = records.filter((record) => record.id !== id);
+  if (remaining.length === records.length) {
+    return false;
+  }
+
+  return writeAll(remaining);
+}
+
+/**
+ * Apaga tudo. Remove a chave em vez de gravar um array vazio: menos lixo no
+ * armazenamento, e a leitura já sabe lidar com chave ausente.
+ */
+export function clearSimulations(): boolean {
+  try {
+    window.localStorage.removeItem(STORAGE_KEY);
+    return true;
+  } catch {
+    return false;
+  }
+}
