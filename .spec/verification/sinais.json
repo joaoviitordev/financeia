@@ -347,28 +347,28 @@
       "codigo": "VERIFY_FALHOU",
       "feature": "resultado-persistido",
       "ref": "AC-010",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-08-22T16:35:00.495Z",
-      "ultimaVez": "2026-08-22T16:35:00.495Z",
-      "gitRev": "19b98ac"
+      "ultimaVez": "2026-08-22T16:36:43.388Z",
+      "gitRev": "f043a3b"
     },
     "VERIFY_FALHOU::resultado-persistido::AC-011": {
       "codigo": "VERIFY_FALHOU",
       "feature": "resultado-persistido",
       "ref": "AC-011",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-08-22T16:35:00.495Z",
-      "ultimaVez": "2026-08-22T16:35:00.495Z",
-      "gitRev": "19b98ac"
+      "ultimaVez": "2026-08-22T16:36:43.388Z",
+      "gitRev": "f043a3b"
     },
     "VERIFY_FALHOU::resultado-persistido::AC-012": {
       "codigo": "VERIFY_FALHOU",
       "feature": "resultado-persistido",
       "ref": "AC-012",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-08-22T16:35:00.495Z",
-      "ultimaVez": "2026-08-22T16:35:00.495Z",
-      "gitRev": "19b98ac"
+      "ultimaVez": "2026-08-22T16:36:43.388Z",
+      "gitRev": "f043a3b"
     },
     "TASK_CONCLUIDA_SEM_PROVA::resultado-persistido::T-004": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",

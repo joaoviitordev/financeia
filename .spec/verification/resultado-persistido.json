@@ -1,55 +1,55 @@
 {
   "feature": "resultado-persistido",
-  "timestamp": "2026-08-22T16:35:00.420Z",
-  "gitRev": "19b98ac",
+  "timestamp": "2026-08-22T16:36:43.314Z",
+  "gitRev": "f043a3b",
   "command": "npx vitest run --reporter=json --outputFile=.spec/verification/raw.json",
   "reporter": "vitest-json",
   "exitCode": 1,
-  "testsParsed": 68,
+  "testsParsed": 76,
   "results": {
     "AC-001": {
-      "status": "fail",
-      "testName": "AC-001: O formulário abre na raiz @spec:AC-001 AC-001: O formulário abre na raiz @spec:AC-001",
+      "status": "pass",
+      "testName": "SimulationPage AC-001: O formulário abre na raiz @spec:AC-001 AC-001: O formulário abre na raiz @spec:AC-001",
       "method": "vitest-json"
     },
     "AC-002": {
-      "status": "fail",
-      "testName": "AC-002: Recomeçar pelo cabeçalho limpa as respostas @spec:AC-002 AC-002: Recomeçar pelo cabeçalho limpa as respostas @spec:AC-002",
+      "status": "pass",
+      "testName": "SimulationPage AC-002: Recomeçar pelo cabeçalho limpa as respostas @spec:AC-002 AC-002: Recomeçar pelo cabeçalho limpa as respostas @spec:AC-002",
       "method": "vitest-json"
     },
     "AC-003": {
-      "status": "fail",
+      "status": "pass",
       "testName": "AC-003: O fluxo passa a ter sete perguntas @spec:AC-003 AC-003: O fluxo passa a ter sete perguntas @spec:AC-003",
       "method": "vitest-json"
     },
     "AC-004": {
-      "status": "fail",
+      "status": "pass",
       "testName": "AC-004: Não ter dívida é uma resposta válida @spec:AC-004 AC-004: Não ter dívida é uma resposta válida @spec:AC-004",
       "method": "vitest-json"
     },
     "AC-005": {
-      "status": "fail",
+      "status": "pass",
       "testName": "AC-005: O prazo aceita de 1 a 120 meses @spec:AC-005 AC-005: O prazo aceita de 1 a 120 meses @spec:AC-005",
       "method": "vitest-json"
     },
     "AC-006": {
-      "status": "fail",
+      "status": "pass",
       "testName": "AC-006: As dívidas reduzem a sobra mensal @spec:AC-006 AC-006: As dívidas reduzem a sobra mensal @spec:AC-006",
       "method": "vitest-json"
     },
     "AC-007": {
-      "status": "fail",
-      "testName": "AC-007: Guardar e reler devolve as mesmas respostas @spec:AC-007 AC-007: Guardar e reler devolve as mesmas respostas @spec:AC-007",
+      "status": "pass",
+      "testName": "saveSimulation + getSimulation @spec:AC-007 AC-007: guardar e reler devolve as mesmas respostas @spec:AC-007 AC-007: guardar e reler devolve as mesmas respostas @spec:AC-007",
       "method": "vitest-json"
     },
     "AC-008": {
-      "status": "fail",
-      "testName": "AC-008: Cada simulação tem identificador próprio @spec:AC-008 AC-008: Cada simulação tem identificador próprio @spec:AC-008",
+      "status": "pass",
+      "testName": "listSimulations @spec:AC-008 AC-008: cada simulação tem identificador próprio @spec:AC-008 AC-008: cada simulação tem identificador próprio @spec:AC-008",
       "method": "vitest-json"
     },
     "AC-009": {
-      "status": "fail",
-      "testName": "AC-009: Armazenamento corrompido não derruba o app @spec:AC-009 AC-009: Armazenamento corrompido não derruba o app @spec:AC-009",
+      "status": "pass",
+      "testName": "listSimulations com armazenamento corrompido @spec:AC-009 AC-009: armazenamento corrompido não derruba o app @spec:AC-009 AC-009: armazenamento corrompido não derruba o app @spec:AC-009",
       "method": "vitest-json"
     },
     "AC-010": {
