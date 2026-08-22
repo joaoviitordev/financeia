@@ -617,10 +617,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "resultado-persistido",
       "ref": "—",
-      "ocorrencias": 4,
+      "ocorrencias": 5,
       "primeiraVez": "2026-08-22T21:52:49.120Z",
-      "ultimaVez": "2026-08-22T22:37:27.553Z",
-      "gitRev": "4bf278e"
+      "ultimaVez": "2026-08-22T23:11:39.970Z",
+      "gitRev": "ac94a6f"
     },
     "ARQUIVO_INEXISTENTE::diagnostico-ia::T-006": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -756,6 +756,123 @@
       "primeiraVez": "2026-08-22T22:37:27.553Z",
       "ultimaVez": "2026-08-22T22:37:27.553Z",
       "gitRev": "4bf278e"
+    },
+    "VERIFY_OBSOLETO::diagnostico-ia::—": {
+      "codigo": "VERIFY_OBSOLETO",
+      "feature": "diagnostico-ia",
+      "ref": "—",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-22T23:11:39.969Z",
+      "ultimaVez": "2026-08-22T23:11:39.970Z",
+      "gitRev": "ac94a6f"
+    },
+    "ARQUIVO_INEXISTENTE::historico::T-015": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "historico",
+      "ref": "T-015",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-22T23:11:39.970Z",
+      "ultimaVez": "2026-08-22T23:11:39.970Z",
+      "gitRev": "ac94a6f"
+    },
+    "ARQUIVO_INEXISTENTE::historico::T-016": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "historico",
+      "ref": "T-016",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-22T23:11:39.970Z",
+      "ultimaVez": "2026-08-22T23:11:39.970Z",
+      "gitRev": "ac94a6f"
+    },
+    "AC_SEM_TESTE::historico::AC-027": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "historico",
+      "ref": "AC-027",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-22T23:11:39.970Z",
+      "ultimaVez": "2026-08-22T23:11:39.970Z",
+      "gitRev": "ac94a6f"
+    },
+    "AC_SEM_TESTE::historico::AC-028": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "historico",
+      "ref": "AC-028",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-22T23:11:39.970Z",
+      "ultimaVez": "2026-08-22T23:11:39.970Z",
+      "gitRev": "ac94a6f"
+    },
+    "AC_SEM_TESTE::historico::AC-029": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "historico",
+      "ref": "AC-029",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-22T23:11:39.970Z",
+      "ultimaVez": "2026-08-22T23:11:39.970Z",
+      "gitRev": "ac94a6f"
+    },
+    "AC_SEM_TESTE::historico::AC-030": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "historico",
+      "ref": "AC-030",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-22T23:11:39.970Z",
+      "ultimaVez": "2026-08-22T23:11:39.970Z",
+      "gitRev": "ac94a6f"
+    },
+    "AC_SEM_TESTE::historico::AC-031": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "historico",
+      "ref": "AC-031",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-22T23:11:39.970Z",
+      "ultimaVez": "2026-08-22T23:11:39.970Z",
+      "gitRev": "ac94a6f"
+    },
+    "AC_SEM_TESTE::historico::AC-032": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "historico",
+      "ref": "AC-032",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-22T23:11:39.970Z",
+      "ultimaVez": "2026-08-22T23:11:39.970Z",
+      "gitRev": "ac94a6f"
+    },
+    "AC_SEM_TESTE::historico::AC-033": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "historico",
+      "ref": "AC-033",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-22T23:11:39.970Z",
+      "ultimaVez": "2026-08-22T23:11:39.970Z",
+      "gitRev": "ac94a6f"
+    },
+    "AC_SEM_TESTE::historico::AC-034": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "historico",
+      "ref": "AC-034",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-22T23:11:39.970Z",
+      "ultimaVez": "2026-08-22T23:11:39.970Z",
+      "gitRev": "ac94a6f"
+    },
+    "AC_SEM_TESTE::historico::AC-035": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "historico",
+      "ref": "AC-035",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-22T23:11:39.970Z",
+      "ultimaVez": "2026-08-22T23:11:39.970Z",
+      "gitRev": "ac94a6f"
+    },
+    "AC_SEM_TESTE::historico::AC-036": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "historico",
+      "ref": "AC-036",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-22T23:11:39.970Z",
+      "ultimaVez": "2026-08-22T23:11:39.970Z",
+      "gitRev": "ac94a6f"
     }
   }
 }

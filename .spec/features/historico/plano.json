@@ -1,0 +1,57 @@
+{
+  "runId": "financeia-historico-mt4ztbj9",
+  "feature": "historico",
+  "agent": "claude",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-08-22 23:11",
+  "branchTrabalho": "spec/historico",
+  "baseDir": ".spec/features/historico",
+  "specDir": ".spec",
+  "repoName": "financeia",
+  "logsDir": "../onp-worktrees/financeia-historico-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-014",
+      "titulo": "Excluir e limpar no armazenamento",
+      "modelo": "claude-sonnet-5",
+      "esforco": "medium",
+      "arquivos": [
+        "src/features/simulations/storage.ts",
+        "src/features/simulations/storage.test.ts"
+      ],
+      "refs": ["US-011", "AC-033", "AC-034"]
+    },
+    {
+      "id": "T-015",
+      "titulo": "A lista do histórico",
+      "modelo": "claude-sonnet-5",
+      "esforco": "high",
+      "arquivos": [
+        "src/features/simulations/HistoryList.tsx",
+        "src/features/simulations/HistoryList.test.tsx"
+      ],
+      "refs": ["US-009", "AC-027", "AC-028", "AC-029", "AC-032"]
+    },
+    {
+      "id": "T-016",
+      "titulo": "O histórico na sheet e no endereço próprio",
+      "modelo": "claude-sonnet-5",
+      "esforco": "high",
+      "arquivos": [
+        "src/App.tsx",
+        "src/router.tsx",
+        "src/routes/HistoryPage.tsx",
+        "src/routes/HistoryPage.test.tsx",
+        "src/features/simulations/historico-navegacao.test.tsx"
+      ],
+      "refs": ["US-010", "US-012", "AC-030", "AC-031", "AC-035", "AC-036"]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}
