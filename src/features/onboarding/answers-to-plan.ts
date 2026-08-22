@@ -11,12 +11,16 @@ import { parseCurrencyInput } from '@/lib/format';
  */
 export function toPlanInput(answers: Answers): PlanInput {
   const toNumber = (value: string): number => parseCurrencyInput(value) ?? 0;
+  // Number.parseInt de string vazia dá NaN; "|| 0" evita que ele vaze para o cálculo.
+  const toMonths = (value: string): number => Number.parseInt(value, 10) || 0;
 
   return {
     income: toNumber(answers.renda),
     fixedCosts: toNumber(answers.gastosFixos),
+    debts: toNumber(answers.dividas),
     saved: toNumber(answers.guardado),
     goalName: answers.objetivo,
     goalCost: toNumber(answers.custoObjetivo),
+    desiredMonths: toMonths(answers.prazo),
   };
 }

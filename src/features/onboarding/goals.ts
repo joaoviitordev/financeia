@@ -14,9 +14,13 @@
 export interface PlanInput {
   income: number;
   fixedCosts: number;
+  /** Soma de parcelas e empréstimos que saem todo mês. Zero é valor legítimo. */
+  debts: number;
   saved: number;
   goalName: string;
   goalCost: number;
+  /** Em quantos meses a pessoa quer chegar à meta. */
+  desiredMonths: number;
 }
 
 export interface Goal {
@@ -34,8 +38,11 @@ export interface Goal {
 export interface Plan {
   income: number;
   fixedCosts: number;
-  /** Renda menos gastos fixos. É o que financia as metas. */
+  debts: number;
+  /** Renda menos gastos fixos menos dívidas. É o que financia as metas. */
   monthlySurplus: number;
+  /** Prazo desejado pela pessoa, guardado para a página de resultado. */
+  desiredMonths: number;
   goals: readonly Goal[];
 }
 
@@ -65,10 +72,10 @@ function monthsToGoal(remaining: number, surplus: number): number | null {
  * guardado; o objetivo nomeado começa do que sobrar dela.
  */
 export const buildPlan: Planner = (input) => {
-  const { income, fixedCosts, saved, goalCost } = input;
+  const { income, fixedCosts, debts, saved, goalCost, desiredMonths } = input;
   const goalName = input.goalName.trim() || 'Seu objetivo';
 
-  const monthlySurplus = income - fixedCosts;
+  const monthlySurplus = income - fixedCosts - debts;
 
   const emergencyTarget = fixedCosts * EMERGENCY_MONTHS;
   const emergencySaved = Math.min(saved, emergencyTarget);
@@ -95,5 +102,5 @@ export const buildPlan: Planner = (input) => {
     },
   ];
 
-  return { income, fixedCosts, monthlySurplus, goals };
+  return { income, fixedCosts, debts, monthlySurplus, desiredMonths, goals };
 };

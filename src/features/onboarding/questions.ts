@@ -1,10 +1,19 @@
 import type { LucideIcon } from 'lucide-react';
-import { Banknote, Clock, Heart, PiggyBank, Receipt } from 'lucide-react';
+import {
+  Banknote,
+  CalendarClock,
+  Clock,
+  CreditCard,
+  Heart,
+  PiggyBank,
+  Receipt,
+} from 'lucide-react';
 
 import type { FieldKind } from '@/features/onboarding/fields/types';
 
 /** Identificadores das respostas. Cada um vira uma chave em Answers. */
-export type QuestionId = 'renda' | 'gastosFixos' | 'guardado' | 'objetivo' | 'custoObjetivo';
+export type QuestionId =
+  'renda' | 'gastosFixos' | 'dividas' | 'guardado' | 'objetivo' | 'custoObjetivo' | 'prazo';
 
 export type Answers = Record<QuestionId, string>;
 
@@ -22,12 +31,12 @@ export interface Question {
 }
 
 /**
- * As cinco perguntas.
+ * As sete perguntas.
  *
  * Elas não são um questionário genérico: as respostas alimentam diretamente o
- * cálculo das metas em `goals.ts`. Renda menos gastos fixos dá a sobra mensal,
- * que é o que determina em quanto tempo cada meta fecha; sem essas duas não há
- * prazo a calcular. Ao mexer aqui, ajuste `goals.ts` junto.
+ * cálculo das metas em `goals.ts`. Renda menos gastos fixos menos dívidas dá a
+ * sobra mensal, que é o que determina em quanto tempo cada meta fecha; sem
+ * essas três não há prazo a calcular. Ao mexer aqui, ajuste `goals.ts` junto.
  */
 export const QUESTIONS: readonly Question[] = [
   {
@@ -47,6 +56,15 @@ export const QUESTIONS: readonly Question[] = [
     kind: 'currency',
     help: 'Aluguel, luz, água, internet, mensalidades e assinaturas.',
     icon: Receipt,
+  },
+  {
+    id: 'dividas',
+    eyebrow: 'Dívidas e parcelas',
+    question: 'Quanto você paga por mês em parcelas e empréstimos?',
+    placeholder: 'ex: 500',
+    kind: 'currencyOptional',
+    help: 'Cartão, financiamento, empréstimo pessoal. Sem nenhuma, digite 0.',
+    icon: CreditCard,
   },
   {
     id: 'guardado',
@@ -75,12 +93,23 @@ export const QUESTIONS: readonly Question[] = [
     help: 'Um valor aproximado já serve. Dá para ajustar depois.',
     icon: Clock,
   },
+  {
+    id: 'prazo',
+    eyebrow: 'Prazo da meta',
+    question: 'Em quantos meses você quer chegar lá?',
+    placeholder: 'ex: 12',
+    kind: 'months',
+    help: 'Um número entre 1 e 120 meses (10 anos).',
+    icon: CalendarClock,
+  },
 ];
 
 export const EMPTY_ANSWERS: Answers = {
   renda: '',
   gastosFixos: '',
+  dividas: '',
   guardado: '',
   objetivo: '',
   custoObjetivo: '',
+  prazo: '',
 };

@@ -68,6 +68,48 @@ export function CurrencyField({ label, value, onValueChange, ...props }: Currenc
   );
 }
 
+interface MonthsFieldProps extends BaseInputProps {
+  label: string;
+  value: string;
+  onValueChange: (value: string) => void;
+}
+
+/**
+ * Campo de prazo em meses. O sufixo "meses" é fixo, no mesmo espírito do "R$"
+ * do campo monetário: a pessoa digita só o número, nunca a unidade.
+ *
+ * inputMode="numeric" abre o teclado numérico no celular; a limpeza de tudo
+ * que não é dígito acontece na normalização do registro, não aqui.
+ */
+export function MonthsField({ label, value, onValueChange, ...props }: MonthsFieldProps) {
+  const id = useId();
+
+  return (
+    <div className="flex flex-col gap-2">
+      <label htmlFor={id} className="sr-only">
+        {label}
+      </label>
+      <div className={FIELD_SHELL}>
+        <input
+          {...props}
+          id={id}
+          type="text"
+          inputMode="numeric"
+          autoComplete="off"
+          value={value}
+          onChange={(event) => {
+            onValueChange(event.target.value);
+          }}
+          className={cn(FIELD_INPUT, 'tabular-figures')}
+        />
+        <span aria-hidden="true" className="shrink-0 text-body font-medium text-label-secondary">
+          meses
+        </span>
+      </div>
+    </div>
+  );
+}
+
 interface TextFieldProps extends BaseInputProps {
   label: string;
   value: string;

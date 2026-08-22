@@ -7,15 +7,25 @@ import { EMPTY_ANSWERS } from '@/features/onboarding/questions';
 const input = (overrides: Partial<PlanInput> = {}): PlanInput => ({
   income: 5000,
   fixedCosts: 2000,
+  debts: 0,
   saved: 3000,
   goalName: 'Comprar um carro',
   goalCost: 45000,
+  desiredMonths: 12,
   ...overrides,
 });
 
 describe('buildPlan', () => {
   it('calcula a sobra mensal como renda menos gastos fixos', () => {
     expect(buildPlan(input()).monthlySurplus).toBe(3000);
+  });
+
+  it('desconta as dívidas da sobra mensal', () => {
+    expect(buildPlan(input({ debts: 500 })).monthlySurplus).toBe(2500);
+  });
+
+  it('guarda o prazo desejado no plano', () => {
+    expect(buildPlan(input({ desiredMonths: 24 })).desiredMonths).toBe(24);
   });
 
   it('dimensiona a reserva em 6 meses de gastos fixos', () => {
@@ -80,16 +90,20 @@ describe('toPlanInput', () => {
       toPlanInput({
         renda: '5.000',
         gastosFixos: '2.000',
+        dividas: '500',
         guardado: '3.000',
         objetivo: 'Comprar um carro',
         custoObjetivo: '45.000,50',
+        prazo: '12',
       }),
     ).toEqual({
       income: 5000,
       fixedCosts: 2000,
+      debts: 500,
       saved: 3000,
       goalName: 'Comprar um carro',
       goalCost: 45000.5,
+      desiredMonths: 12,
     });
   });
 
@@ -97,6 +111,8 @@ describe('toPlanInput', () => {
     const result = toPlanInput(EMPTY_ANSWERS);
 
     expect(result.income).toBe(0);
+    expect(result.debts).toBe(0);
+    expect(result.desiredMonths).toBe(0);
     expect(Number.isNaN(result.goalCost)).toBe(false);
   });
 });
