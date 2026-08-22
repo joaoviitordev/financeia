@@ -2,7 +2,7 @@ import { SearchX } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Button } from '@/components/ui/Button';
-import { Card, CardBody } from '@/components/ui/Card';
+import { InsightPanel } from '@/features/insights/InsightPanel';
 import { toPlanInput } from '@/features/onboarding/answers-to-plan';
 import { buildPlan } from '@/features/onboarding/goals';
 import { SimulationCards } from '@/features/simulations/SimulationCards';
@@ -58,15 +58,7 @@ export function ResultPage() {
 
       <SimulationCards plan={plan} />
 
-      {/* Espaço reservado para o painel de insights: preenchido na feature de
-          diagnóstico com IA, fora de escopo aqui. */}
-      <Card>
-        <CardBody className="flex flex-col items-center gap-2 py-8 text-center">
-          <p className="text-subheadline text-label-secondary">
-            O diagnóstico com IA chega na próxima etapa.
-          </p>
-        </CardBody>
-      </Card>
+      <InsightPanel id={record.id} />
     </div>
   );
 }

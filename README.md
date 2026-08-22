@@ -14,6 +14,11 @@ npm install   # instala deps e configura os hooks do Husky (script `prepare`)
 npm run dev
 ```
 
+Para o diagnóstico com IA, copie `.env.example` para `.env.local` e preencha
+`VITE_GEMINI_API_KEY` com uma chave do [Google AI Studio](https://aistudio.google.com/).
+Sem a chave o aplicativo roda normalmente — só o diagnóstico não é gerado, e a
+tela de resultado avisa que falta configurá-la.
+
 ## Scripts
 
 | Script                  | Descrição                                                      |

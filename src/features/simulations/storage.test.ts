@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
+import type { InsightData } from '@/features/insights/types';
 import { EMPTY_ANSWERS } from '@/features/onboarding/questions';
 import {
   getSimulation,
@@ -106,5 +107,59 @@ describe('updateSimulation', () => {
 
   it('devolve false ao tentar atualizar um id que não existe', () => {
     expect(updateSimulation('inexistente', { answers: answers() })).toBe(false);
+  });
+});
+
+/* --- O diagnóstico guardado junto (T-009) -------------------------------- */
+
+const insight: InsightData = {
+  feasibility: { status: 'viable', content: 'Cabe no orçamento.' },
+  diagnosis: { content: 'Sobra mensal saudável.' },
+  suggestions: { items: ['Automatize o aporte.'] },
+  extraIncome: { items: [] },
+  investment: { items: ['Tesouro Selic.'] },
+  motivation: { content: 'Siga assim.' },
+};
+
+describe('o diagnóstico dentro da simulação', () => {
+  it('guarda e relê o diagnóstico de uma simulação', () => {
+    const id = saveSimulation(answers());
+
+    expect(updateSimulation(id, { insight })).toBe(true);
+    expect(getSimulation(id)?.insight).toEqual(insight);
+  });
+
+  it('apaga o diagnóstico quando o patch o traz vazio', () => {
+    const id = saveSimulation(answers());
+    updateSimulation(id, { insight });
+
+    expect(updateSimulation(id, { insight: undefined })).toBe(true);
+    expect(getSimulation(id)?.insight).toBeUndefined();
+    // As respostas seguem intactas: quem some é só o texto.
+    expect(getSimulation(id)?.answers.objetivo).toBe('Comprar um carro');
+  });
+
+  it('aceita simulação guardada antes de existir diagnóstico', () => {
+    window.localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify([{ id: 'antiga', createdAt: '2026-01-01T00:00:00.000Z', answers: answers() }]),
+    );
+
+    expect(listSimulations()).toHaveLength(1);
+    expect(getSimulation('antiga')?.insight).toBeUndefined();
+  });
+
+  it('descarta só o diagnóstico corrompido, nunca a simulação', () => {
+    window.localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify([
+        { id: 'quebrada', createdAt: '2026-01-01T00:00:00.000Z', answers: answers(), insight: 7 },
+      ]),
+    );
+
+    const [guardada] = listSimulations();
+
+    expect(guardada?.id).toBe('quebrada');
+    expect(guardada?.insight).toBeUndefined();
   });
 });
