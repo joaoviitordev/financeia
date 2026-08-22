@@ -1,0 +1,11 @@
+{
+  "feature": "diagnostico-ia",
+  "timestamp": "2026-08-22T22:09:19.941Z",
+  "gitRev": "968e144",
+  "command": "npx vitest run --reporter=json --outputFile=.spec/verification/raw.json",
+  "reporter": "vitest-json",
+  "exitCode": 0,
+  "testsParsed": 77,
+  "results": {},
+  "principles": {}
+}

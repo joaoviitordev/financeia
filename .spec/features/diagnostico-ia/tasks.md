@@ -8,7 +8,7 @@
   Status: pendente | em-andamento | concluida
 -->
 
-## T-006 — Contrato do diagnóstico, viabilidade e prompt [pendente]
+## T-006 — Contrato do diagnóstico, viabilidade e prompt [concluida]
 
 - Refs: US-006, AC-017, AC-018
 - Arquivos: src/features/insights/types.ts, src/features/insights/feasibility.ts, src/features/insights/feasibility.test.ts, src/features/insights/prompt.ts, src/features/insights/prompt.test.ts
@@ -16,7 +16,7 @@
 - Esforço: alto
 - Notas: base de todas as outras — cria o `InsightData` (viabilidade, diagnóstico, sugestões, renda extra, investimentos, mensagem final) que o resto importa. A viabilidade é função pura dos números do `Plan`, em `feasibility.ts`, e não da resposta da IA (ASM-010): viável com saldo após reserva ≥ 0, ajuste necessário até 20% negativo da economia mensal necessária, inviável acima disso — as três faixas e as duas bordas exatas viram teste. O `buildInsightPrompt` recebe os valores já calculados por `buildPlan`, nunca pede conta à IA, e leva papel, contexto de exibição, dados rotulados, formato JSON, schema literal e regras. Teste de snapshot no prompt: ele é a interface com a IA, e mudança silenciosa ali é regressão de produto.
 
-## T-007 — Chave da API e ambiente [pendente]
+## T-007 — Chave da API e ambiente [concluida]
 
 - Refs: US-007
 - Arquivos: .env.example, src/env.d.ts, src/features/insights/config.ts, src/features/insights/config.test.ts, README.md
