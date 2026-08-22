@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 
 import { Onboarding } from '@/features/onboarding/Onboarding';
+import { QUESTIONS } from '@/features/onboarding/questions';
 
 /** Preenche o passo atual e avança. */
 async function answer(user: ReturnType<typeof userEvent.setup>, label: RegExp, value: string) {
@@ -18,6 +19,16 @@ describe('Onboarding', () => {
       screen.getByRole('heading', { name: 'Vamos planejar seu futuro', level: 1 }),
     ).toBeInTheDocument();
     expect(screen.getByText(/em uma lista de metas com prazo/i)).toBeInTheDocument();
+  });
+
+  // A promessa da abertura tem que bater com o fluxo: ela dizia "cinco" muito
+  // depois de o questionário virar sete.
+  it('anuncia a mesma quantidade de perguntas que o fluxo tem', () => {
+    render(<Onboarding />);
+
+    expect(
+      screen.getByText(`Você responde ${String(QUESTIONS.length)} perguntas`),
+    ).toBeInTheDocument();
   });
 
   it('vai da apresentação para a primeira pergunta', async () => {

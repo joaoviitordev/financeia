@@ -1,13 +1,17 @@
 import { Button } from '@/components/ui/Button';
 import { Card, CardBody } from '@/components/ui/Card';
+import { QUESTIONS } from '@/features/onboarding/questions';
 
 interface WelcomeProps {
   onStart: () => void;
 }
 
+// A contagem sai do próprio questionário: escrita à mão, ela envelhece na
+// primeira pergunta que entra ou sai — foi o que aconteceu quando dívidas e
+// prazo chegaram e a tela continuou prometendo cinco.
 const STEPS = [
   {
-    title: 'Você responde cinco perguntas',
+    title: `Você responde ${String(QUESTIONS.length)} perguntas`,
     body: 'Sobre o que entra, o que sai e o que você quer conquistar. Leva menos de dois minutos.',
   },
   {
