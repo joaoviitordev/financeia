@@ -1,30 +1,30 @@
 import { History } from 'lucide-react';
 import { useState } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 import { Sheet } from '@/components/ui/Sheet';
-import { Onboarding } from '@/features/onboarding/Onboarding';
 
 /**
  * Casca da aplicação: cabeçalho fixo, conteúdo cresce, rodapé encosta embaixo.
  *
  * Header e Footer moram aqui, e não dentro de cada tela, para aparecerem em
- * todas sem que nenhuma precise lembrar de incluí-los.
+ * todas sem que nenhuma precise lembrar de incluí-los. O conteúdo em si é a
+ * rota ativa, renderizada pelo `<Outlet />`.
  */
 function App() {
-  // Trocar a `key` remonta o Onboarding, e remontar já devolve o fluxo à
-  // apresentação com as respostas limpas. É o mesmo efeito do `restart` que o
-  // hook expõe, sem precisar levantar a máquina de estados inteira para cá só
-  // para alcançá-la de fora — a tela continua dona do próprio estado.
-  const [simulation, setSimulation] = useState(0);
+  const navigate = useNavigate();
   const [historyOpen, setHistoryOpen] = useState(false);
 
   return (
     <div className="flex min-h-dvh flex-col bg-grouped">
       <Header
         onNewSimulation={() => {
-          setSimulation((current) => current + 1);
+          // Navegar para `/` — mesmo já estando lá — gera uma `location.key`
+          // nova, e é essa troca que remonta a `SimulationPage` com as
+          // respostas limpas.
+          void navigate('/');
         }}
         onShowHistory={() => {
           setHistoryOpen(true);
@@ -32,7 +32,7 @@ function App() {
       />
 
       <main className="flex flex-1 justify-center px-4 py-10 md:py-16">
-        <Onboarding key={simulation} />
+        <Outlet />
       </main>
 
       <Footer />
@@ -40,10 +40,11 @@ function App() {
       <Sheet open={historyOpen} onOpenChange={setHistoryOpen} title="Histórico">
         <div className="flex flex-col items-center gap-3 py-6 text-center">
           <History aria-hidden="true" className="h-9 w-9 text-label-tertiary" strokeWidth={1.5} />
-          <p className="text-headline text-label">Nenhuma simulação guardada</p>
+          <p className="text-headline text-label">Nenhuma simulação por aqui ainda</p>
           <p className="text-subheadline text-balance text-label-secondary">
-            As respostas vivem enquanto esta aba está aberta e somem ao recarregar a página. Como
-            nada é gravado no dispositivo, não há o que listar aqui.
+            As simulações que você concluir ficam guardadas neste dispositivo, e só nele — dá para
+            apagá-las quando quiser, limpando os dados do navegador. A listagem delas chega numa
+            próxima etapa.
           </p>
         </div>
       </Sheet>

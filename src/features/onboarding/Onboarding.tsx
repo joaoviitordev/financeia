@@ -7,6 +7,8 @@ import { Welcome } from '@/features/onboarding/Welcome';
 interface OnboardingProps {
   /** Trocável para testar o fluxo com outro algoritmo de metas. */
   planner?: Planner;
+  /** Recebe o identificador da simulação guardada ao confirmar a última pergunta. */
+  onConcluded?: (id: string) => void;
 }
 
 /**
@@ -16,8 +18,8 @@ interface OnboardingProps {
  * `useOnboarding`, e por isso esta função não tem nenhum `if` de regra de
  * negócio dentro.
  */
-export function Onboarding({ planner }: OnboardingProps) {
-  const flow = useOnboarding(planner);
+export function Onboarding({ planner, onConcluded }: OnboardingProps) {
+  const flow = useOnboarding(planner, onConcluded);
 
   if (flow.stage.name === 'welcome') {
     return <Welcome onStart={flow.start} />;

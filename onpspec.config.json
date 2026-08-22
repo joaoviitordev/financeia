@@ -1,0 +1,13 @@
+{
+  "testCommand": "npx vitest run --reporter=json --outputFile=.spec/verification/raw.json",
+  "reporter": "vitest-json",
+  "reporterOutputFile": ".spec/verification/raw.json",
+  "testGlobs": ["src/**/*.test.*", "src/**/*.spec.*"],
+  "srcGlobs": [
+    "src/routes/**",
+    "src/features/simulations/**",
+    "src/features/insights/**",
+    "src/router.tsx"
+  ],
+  "ignoreGlobs": ["node_modules/**", ".git/**", "dist/**", "build/**", "coverage/**", ".spec/**"]
+}

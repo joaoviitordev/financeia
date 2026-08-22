@@ -31,3 +31,6 @@ coverage
 .env
 .env.*
 !.env.example
+
+# onp-spec (saída bruta do test runner)
+.spec/verification/raw.json
