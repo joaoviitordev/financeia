@@ -1,0 +1,62 @@
+{
+  "feature": "historico",
+  "timestamp": "2026-08-22T23:19:04.101Z",
+  "gitRev": "9b26c0b",
+  "command": "npx vitest run --reporter=json --outputFile=.spec/verification/raw.json",
+  "reporter": "vitest-json",
+  "exitCode": 0,
+  "testsParsed": 130,
+  "results": {
+    "AC-027": {
+      "status": "pass",
+      "testName": "HistoryList AC-027: A lista mostra as simulações, da mais recente para a mais antiga @spec:AC-027 AC-027: A lista mostra as simulações, da mais recente para a mais antiga @spec:AC-027",
+      "method": "vitest-json"
+    },
+    "AC-028": {
+      "status": "pass",
+      "testName": "HistoryList AC-028: A lista diz quais já têm diagnóstico @spec:AC-028 AC-028: A lista diz quais já têm diagnóstico @spec:AC-028",
+      "method": "vitest-json"
+    },
+    "AC-029": {
+      "status": "pass",
+      "testName": "HistoryList AC-029: Sem nada guardado, o histórico explica o que vai aparecer ali @spec:AC-029 AC-029: Sem nada guardado, o histórico explica o que vai aparecer ali @spec:AC-029",
+      "method": "vitest-json"
+    },
+    "AC-030": {
+      "status": "pass",
+      "testName": "histórico e navegação AC-030: Abrir uma simulação leva ao resultado dela @spec:AC-030 AC-030: Abrir uma simulação leva ao resultado dela @spec:AC-030",
+      "method": "vitest-json"
+    },
+    "AC-031": {
+      "status": "pass",
+      "testName": "histórico e navegação AC-031: Reabrir pelo histórico não custa uma nova geração @spec:AC-031 AC-031: Reabrir pelo histórico não custa uma nova geração @spec:AC-031",
+      "method": "vitest-json"
+    },
+    "AC-032": {
+      "status": "pass",
+      "testName": "HistoryList AC-032: Excluir pede confirmação antes @spec:AC-032 AC-032: Excluir pede confirmação antes @spec:AC-032",
+      "method": "vitest-json"
+    },
+    "AC-033": {
+      "status": "pass",
+      "testName": "deleteSimulation AC-033: Excluir remove só a simulação escolhida, para sempre @spec:AC-033 AC-033: Excluir remove só a simulação escolhida, para sempre @spec:AC-033",
+      "method": "vitest-json"
+    },
+    "AC-034": {
+      "status": "pass",
+      "testName": "clearSimulations AC-034: Apagar tudo limpa o histórico inteiro, com a mesma cerimônia @spec:AC-034 AC-034: Apagar tudo limpa o histórico inteiro, com a mesma cerimônia @spec:AC-034",
+      "method": "vitest-json"
+    },
+    "AC-035": {
+      "status": "pass",
+      "testName": "histórico e navegação AC-035: Apagar a simulação aberta devolve a pessoa ao início @spec:AC-035 AC-035: Apagar a simulação aberta devolve a pessoa ao início @spec:AC-035",
+      "method": "vitest-json"
+    },
+    "AC-036": {
+      "status": "pass",
+      "testName": "HistoryPage AC-036: /historico mostra a mesma lista em página cheia @spec:AC-036 AC-036: /historico mostra a mesma lista em página cheia @spec:AC-036",
+      "method": "vitest-json"
+    }
+  },
+  "principles": {}
+}
