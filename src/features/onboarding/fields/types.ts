@@ -1,6 +1,6 @@
 import type { ComponentType } from 'react';
 
-export type FieldKind = 'currency' | 'text';
+export type FieldKind = 'currency' | 'currencyOptional' | 'months' | 'text';
 
 /** Contrato único que todo campo de resposta cumpre. */
 export interface FieldProps {

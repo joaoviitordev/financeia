@@ -26,7 +26,7 @@ describe('Onboarding', () => {
 
     await user.click(screen.getByRole('button', { name: 'Começar' }));
 
-    expect(screen.getByText('Passo 1 de 5')).toBeInTheDocument();
+    expect(screen.getByText('Passo 1 de 7')).toBeInTheDocument();
     // Por titulo: o texto da pergunta aparece tambem no <label> sr-only do campo.
     expect(
       screen.getByRole('heading', { level: 2, name: /somando todas as fontes/i }),
@@ -63,15 +63,15 @@ describe('Onboarding', () => {
     await user.click(screen.getByRole('button', { name: 'Começar' }));
     await answer(user, /somando todas as fontes/i, '5000');
 
-    expect(screen.getByText('Passo 2 de 5')).toBeInTheDocument();
+    expect(screen.getByText('Passo 2 de 7')).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Voltar' }));
 
-    expect(screen.getByText('Passo 1 de 5')).toBeInTheDocument();
+    expect(screen.getByText('Passo 1 de 7')).toBeInTheDocument();
     expect(screen.getByLabelText(/somando todas as fontes/i)).toHaveValue('5.000');
   });
 
-  it('percorre as cinco perguntas e entrega a lista de metas', async () => {
+  it('percorre as sete perguntas e entrega a lista de metas', async () => {
     const user = userEvent.setup();
     render(<Onboarding />);
 
@@ -79,9 +79,11 @@ describe('Onboarding', () => {
 
     await answer(user, /somando todas as fontes/i, '5000');
     await answer(user, /contas que se repetem/i, '2000');
+    await answer(user, /parcelas e empréstimos/i, '0');
     await answer(user, /já tem guardado/i, '3000');
     await answer(user, /conquistar primeiro/i, 'Comprar um carro');
     await answer(user, /quanto custa esse objetivo/i, '45000');
+    await answer(user, /quantos meses você quer chegar/i, '12');
 
     expect(screen.getByRole('heading', { name: 'Suas metas', level: 1 })).toBeInTheDocument();
     expect(screen.getByText('Reserva de emergência')).toBeInTheDocument();
@@ -102,9 +104,11 @@ describe('Onboarding', () => {
 
     await answer(user, /somando todas as fontes/i, '3000');
     await answer(user, /contas que se repetem/i, '3000');
+    await answer(user, /parcelas e empréstimos/i, '0');
     await answer(user, /já tem guardado/i, '500');
     await answer(user, /conquistar primeiro/i, 'Viajar');
     await answer(user, /quanto custa esse objetivo/i, '10000');
+    await answer(user, /quantos meses você quer chegar/i, '12');
 
     expect(screen.getByText(/consomem tudo que entra/i)).toBeInTheDocument();
     expect(screen.getAllByText('sem prazo estimável').length).toBeGreaterThan(0);
@@ -115,7 +119,7 @@ describe('Onboarding', () => {
     render(<Onboarding />);
 
     await user.click(screen.getByRole('button', { name: 'Começar' }));
-    expect(screen.getByText('Passo 1 de 5')).toBeInTheDocument();
+    expect(screen.getByText('Passo 1 de 7')).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Voltar' }));
 
@@ -129,15 +133,17 @@ describe('Onboarding', () => {
     await user.click(screen.getByRole('button', { name: 'Começar' }));
     await answer(user, /somando todas as fontes/i, '5000');
     await answer(user, /contas que se repetem/i, '2000');
+    await answer(user, /parcelas e empréstimos/i, '0');
     await answer(user, /já tem guardado/i, '3000');
     await answer(user, /conquistar primeiro/i, 'Comprar um carro');
     await answer(user, /quanto custa esse objetivo/i, '45000');
+    await answer(user, /quantos meses você quer chegar/i, '12');
 
     expect(screen.getByRole('heading', { name: 'Suas metas', level: 1 })).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Voltar' }));
 
-    expect(screen.getByText('Passo 5 de 5')).toBeInTheDocument();
-    expect(screen.getByLabelText(/quanto custa esse objetivo/i)).toHaveValue('45.000');
+    expect(screen.getByText('Passo 7 de 7')).toBeInTheDocument();
+    expect(screen.getByLabelText(/quantos meses você quer chegar/i)).toHaveValue('12');
   });
 });
