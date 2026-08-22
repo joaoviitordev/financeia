@@ -30,25 +30,17 @@ export function Sheet({ open, onOpenChange, title, description, children, footer
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
-        <Dialog.Overlay
-          className="fixed inset-0 z-40 bg-black/25 backdrop-blur-[2px]"
-          style={{
-            animation: 'sheet-fade var(--duration-base) var(--ease-standard)',
-          }}
-        />
+        <Dialog.Overlay className="sheet-overlay fixed inset-0 z-40 bg-black/25 backdrop-blur-[2px]" />
         <Dialog.Content
           className={cn(
-            'material-thick fixed z-50 flex flex-col',
+            'sheet-content material-thick fixed z-50 flex flex-col',
             // Mobile: encostada embaixo, cantos arredondados só em cima.
             'inset-x-0 bottom-0 max-h-[85dvh] rounded-t-2xl border-b-0',
             // Desktop: centralizada, com largura contida.
             'sm:inset-x-auto sm:top-1/2 sm:bottom-auto sm:left-1/2 sm:w-[min(30rem,calc(100vw-3rem))]',
             'sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-2xl sm:border-b',
           )}
-          style={{
-            boxShadow: 'var(--shadow-sheet)',
-            animation: 'sheet-in var(--duration-slow) var(--ease-standard)',
-          }}
+          style={{ boxShadow: 'var(--shadow-sheet)' }}
         >
           {/* Grabber: a alça de arrastar do iOS. Decorativa aqui, mas é o sinal
               visual que diz "isto se fecha puxando para baixo". */}
@@ -79,8 +71,11 @@ export function Sheet({ open, onOpenChange, title, description, children, footer
 
           <div className="min-h-0 flex-1 overflow-y-auto px-5 pb-5">{children}</div>
 
+          {/* As ações ocupam a largura da sheet: um filho preenche tudo, dois
+              dividem meio a meio. Sem isso o bloco de botões encolhe até o
+              tamanho do texto e fica perdido no canto. */}
           {footer !== undefined && (
-            <footer className="flex gap-2 border-t border-separator px-5 py-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
+            <footer className="flex gap-2 border-t border-separator px-5 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] *:min-w-0 *:flex-1">
               {footer}
             </footer>
           )}

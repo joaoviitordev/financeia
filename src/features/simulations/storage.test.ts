@@ -3,6 +3,8 @@ import { describe, expect, it } from 'vitest';
 import type { InsightData } from '@/features/insights/types';
 import { EMPTY_ANSWERS } from '@/features/onboarding/questions';
 import {
+  clearSimulations,
+  deleteSimulation,
   getSimulation,
   listSimulations,
   saveSimulation,
@@ -161,5 +163,51 @@ describe('o diagnóstico dentro da simulação', () => {
 
     expect(guardada?.id).toBe('quebrada');
     expect(guardada?.insight).toBeUndefined();
+  });
+});
+
+/* --- Excluir e limpar (T-014) -------------------------------------------- */
+
+describe('deleteSimulation', () => {
+  // US-011 — Apagar o que não quero mais
+  it('AC-033: Excluir remove só a simulação escolhida, para sempre @spec:AC-033', () => {
+    const primeira = saveSimulation(answers({ objetivo: 'Viagem' }));
+    const segunda = saveSimulation(answers({ objetivo: 'Carro' }));
+    const terceira = saveSimulation(answers({ objetivo: 'Casa' }));
+
+    expect(deleteSimulation(segunda)).toBe(true);
+
+    // As outras duas continuam guardadas...
+    expect(listSimulations().map((record) => record.id)).toEqual([primeira, terceira]);
+    // ...e a excluída não volta numa leitura nova do armazenamento.
+    expect(getSimulation(segunda)).toBeUndefined();
+  });
+
+  it('devolve false para um id que não existe, sem mexer no resto', () => {
+    const id = saveSimulation(answers());
+
+    expect(deleteSimulation('inexistente')).toBe(false);
+    expect(listSimulations()).toHaveLength(1);
+    expect(getSimulation(id)).toBeDefined();
+  });
+});
+
+describe('clearSimulations', () => {
+  // US-011 — Apagar o que não quero mais
+  it('AC-034: Apagar tudo limpa o histórico inteiro, com a mesma cerimônia @spec:AC-034', () => {
+    saveSimulation(answers());
+    saveSimulation(answers({ objetivo: 'Carro' }));
+
+    expect(clearSimulations()).toBe(true);
+
+    expect(listSimulations()).toEqual([]);
+    expect(window.localStorage.getItem(STORAGE_KEY)).toBeNull();
+  });
+
+  it('limpar duas vezes seguidas continua sendo verdade', () => {
+    saveSimulation(answers());
+
+    expect(clearSimulations()).toBe(true);
+    expect(clearSimulations()).toBe(true);
   });
 });

@@ -1,7 +1,7 @@
 # Spec: Histórico de simulações
 
 > feature: historico
-> status: rascunho
+> status: auditada
 
 ## Contexto
 
