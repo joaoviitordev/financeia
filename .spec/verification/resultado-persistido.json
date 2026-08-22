@@ -1,7 +1,7 @@
 {
   "feature": "resultado-persistido",
-  "timestamp": "2026-08-22T21:34:21.166Z",
-  "gitRev": "254e9aa",
+  "timestamp": "2026-08-22T21:44:48.487Z",
+  "gitRev": "4734dc1",
   "command": "npx vitest run --reporter=json --outputFile=.spec/verification/raw.json",
   "reporter": "vitest-json",
   "exitCode": 0,

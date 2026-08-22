@@ -26,12 +26,12 @@ export function SimulationCards({ plan }: SimulationCardsProps) {
   return (
     <Card>
       <CardBody className="grid grid-cols-2 gap-6 sm:grid-cols-3">
-        <StatTile label="Custo da meta" value={formatBRL(goalCost)} />
-        <StatTile label="Prazo desejado" value={formatMonths(plan.desiredMonths)} />
-        <StatTile label="Sobra mensal" value={formatBRL(plan.monthlySurplus)} />
-        <StatTile label="Renda" value={formatBRL(plan.income)} />
-        <StatTile label="Gastos fixos" value={formatBRL(plan.fixedCosts)} />
-        <StatTile label="Dívidas" value={formatBRL(plan.debts)} />
+        <StatTile size="grid" label="Custo da meta" value={formatBRL(goalCost)} />
+        <StatTile size="grid" label="Prazo desejado" value={formatMonths(plan.desiredMonths)} />
+        <StatTile size="grid" label="Sobra mensal" value={formatBRL(plan.monthlySurplus)} />
+        <StatTile size="grid" label="Renda" value={formatBRL(plan.income)} />
+        <StatTile size="grid" label="Gastos fixos" value={formatBRL(plan.fixedCosts)} />
+        <StatTile size="grid" label="Dívidas" value={formatBRL(plan.debts)} />
       </CardBody>
     </Card>
   );
