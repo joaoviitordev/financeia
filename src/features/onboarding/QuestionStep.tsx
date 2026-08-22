@@ -40,7 +40,7 @@ export function QuestionStep({
   const Icon = question.icon;
 
   return (
-    <div className="flex w-full max-w-xl flex-col gap-8">
+    <div className="flex w-full max-w-xl flex-col gap-6">
       <header className="flex flex-col items-center gap-3 text-center">
         <h1 className="text-title-1 text-label">Vamos planejar seu futuro</h1>
         <p className="text-subheadline text-balance text-label-secondary">
@@ -56,12 +56,12 @@ export function QuestionStep({
       </div>
 
       <Card>
-        <CardBody className="flex flex-col gap-5">
+        <CardBody className="flex flex-col gap-4">
           <span
             aria-hidden="true"
-            className="flex h-14 w-14 items-center justify-center rounded-xl bg-accent text-label-on-accent"
+            className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent text-label-on-accent"
           >
-            <Icon className="h-7 w-7" strokeWidth={1.8} />
+            <Icon className="h-6 w-6" strokeWidth={1.8} />
           </span>
 
           <div className="flex flex-col gap-2">
