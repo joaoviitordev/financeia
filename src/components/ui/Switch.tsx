@@ -9,7 +9,7 @@ interface SwitchProps {
 }
 
 /**
- * Switch do iOS — 51×31pt, o botão desliza 20px.
+ * Switch do iOS, 51×31pt, o botão desliza 20px.
  *
  * É um <button role="switch">, não uma checkbox estilizada: leitores de tela
  * anunciam "ativado/desativado" em vez de "marcado", que é o que a pessoa

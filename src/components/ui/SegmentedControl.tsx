@@ -11,7 +11,7 @@ interface SegmentedControlProps<T extends string> {
   options: readonly SegmentedOption<T>[];
   value: T;
   onChange: (value: T) => void;
-  /** Rótulo acessível do grupo — obrigatório, o controle não tem texto próprio. */
+  /** Rótulo acessível do grupo. Obrigatório: o controle não tem texto próprio. */
   'aria-label': string;
   className?: string;
 }
@@ -20,7 +20,7 @@ interface SegmentedControlProps<T extends string> {
  * Controle segmentado do iOS: pílula deslizante sobre um trilho.
  *
  * A pílula é um único elemento que se move com transform, e não um fundo que
- * pula de segmento em segmento — é isso que produz o deslize da Apple. Usa a
+ * pula de segmento em segmento, e é isso que produz o deslize da Apple. Usa a
  * mola snappy, com o overshoot discreto.
  *
  * Semântica de tablist: setas navegam, e só o segmento ativo entra na ordem de

@@ -1,5 +1,5 @@
 /* ==========================================================================
- * Paleta de gráficos — derivada das matizes da Apple, validada por script
+ * Paleta de gráficos: derivada das matizes da Apple, validada por script
  * --------------------------------------------------------------------------
  * As system colors da Apple REPROVAM como paleta categórica: systemYellow fica
  * fora da faixa de luminosidade (L 0.865), verde↔rosa medem ΔE 6.5 sob
@@ -8,7 +8,7 @@
  * O que está aqui preserva os ângulos de matiz OKLCH da Apple e re-passa
  * luminosidade e chroma para dentro da faixa exigida (light L=0.58,
  * dark L=0.62, chroma <= 0.20). A ORDEM dos slots é o mecanismo de segurança
- * para daltonismo, não escolha estética — foi resolvida como caminho de
+ * para daltonismo, não escolha estética. Foi resolvida como caminho de
  * gargalo máximo exigindo aprovação simultânea nos dois modos.
  *
  * Validação (dataviz/scripts/validate_palette.js), superfícies #FFFFFF/#1C1C1E:
@@ -30,7 +30,7 @@
  * ========================================================================== */
 
 :root {
-  /* Tema categórico padrão — barras, linhas, áreas empilhadas */
+  /* Tema categórico padrão: barras, linhas, áreas empilhadas */
   --chart-1: #1275ed; /* blue   */
   --chart-2: #009436; /* green  */
   --chart-3: #6564ec; /* indigo */
@@ -40,7 +40,7 @@
   --chart-7: #0085b7; /* cyan   */
   --chart-8: #d7352b; /* red    */
 
-  /* Tema para formas que comparam todos os pares — teto de 3 séries */
+  /* Tema para formas que comparam todos os pares: teto de 3 séries */
   --chart-scatter-1: #1275ed; /* blue   */
   --chart-scatter-2: #b06500; /* orange */
   --chart-scatter-3: #008d86; /* mint   */

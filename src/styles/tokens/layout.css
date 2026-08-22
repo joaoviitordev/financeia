@@ -1,9 +1,9 @@
 /* ==========================================================================
- * Layout — espaçamento, raios e alturas de controle
+ * Layout: espaçamento, raios e alturas de controle
  * --------------------------------------------------------------------------
  * Sobre os raios: a Apple usa curvatura contínua (o "squircle" do
  * cornerCurve: .continuous). O CSS não tem equivalente nativo, e as
- * aproximações via Houdini paint() não funcionam no Safari — justamente onde
+ * aproximações via Houdini paint() não funcionam no Safari, justamente onde
  * a fidelidade mais importaria. Usamos border-radius padrão com os valores da
  * Apple e assumimos a diferença conscientemente.
  *

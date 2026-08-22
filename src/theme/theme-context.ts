@@ -3,7 +3,7 @@ import { createContext } from 'react';
 /** Preferência escolhida pela pessoa. 'system' segue o sistema operacional. */
 export type ThemePreference = 'light' | 'dark' | 'system';
 
-/** Tema efetivamente aplicado — 'system' já resolvido. */
+/** Tema efetivamente aplicado, com 'system' já resolvido. */
 export type ResolvedTheme = 'light' | 'dark';
 
 export interface ThemeContextValue {

@@ -21,7 +21,7 @@ export function formatBRL(value: number): string {
   return BRL.format(value);
 }
 
-/** R$ 12,5 mil — para eixos e rótulos onde o valor cheio não cabe. */
+/** R$ 12,5 mil. Para eixos e rótulos onde o valor cheio não cabe. */
 export function formatBRLCompact(value: number): string {
   return BRL_COMPACT.format(value);
 }
@@ -58,4 +58,39 @@ export function formatSignedPercent(fraction: number): string {
     return `−${formatted}`;
   }
   return formatted;
+}
+
+/* --- Entrada de valores ---------------------------------------------------
+ * O placeholder do formulário é "ex: 5000", ou seja, a pessoa digita reais
+ * inteiros. Por isso NÃO usamos o padrão "centavos primeiro" (onde digitar
+ * 5000 vira R$ 50,00): ali ele contrariaria o exemplo mostrado na tela. */
+
+/**
+ * Limpa o que foi digitado e agrupa os milhares enquanto a pessoa escreve.
+ * Aceita uma única vírgula decimal e no máximo dois centavos.
+ */
+export function maskCurrencyInput(raw: string): string {
+  const cleaned = raw.replace(/[^\d,]/g, '');
+  const [integerPart = '', ...rest] = cleaned.split(',');
+  const digits = integerPart.replace(/^0+(?=\d)/, '');
+  const grouped = digits.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+  if (rest.length === 0) {
+    return grouped;
+  }
+
+  return `${grouped},${rest.join('').slice(0, 2)}`;
+}
+
+/** Converte o texto mascarado em número. Devolve null se não houver dígito. */
+export function parseCurrencyInput(masked: string): number | null {
+  const normalized = masked.replace(/\./g, '').replace(',', '.');
+
+  if (normalized === '' || normalized === '.') {
+    return null;
+  }
+
+  const value = Number(normalized);
+
+  return Number.isFinite(value) ? value : null;
 }

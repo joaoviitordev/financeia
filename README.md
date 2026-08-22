@@ -1,4 +1,4 @@
-# FinanceIA
+# Finance IA
 
 Aplicação de finanças com IA. React 19 + TypeScript + Vite + Tailwind CSS v4.
 
@@ -41,7 +41,7 @@ Modo `strict` habilitado, com verificações adicionais: `noUncheckedIndexedAcce
 
 **`any` é proibido.** As regras `no-explicit-any` e a família `no-unsafe-*` do
 typescript-eslint são erros. Quando o tipo for realmente desconhecido, use `unknown`
-e faça o narrowing. `!` (non-null assertion) também é erro — verifique explicitamente
+e faça o narrowing. `!` (non-null assertion) também é erro. Verifique explicitamente
 (veja `src/main.tsx`).
 
 ### Imports
@@ -55,7 +55,7 @@ e faça o narrowing. `!` (non-null assertion) também é erro — verifique expl
 ### Estilos
 
 Tailwind CSS v4 com configuração CSS-first. Os design tokens ficam no bloco `@theme`
-de `src/index.css` — não existe `tailwind.config.js`. As classes são ordenadas
+de `src/index.css`, e não existe `tailwind.config.js`. As classes são ordenadas
 automaticamente pelo `prettier-plugin-tailwindcss`.
 
 ### Testes
@@ -108,7 +108,7 @@ valores semânticos vivem em `:root` e nos escopos de tema, e o bloco `@theme in
 Na prática: **escreva componentes contra papéis** (`bg-surface`, `text-label-secondary`,
 `text-gain`) e praticamente nunca use a variante `dark:`.
 
-O `ThemeProvider` grava sempre um `data-theme` concreto na raiz — nunca `"system"`, que vive
+O `ThemeProvider` grava sempre um `data-theme` concreto na raiz, nunca `"system"`, que vive
 apenas no React e no `localStorage`. Um script inline bloqueante no `index.html` aplica o tema
 antes da primeira pintura, evitando o flash branco.
 
@@ -117,21 +117,31 @@ antes da primeira pintura, evitando o flash branco.
 Text styles do iOS (largeTitle → caption2) com tamanho, entrelinha, peso e tracking juntos:
 `text-body`, `text-headline`, `text-title-1`…
 
-A SF Pro **não** é empacotada — a licença restringe o uso a desenvolvimento para plataformas
+A SF Pro **não** é empacotada, porque a licença restringe o uso a desenvolvimento para plataformas
 Apple. O stack de sistema entrega a SF Pro genuína em Mac, iPhone e iPad, e cai para Segoe UI
 Variable no Windows.
+
+### Ao acrescentar um text style
+
+`src/lib/cn.ts` mantém a lista dos text styles para o `tailwind-merge`. Sem ela, ele não
+distingue `text-body` (tamanho) de `text-label` (cor), joga os dois no mesmo grupo de conflito
+e **descarta a cor em silêncio**. Foi assim que todo botão preenchido acabou com texto preto
+sobre azul, sem erro nenhum no console.
+
+Criou um text style novo em `tokens/typography.css`? Adicione o nome em `TEXT_STYLES` no
+`cn.ts`. Há teste de regressão em `src/lib/cn.test.ts`.
 
 ### Cores de gráfico
 
 `--chart-1` a `--chart-8`, em `src/styles/tokens/chart.css`. **As system colors da Apple
-reprovam como paleta de gráfico** — `systemYellow` fica fora da faixa de luminosidade, verde↔rosa
+reprovam como paleta de gráfico**: `systemYellow` fica fora da faixa de luminosidade, verde↔rosa
 medem ΔE 6.5 sob deuteranopia e quatro delas ficam abaixo de 3:1 no branco.
 
 A paleta publicada preserva os ângulos de matiz OKLCH da Apple e re-passa luminosidade e chroma
 para dentro da faixa exigida. A **ordem dos slots é o mecanismo de segurança para daltonismo,
 não estética**: foi resolvida como caminho de gargalo máximo exigindo aprovação nos dois modos.
 
-Verificado com o validador da skill `dataviz` — CVD adjacente ΔE 18.0 claro / 18.4 escuro
+Verificado com o validador da skill `dataviz`: CVD adjacente ΔE 18.0 claro / 18.4 escuro
 (alvo ≥8), visão normal 21.6 / 21.7 (piso ≥15), contraste ≥3:1 nas duas superfícies.
 
 Regras: atribua os slots em ordem fixa, nunca cicle; a cor segue a entidade, nunca o ranking;
@@ -147,7 +157,7 @@ node <skill>/dataviz/scripts/validate_palette.js "<hexes>" --mode dark  --surfac
 
 ### Contraste: onde nos afastamos da Apple
 
-A paleta de UI da Apple não atinge o WCAG AA para texto pequeno. Optamos por um híbrido —
+A paleta de UI da Apple não atinge o WCAG AA para texto pequeno. Optamos por um híbrido:
 fidelidade nos preenchimentos, AA no texto:
 
 | Token                   | Apple              | Publicado          | Motivo        |
@@ -169,7 +179,7 @@ acessibilidade AA for exigida em auditoria.
 
 As três molas do SwiftUI vêm de simulação física real, expressas com `linear()`:
 `--spring-smooth`, `--spring-snappy` (padrão para controles), `--spring-bouncy`. Uma
-`cubic-bezier` não serviria — é monotônica e não consegue ultrapassar 1, então perderia o
+`cubic-bezier` não serviria, porque é monotônica e não consegue ultrapassar 1, então perderia o
 overshoot, que é justamente o que faz o movimento parecer da Apple.
 
 `prefers-reduced-motion` é respeitado globalmente.
@@ -182,14 +192,14 @@ Em `src/components/ui/`: `Button`, `Card`, `ListGroup`/`ListRow`, `SegmentedCont
 `Sheet` é a única com dependência externa (`@radix-ui/react-dialog`): focus trap, devolução de
 foco e `aria-modal` são fáceis de errar à mão e falham silenciosamente.
 
-`StatTile` codifica a direção três vezes — cor, seta e sinal. Não é redundância decorativa:
+`StatTile` codifica a direção três vezes: cor, seta e sinal. Não é redundância decorativa:
 daltonismo vermelho-verde é exatamente o eixo de ganho e perda, então o sinal precisa sobreviver
 sem a cor.
 
-A rota `/` é uma vitrine do sistema nos dois temas — use `npm run dev` para percorrê-la.
+A rota `/` é uma vitrine do sistema nos dois temas. Use `npm run dev` para percorrê-la.
 
 ## Editor
 
 O projeto inclui `.vscode/settings.json` (format-on-save + ESLint fix ao salvar) e
-`.vscode/extensions.json` com as extensões recomendadas — aceite o prompt do VS Code
+`.vscode/extensions.json` com as extensões recomendadas. Aceite o prompt do VS Code
 ao abrir o projeto pela primeira vez.

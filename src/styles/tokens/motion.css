@@ -1,10 +1,10 @@
 /* ==========================================================================
- * Motion — curvas e durações da Apple
+ * Motion: curvas e durações da Apple
  * --------------------------------------------------------------------------
  * As três molas do SwiftUI estão expressas com linear(), que representa uma
  * mola de verdade. Uma cubic-bezier não consegue: ela é monotônica e por
- * definição não pode ultrapassar 1, então o overshoot — a parte que faz a
- * animação parecer da Apple — se perde.
+ * definição não pode ultrapassar 1, então o overshoot, a parte que faz a
+ * animação parecer da Apple, se perde.
  *
  * Os valores vieram de simulação do sistema massa-mola de Spring(duration:bounce:),
  * com zeta = 1 - bounce e omega = 2*pi/duration. Note os passos acima de 1.0
@@ -19,7 +19,7 @@
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in: cubic-bezier(0.755, 0.05, 0.855, 0.06);
 
-  /* smooth — sem overshoot; use quando o movimento não deve chamar atenção */
+  /* smooth: sem overshoot; use quando o movimento não deve chamar atenção */
   --spring-smooth: linear(
     0 0%,
     0.0288 4.2%,
@@ -48,7 +48,7 @@
     1 100%
   );
 
-  /* snappy — overshoot discreto; o padrão para controles e seleção */
+  /* snappy: overshoot discreto; o padrão para controles e seleção */
   --spring-snappy: linear(
     0 0%,
     0.0295 4.2%,
@@ -77,7 +77,7 @@
     1 100%
   );
 
-  /* bouncy — overshoot pronunciado; reserve para momentos de celebração */
+  /* bouncy: overshoot pronunciado; reserve para momentos de celebração */
   --spring-bouncy: linear(
     0 0%,
     0.0303 4.2%,

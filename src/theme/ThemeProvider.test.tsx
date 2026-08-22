@@ -67,8 +67,8 @@ describe('ThemeProvider', () => {
 
     await userEvent.click(screen.getByRole('button', { name: 'sistema' }));
 
-    // Mesmo com a preferência em 'system', o DOM recebe o valor resolvido —
-    // os escopos de tema no CSS dependem disso.
+    // Mesmo com a preferência em 'system', o DOM recebe o valor resolvido,
+    // porque os escopos de tema no CSS dependem disso.
     expect(document.documentElement.dataset['theme']).toBe('light');
   });
 

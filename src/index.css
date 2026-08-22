@@ -17,7 +17,7 @@
  * Por isso a cor vem em dois níveis. Os valores semânticos vivem em :root e
  * nos escopos de tema (ver color.css); aqui o @theme *inline* faz o utilitário
  * emitir var(--…) em vez do valor resolvido. Resultado: bg-surface segue o
- * tema vivo, e componentes se escrevem contra papéis — quase nunca com a
+ * tema vivo, e componentes se escrevem contra papéis, quase nunca com a
  * variante dark:.
  * ========================================================================== */
 
@@ -57,7 +57,7 @@
   --color-accent-hover: var(--accent-hover);
   --color-accent-muted: var(--accent-muted);
 
-  /* Status — sempre com ícone + rótulo, nunca a cor sozinha */
+  /* Status: sempre com ícone + rótulo, nunca a cor sozinha */
   --color-good: var(--status-good);
   --color-warning: var(--status-warning);
   --color-serious: var(--status-serious);

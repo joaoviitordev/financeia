@@ -18,7 +18,7 @@ interface ThemeProviderProps {
 /**
  * Aplica o tema gravando data-theme no elemento raiz.
  *
- * Grava sempre um valor concreto ('light' ou 'dark'), nunca 'system' — os
+ * Grava sempre um valor concreto ('light' ou 'dark'), nunca 'system', porque os
  * escopos de tema no CSS e a variante dark: dependem disso. A preferência
  * 'system' vive no React e no localStorage, não no DOM.
  */

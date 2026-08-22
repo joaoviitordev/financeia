@@ -1,11 +1,11 @@
 /* ==========================================================================
- * Cores semânticas — Apple HIG
+ * Cores semânticas do Apple HIG
  * --------------------------------------------------------------------------
  * Valores oficiais das system colors da Apple, cada papel com par light/dark.
  *
  * Sobre os neutros: a ramp de cinza da Apple é deliberadamente enviesada para
  * o azul (#8E8E93, #F2F2F7 têm componente azul acima do vermelho). Isso a torna
- * análoga ao accent systemBlue — é um neutro escolhido, não um cinza herdado.
+ * análoga ao accent systemBlue. É um neutro escolhido, não um cinza herdado.
  *
  * Os papéis são declarados três vezes:
  *   1. :root                      → light, o padrão
@@ -28,8 +28,8 @@
 
   /* --- Labels --- */
   --label: #000000;
-  --label-secondary: rgba(60, 60, 67, 0.75); /* Apple usa .6 (3.44:1) — subido para AA */
-  --label-tertiary: rgba(60, 60, 67, 0.6); /* Apple usa .3 (1.72:1) — subido para AA */
+  --label-secondary: rgba(60, 60, 67, 0.75); /* Apple usa .6 (3.44:1), subido para AA */
+  --label-tertiary: rgba(60, 60, 67, 0.6); /* Apple usa .3 (1.72:1), subido para AA */
   --label-quaternary: rgba(60, 60, 67, 0.18);
   --label-placeholder: rgba(60, 60, 67, 0.3);
   --label-on-accent: #ffffff;
@@ -53,8 +53,8 @@
   --gray-6: #f2f2f7;
 
   /* --- Accent --- */
-  --accent: #007aff; /* preenchimento — hex exato da Apple */
-  --accent-text: #0068d9; /* texto/link — systemBlue reprova em texto (4.02:1) */
+  --accent: #007aff; /* preenchimento: hex exato da Apple */
+  --accent-text: #0068d9; /* texto/link: systemBlue reprova em texto (4.02:1) */
   --accent-hover: #0a6fe0;
   --accent-muted: rgba(0, 122, 255, 0.12);
   --focus-ring: rgba(0, 122, 255, 0.5);
@@ -62,7 +62,7 @@
   /* --- Status (system colors da Apple, verbatim) ---
    * Contraste baixo no light é intencional e igual ao da paleta de referência
    * da skill dataviz. A mitigação é obrigatória: ícone + rótulo, nunca a cor
-   * sozinha. Separação das séries: good ΔE 15.1, serious ΔE 19.1 — folgado.
+   * sozinha. Separação das séries: good ΔE 15.1, serious ΔE 19.1, folgado.
    * critical fica a ΔE 8.1 do vermelho de série: nunca use os dois no mesmo
    * gráfico sem rótulo direto. */
   --status-good: #34c759;
@@ -75,7 +75,7 @@
    * systemGreen puro reprova como texto no branco (2.22:1), por isso o ganho
    * no light é um passo mais escuro na mesma matiz da Apple (147.4°). */
   --delta-gain: #008932; /* 4.54:1 sobre #FFFFFF */
-  --delta-loss: #d70015; /* 5.38:1 sobre #FFFFFF — Apple Increased Contrast */
+  --delta-loss: #d70015; /* 5.38:1 sobre #FFFFFF, Apple Increased Contrast */
   --delta-flat: var(--label-secondary);
 }
 
@@ -93,7 +93,7 @@
 
     --label: #ffffff;
     --label-secondary: rgba(235, 235, 245, 0.6);
-    --label-tertiary: rgba(235, 235, 245, 0.4); /* Apple usa .3 (2.48:1) — subido para AA */
+    --label-tertiary: rgba(235, 235, 245, 0.4); /* Apple usa .3 (2.48:1), subido para AA */
     --label-quaternary: rgba(235, 235, 245, 0.16);
     --label-placeholder: rgba(235, 235, 245, 0.3);
     --label-on-accent: #ffffff;
@@ -113,7 +113,7 @@
     --gray-5: #2c2c2e;
     --gray-6: #1c1c1e;
 
-    --accent: #0a84ff; /* preenchimento — hex exato da Apple */
+    --accent: #0a84ff; /* preenchimento: hex exato da Apple */
     --accent-text: #0a84ff; /* no escuro o hex da Apple ja passa (4.66:1) */
     --accent-hover: #3d9bff;
     --accent-muted: rgba(10, 132, 255, 0.24);
@@ -124,8 +124,8 @@
     --status-serious: #ff9f0a;
     --status-critical: #ff453a;
 
-    --delta-gain: #30d158; /* 8.42:1 sobre #1C1C1E — Apple verbatim */
-    --delta-loss: #ff453a; /* 4.99:1 sobre #1C1C1E — Apple verbatim */
+    --delta-gain: #30d158; /* 8.42:1 sobre #1C1C1E, Apple verbatim */
+    --delta-loss: #ff453a; /* 4.99:1 sobre #1C1C1E, Apple verbatim */
     --delta-flat: var(--label-secondary);
   }
 }
@@ -142,8 +142,8 @@
   --bg-tertiary: #ffffff;
 
   --label: #000000;
-  --label-secondary: rgba(60, 60, 67, 0.75); /* Apple usa .6 (3.44:1) — subido para AA */
-  --label-tertiary: rgba(60, 60, 67, 0.6); /* Apple usa .3 (1.72:1) — subido para AA */
+  --label-secondary: rgba(60, 60, 67, 0.75); /* Apple usa .6 (3.44:1), subido para AA */
+  --label-tertiary: rgba(60, 60, 67, 0.6); /* Apple usa .3 (1.72:1), subido para AA */
   --label-quaternary: rgba(60, 60, 67, 0.18);
   --label-placeholder: rgba(60, 60, 67, 0.3);
   --label-on-accent: #ffffff;
@@ -163,8 +163,8 @@
   --gray-5: #e5e5ea;
   --gray-6: #f2f2f7;
 
-  --accent: #007aff; /* preenchimento — hex exato da Apple */
-  --accent-text: #0068d9; /* texto/link — systemBlue reprova em texto (4.02:1) */
+  --accent: #007aff; /* preenchimento: hex exato da Apple */
+  --accent-text: #0068d9; /* texto/link: systemBlue reprova em texto (4.02:1) */
   --accent-hover: #0a6fe0;
   --accent-muted: rgba(0, 122, 255, 0.12);
   --focus-ring: rgba(0, 122, 255, 0.5);
@@ -192,7 +192,7 @@
 
   --label: #ffffff;
   --label-secondary: rgba(235, 235, 245, 0.6);
-  --label-tertiary: rgba(235, 235, 245, 0.4); /* Apple usa .3 (2.48:1) — subido para AA */
+  --label-tertiary: rgba(235, 235, 245, 0.4); /* Apple usa .3 (2.48:1), subido para AA */
   --label-quaternary: rgba(235, 235, 245, 0.16);
   --label-placeholder: rgba(235, 235, 245, 0.3);
   --label-on-accent: #ffffff;
@@ -212,7 +212,7 @@
   --gray-5: #2c2c2e;
   --gray-6: #1c1c1e;
 
-  --accent: #0a84ff; /* preenchimento — hex exato da Apple */
+  --accent: #0a84ff; /* preenchimento: hex exato da Apple */
   --accent-text: #0a84ff; /* no escuro o hex da Apple ja passa (4.66:1) */
   --accent-hover: #3d9bff;
   --accent-muted: rgba(10, 132, 255, 0.24);

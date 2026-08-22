@@ -1,4 +1,5 @@
 import * as Dialog from '@radix-ui/react-dialog';
+import { X } from 'lucide-react';
 import type { ReactNode } from 'react';
 
 import { cn } from '@/lib/cn';
@@ -21,7 +22,7 @@ interface SheetProps {
  * resto da página são fáceis de errar à mão, e um erro aí quebra a navegação
  * por teclado e por leitor de tela de forma silenciosa.
  *
- * O material é o único ponto de vidro dentro de conteúdo — aqui ele se
+ * O material é o único ponto de vidro dentro de conteúdo, e aqui ele se
  * justifica: a sheet flutua sobre a página e a translucidez comunica a
  * profundidade e mantém o contexto visível por trás.
  */
@@ -72,14 +73,7 @@ export function Sheet({ open, onOpenChange, title, description, children, footer
                 'transition-colors duration-150 hover:bg-fill',
               )}
             >
-              <svg viewBox="0 0 14 14" className="h-3.5 w-3.5" fill="none" aria-hidden="true">
-                <path
-                  d="M3.5 3.5 10.5 10.5M10.5 3.5 3.5 10.5"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-              </svg>
+              <X aria-hidden="true" className="h-3.5 w-3.5" strokeWidth={2.5} />
             </Dialog.Close>
           </header>
 

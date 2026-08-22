@@ -7,7 +7,7 @@ interface CardProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * Superfície de conteúdo. Opaca por decisão de projeto — vidro fica restrito à
+ * Superfície de conteúdo. Opaca por decisão de projeto: vidro fica restrito à
  * navegação, porque translucidez atrás de valores e gráficos torna o contraste
  * dependente do que passa por baixo.
  *
@@ -29,7 +29,7 @@ export function Card({ className, children, ...props }: CardProps) {
 
 interface CardHeaderProps extends HTMLAttributes<HTMLDivElement> {
   title: string;
-  /** Rótulo curto acima do título — use só quando disser algo verdadeiro. */
+  /** Rótulo curto acima do título. Use só quando disser algo verdadeiro. */
   eyebrow?: string;
   action?: ReactNode;
 }

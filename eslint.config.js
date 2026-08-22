@@ -12,7 +12,7 @@ export default defineConfig([
   globalIgnores(['dist', 'coverage', 'node_modules', '.husky']),
 
   /* ---------------------------------------------------------------- *
-   * Aplicação (src) — lint com informação de tipos                    *
+   * Aplicação (src): lint com informação de tipos                    *
    * ---------------------------------------------------------------- */
   {
     name: 'financeia/app',

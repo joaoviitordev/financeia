@@ -1,15 +1,15 @@
 /* ==========================================================================
- * Materiais — Liquid Glass, restrito à navegação
+ * Materiais: Liquid Glass, restrito à navegação
  * --------------------------------------------------------------------------
  * Decisão de projeto: vidro APENAS em sidebar, toolbar, tab bar, sheets e
- * popovers. Superfícies de conteúdo — cards, listas, gráficos, tabelas —
+ * popovers. Superfícies de conteúdo (cards, listas, gráficos, tabelas)
  * ficam opacas. É o que a própria Apple faz, e por um bom motivo: vidro atrás
  * de dado financeiro denso destrói a legibilidade e transforma cada valor num
  * problema de contraste variável, que depende do que passa por baixo.
  *
  * Um material da Apple é composição, não só blur:
  *   1. desfoque do fundo
- *   2. realce de saturação (a "vibrancy" — o fundo fica mais colorido, não menos)
+ *   2. realce de saturação (a "vibrancy": o fundo fica mais colorido, não menos)
  *   3. tinta translúcida por cima
  *   4. hairline de borda
  *   5. realce especular na aresta superior, que dá o volume do vidro
@@ -33,7 +33,7 @@
   /* Fallback opaco, usado onde backdrop-filter não existe */
   --material-fallback: #f7f7fa;
 
-  /* Sombras — a Apple as reserva para o que flutua de fato.
+  /* Sombras: a Apple as reserva para o que flutua de fato.
    * Listas agrupadas NÃO levam sombra: a separação vem da cor de fundo. */
   --shadow-popover: 0 8px 28px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.08);
   --shadow-sheet: 0 -2px 40px rgba(0, 0, 0, 0.18);
@@ -86,7 +86,7 @@
 /* --- Classes de material --------------------------------------------------
  * O fallback vem PRIMEIRO e é opaco. Sem isso, onde backdrop-filter não
  * existe, o vidro degrada para um retângulo semitransparente com texto
- * ilegível por cima — pior do que não ter vidro nenhum. */
+ * ilegível por cima, pior do que não ter vidro nenhum. */
 
 .material {
   background-color: var(--material-fallback);

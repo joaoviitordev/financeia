@@ -3,7 +3,7 @@ import { deltaDirection, formatSignedPercent } from '@/lib/format';
 
 interface StatTileProps {
   label: string;
-  /** Já formatado — a tile não decide moeda nem casas decimais. */
+  /** Já formatado. A tile não decide moeda nem casas decimais. */
   value: string;
   /** Variação como fração: 0.082 é +8,2%. */
   delta?: number;
@@ -15,7 +15,7 @@ interface StatTileProps {
 const ARROW = {
   up: '▲',
   down: '▼',
-  flat: '—',
+  flat: '=',
 } as const;
 
 const TONE = {
@@ -28,7 +28,7 @@ const TONE = {
  * Número em destaque com sua variação.
  *
  * A direção é codificada três vezes: cor, seta e sinal. Isso não é redundância
- * decorativa — cor sozinha não chega para quem tem daltonismo vermelho-verde,
+ * decorativa: cor sozinha não chega para quem tem daltonismo vermelho-verde,
  * que é justamente o eixo usado para ganho e perda. A seta e o sinal fazem a
  * informação sobreviver sem a cor.
  *

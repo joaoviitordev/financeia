@@ -4,9 +4,9 @@ import { cn } from '@/lib/cn';
 
 interface SparklineProps {
   data: readonly number[];
-  /** Descrição do que a linha mostra — a curva sozinha não é legível por leitor de tela. */
+  /** Descrição do que a linha mostra. A curva sozinha não é legível por leitor de tela. */
   label: string;
-  /** Token de série (1–8) da paleta validada. */
+  /** Token de série (1 a 8) da paleta validada. */
   series?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
   className?: string;
 }
@@ -19,7 +19,7 @@ const PAD = 4;
  * Linha de tendência compacta.
  *
  * Segue as especificações de marca da skill dataviz: traço de 2px, preenchimento
- * de área suave sob a linha e ponto final destacado — a área dá peso à direção
+ * de área suave sob a linha e ponto final destacado. A área dá peso à direção
  * e o ponto final ancora onde a série *está agora*, que é o que se quer saber.
  *
  * Sem eixos e sem grade de propósito: uma sparkline mostra formato, não valor.

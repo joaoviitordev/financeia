@@ -1,3 +1,4 @@
+import { ChevronRight } from 'lucide-react';
 import type { HTMLAttributes, ReactNode } from 'react';
 
 import { cn } from '@/lib/cn';
@@ -11,7 +12,7 @@ interface ListGroupProps extends HTMLAttributes<HTMLElement> {
 }
 
 /**
- * Lista agrupada inset — o padrão de lista do iOS.
+ * Lista agrupada inset, o padrão de lista do iOS.
  *
  * Os separadores começam recuados e alinhados ao conteúdo, não à borda do
  * card, e o último some. É um detalhe pequeno que, se errado, é a primeira
@@ -59,26 +60,17 @@ export function ListRow({ label, caption, value, leading, onSelect }: ListRowPro
       <span className="ml-auto flex shrink-0 items-center gap-2">
         {value !== undefined && <span className="text-body text-label-secondary">{value}</span>}
         {interactive && (
-          <svg
+          <ChevronRight
             aria-hidden="true"
-            viewBox="0 0 8 13"
-            className="h-3 w-2 shrink-0 text-label-tertiary"
-            fill="none"
-          >
-            <path
-              d="M1.5 1.5 6.5 6.5 1.5 11.5"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+            className="h-4 w-4 shrink-0 text-label-tertiary"
+            strokeWidth={2.5}
+          />
         )}
       </span>
     </>
   );
 
-  // O separador é um ::after recuado à esquerda, alinhado ao texto — e não uma
+  // O separador é um ::after recuado à esquerda, alinhado ao texto, e não uma
   // borda, que iria de ponta a ponta do card.
   const rowClass = cn(
     'relative flex min-h-11 w-full items-center gap-3 px-4 py-2.5',

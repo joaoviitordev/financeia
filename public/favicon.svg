@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Finance IA">
+  <!-- Ícone chart-line do lucide (grid 24x24) sobre um tile na cor de accent.
+       O glifo sozinho, em traço, some na barra de abas: em 16px o que se
+       enxerga é a silhueta, e o tile é o que garante contraste tanto na aba
+       clara quanto na escura. -->
+  <style>
+    .tile { fill: #007aff; }
+    @media (prefers-color-scheme: dark) {
+      .tile { fill: #0a84ff; }
+    }
+  </style>
+
+  <rect class="tile" width="32" height="32" rx="7" />
+
+  <g
+    transform="translate(4 4)"
+    fill="none"
+    stroke="#ffffff"
+    stroke-width="2.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <path d="M3 3v16a2 2 0 0 0 2 2h16" />
+    <path d="m19 9-5 5-4-4-3 3" />
+  </g>
+</svg>

@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import { cn } from '@/lib/cn';
 
 /* ==========================================================================
- * Chrome de navegação — a única parte da interface que leva Liquid Glass.
+ * Chrome de navegação: a única parte da interface que leva Liquid Glass.
  * O material só faz sentido quando há conteúdo rolando por baixo; sobre um
  * fundo estático ele vira apenas um retângulo acinzentado mais caro.
  * ========================================================================== */
@@ -41,7 +41,7 @@ interface SidebarProps {
 }
 
 /**
- * Sidebar do macOS. Linhas de 28px — é navegação por ponteiro, não por toque,
+ * Sidebar do macOS. Linhas de 28px, porque é navegação por ponteiro, não por toque,
  * e a altura menor é o que dá a densidade de app desktop.
  */
 export function Sidebar({ items, activeId, onSelect }: SidebarProps) {

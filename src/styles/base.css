@@ -1,5 +1,5 @@
 /* ==========================================================================
- * Base — reset complementar, tipografia do documento e foco
+ * Base: reset complementar, tipografia do documento e foco
  * ========================================================================== */
 
 @layer base {
@@ -36,11 +36,19 @@
   }
 
   /* O anel de foco da Apple: halo azul espesso, não um outline fino.
-   * :focus-visible e não :focus — clique de mouse não deve acender o anel. */
+   * :focus-visible e não :focus, porque clique de mouse não deve acender o anel. */
   :focus-visible {
     outline: none;
     box-shadow: 0 0 0 3.5px var(--focus-ring);
     border-radius: var(--radius-xs);
+  }
+
+  /* O preflight do Tailwind v4 deixa botão com cursor: default. Mão em cima do
+   * que é clicável é o que se espera de um ponteiro; o desabilitado fica de
+   * fora porque ali não há nada a clicar. */
+  button:not(:disabled),
+  [role='button']:not([aria-disabled='true']) {
+    cursor: pointer;
   }
 
   /* Seleção de texto na cor de accent */
@@ -63,7 +71,7 @@
 
 @layer utilities {
   /* Valores monetários e colunas numéricas. Reservado a dígitos que precisam
-   * alinhar verticalmente — números heroicos ficam com figuras proporcionais,
+   * alinhar verticalmente. Números heroicos ficam com figuras proporcionais,
    * que é como a Apple os desenha. */
   .tabular-figures {
     font-variant-numeric: tabular-nums;
