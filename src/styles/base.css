@@ -89,10 +89,19 @@
   }
 }
 
-/* --- Keyframes usados pela Sheet ------------------------------------------
- * Declarados fora de @layer para que o `animation:` inline dos componentes
- * consiga referenciá-los. O bloco de prefers-reduced-motion em motion.css já
- * neutraliza a duração destes. */
+/* --- Animação da Sheet -----------------------------------------------------
+ * Fora de @layer para o componente conseguir referenciar as classes, e o
+ * bloco de prefers-reduced-motion em motion.css já neutraliza a duração.
+ *
+ * As keyframes animam `translate` e `scale`, as propriedades próprias, e não
+ * `transform`: o Tailwind v4 posiciona a sheet centralizada com
+ * `translate: -50% -50%`, e um `transform: translate(...)` por cima SOMA em
+ * vez de substituir — a sheet ia parar no canto superior esquerdo enquanto a
+ * animação durasse.
+ *
+ * São dois nomes, e não o mesmo nome redeclarado dentro de @media: keyframes
+ * condicionais dependem de o navegador reavaliar a regra, e trocar o
+ * animation-name é inequívoco. */
 @keyframes sheet-fade {
   from {
     opacity: 0;
@@ -102,26 +111,42 @@
   }
 }
 
-@keyframes sheet-in {
+/* Mobile: sobe de baixo, encostada na borda. */
+@keyframes sheet-rise {
   from {
     opacity: 0;
-    transform: translateY(100%);
+    translate: 0 100%;
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    translate: 0 0;
   }
 }
 
+/* Desktop: nasce no centro, um respiro abaixo do lugar final. */
+@keyframes sheet-zoom {
+  from {
+    opacity: 0;
+    translate: -50% -46%;
+    scale: 0.96;
+  }
+  to {
+    opacity: 1;
+    translate: -50% -50%;
+    scale: 1;
+  }
+}
+
+.sheet-overlay {
+  animation: sheet-fade var(--duration-base) var(--ease-standard);
+}
+
+.sheet-content {
+  animation: sheet-rise var(--duration-slow) var(--ease-standard);
+}
+
 @media (min-width: 40rem) {
-  @keyframes sheet-in {
-    from {
-      opacity: 0;
-      transform: translate(-50%, -46%) scale(0.96);
-    }
-    to {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
-    }
+  .sheet-content {
+    animation-name: sheet-zoom;
   }
 }

@@ -178,7 +178,7 @@ export function HistoryList({ onOpen, onStart, onDeleted }: HistoryListProps) {
         }}
         title={pending?.kind === 'all' ? 'Apagar todas as simulações?' : 'Apagar esta simulação?'}
         footer={
-          <div className="flex flex-col gap-2">
+          <div className="flex w-full flex-col gap-2">
             <Button variant="destructive" size="lg" full onClick={confirm}>
               {pending?.kind === 'all' ? 'Apagar todas' : 'Apagar'}
             </Button>
