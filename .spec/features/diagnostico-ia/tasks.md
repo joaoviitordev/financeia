@@ -40,7 +40,7 @@
 - Esforço: medio
 - Notas: depende de T-006 (tipos). O registro ganha um `insight` opcional e o `SimulationPatch` passa a aceitá-lo, inclusive para apagá-lo. Registro guardado antes desta mudança (sem o campo) continua válido na leitura — o validador não pode passar a descartar simulação antiga. Diagnóstico corrompido no armazenamento derruba só o diagnóstico daquele registro, nunca a lista inteira.
 
-## T-010 — Hook do diagnóstico, com cache e trava [pendente]
+## T-010 — Hook do diagnóstico, com cache e trava [concluida]
 
 - Refs: US-008, AC-023, AC-024
 - Arquivos: src/features/insights/useInsight.ts, src/features/insights/useInsight.test.tsx
@@ -48,7 +48,7 @@
 - Esforço: alto
 - Notas: depende de T-006, T-007, T-008 e T-009. `useInsight(id)` devolve `{ insight, isLoading, error, retry }`, inicializa do registro guardado (se já existe diagnóstico, não chama a API — é o que faz reabrir sair de graça, AC-024), usa um `useRef` como trava de requisição em voo para o StrictMode não pagar duas chamadas (AC-023), grava com `updateSimulation` ao terminar e o `retry` limpa o erro e refaz ignorando o cache. Sem chave, nem tenta a rede: devolve o estado de "falta configurar".
 
-## T-011 — Concluir de novo descarta o diagnóstico velho [pendente]
+## T-011 — Concluir de novo descarta o diagnóstico velho [concluida]
 
 - Refs: US-008, AC-026
 - Arquivos: src/features/onboarding/useOnboarding.ts, src/features/insights/reconclusao.test.tsx

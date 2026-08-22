@@ -92,9 +92,12 @@ export function useOnboarding(
 
     // Última pergunta confirmada: a simulação vira um registro com endereço
     // próprio antes de qualquer tela aparecer.
+    // `insight: undefined` apaga o diagnóstico da conclusão anterior: ele
+    // falava dos números antigos, e texto velho ao lado de card novo é o pior
+    // resultado possível (ASM-012).
     const previous = savedId.current;
     const id =
-      previous !== null && updateSimulation(previous, { answers })
+      previous !== null && updateSimulation(previous, { answers, insight: undefined })
         ? previous
         : saveSimulation(answers);
     savedId.current = id;
