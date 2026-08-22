@@ -1,6 +1,7 @@
 import { createBrowserRouter, type RouteObject } from 'react-router-dom';
 
 import App from '@/App';
+import { ResultPage } from '@/routes/ResultPage';
 import { SimulationPage } from '@/routes/SimulationPage';
 
 /**
@@ -8,8 +9,8 @@ import { SimulationPage } from '@/routes/SimulationPage';
  * testes reaproveitam `routes` num `createMemoryRouter`, e criar dois
  * `BrowserRouter` no mesmo processo dispara aviso do react-router.
  *
- * `/resultado/:id` e `/historico` ainda são placeholders — ganham conteúdo
- * em T-004 e numa etapa fora desta trilha, respectivamente.
+ * `/historico` ainda é placeholder — a tela de listagem está fora desta
+ * trilha (etapa E10 do roteiro).
  */
 export const routes: RouteObject[] = [
   {
@@ -17,7 +18,7 @@ export const routes: RouteObject[] = [
     element: <App />,
     children: [
       { index: true, element: <SimulationPage /> },
-      { path: 'resultado/:id', element: <p>Resultado em construção.</p> },
+      { path: 'resultado/:id', element: <ResultPage /> },
       { path: 'historico', element: <p>Histórico em construção.</p> },
     ],
   },

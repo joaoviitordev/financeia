@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 
 import { toPlanInput } from '@/features/onboarding/answers-to-plan';
 import { getField } from '@/features/onboarding/fields/registry';
@@ -9,6 +9,7 @@ import {
   type Question,
   QUESTIONS,
 } from '@/features/onboarding/questions';
+import { saveSimulation, updateSimulation } from '@/features/simulations/storage';
 
 export type Stage =
   { name: 'welcome' } | { name: 'questions'; index: number } | { name: 'summary' };
@@ -41,10 +42,21 @@ export interface OnboardingState {
  *
  * O `planner` entra por parâmetro para o fluxo não ficar preso a um algoritmo
  * de metas específico.
+ *
+ * Concluir a última pergunta guarda a simulação e devolve o identificador por
+ * `onConcluded` (AC-010). O hook não conhece rotas de propósito: quem decide
+ * para onde ir com esse identificador é a tela que o chama.
  */
-export function useOnboarding(planner: Planner = buildPlan): OnboardingState {
+export function useOnboarding(
+  planner: Planner = buildPlan,
+  onConcluded?: (id: string) => void,
+): OnboardingState {
   const [stage, setStage] = useState<Stage>({ name: 'welcome' });
   const [answers, setAnswers] = useState<Answers>(EMPTY_ANSWERS);
+  // Voltar do resumo e confirmar de novo corrige a mesma simulação em vez de
+  // criar outra: senão cada ida e volta deixaria um registro órfão no
+  // armazenamento, e o endereço da primeira conclusão ficaria desatualizado.
+  const savedId = useRef<string | null>(null);
 
   const plan = useMemo(() => planner(toPlanInput(answers)), [answers, planner]);
 
@@ -70,15 +82,26 @@ export function useOnboarding(planner: Planner = buildPlan): OnboardingState {
   );
 
   const next = useCallback(() => {
-    setStage((current) => {
-      if (current.name !== 'questions') {
-        return current;
-      }
-      return current.index === QUESTIONS.length - 1
-        ? { name: 'summary' }
-        : { name: 'questions', index: current.index + 1 };
-    });
-  }, []);
+    if (stage.name !== 'questions') {
+      return;
+    }
+    if (stage.index < QUESTIONS.length - 1) {
+      setStage({ name: 'questions', index: stage.index + 1 });
+      return;
+    }
+
+    // Última pergunta confirmada: a simulação vira um registro com endereço
+    // próprio antes de qualquer tela aparecer.
+    const previous = savedId.current;
+    const id =
+      previous !== null && updateSimulation(previous, { answers })
+        ? previous
+        : saveSimulation(answers);
+    savedId.current = id;
+
+    setStage({ name: 'summary' });
+    onConcluded?.(id);
+  }, [stage, answers, onConcluded]);
 
   // Voltar sempre existe: do primeiro passo cai na apresentação, e do resumo
   // volta para a última pergunta. Mudar de ideia não deve custar recomeçar.
@@ -98,6 +121,7 @@ export function useOnboarding(planner: Planner = buildPlan): OnboardingState {
 
   const restart = useCallback(() => {
     setAnswers(EMPTY_ANSWERS);
+    savedId.current = null;
     setStage({ name: 'welcome' });
   }, []);
 

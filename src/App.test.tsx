@@ -44,13 +44,16 @@ describe('App', () => {
     expect(screen.getByLabelText(/somando todas as fontes/i)).toHaveValue('');
   });
 
-  it('abre o histórico e explica que nada é guardado', async () => {
+  // O texto mudou junto com o armazenamento (Q-001): dizer que nada é gravado
+  // passou a ser mentira no momento em que a conclusão guarda a simulação.
+  it('abre o histórico e diz que as simulações ficam no dispositivo', async () => {
     const user = userEvent.setup();
     renderApp();
 
     await user.click(screen.getByRole('button', { name: 'Ver histórico' }));
 
     expect(screen.getByRole('dialog', { name: 'Histórico' })).toBeInTheDocument();
-    expect(screen.getByText('Nenhuma simulação guardada')).toBeInTheDocument();
+    expect(screen.getByText('Nenhuma simulação por aqui ainda')).toBeInTheDocument();
+    expect(screen.getByText(/ficam guardadas neste dispositivo/i)).toBeInTheDocument();
   });
 });

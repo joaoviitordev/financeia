@@ -32,7 +32,7 @@ describe('SimulationPage', () => {
     // ...dentro do cabeçalho... (a Welcome tem um <header> próprio, aninhado
     // dentro do <main>, que a árvore de acessibilidade também expõe como
     // "banner" — o cabeçalho da aplicação é sempre o primeiro do documento).
-    const [appHeader] = screen.getAllByRole('banner');
+    const appHeader = screen.getAllByRole('banner')[0]!;
     expect(within(appHeader).getByText('Finance IA')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Nova simulação' })).toBeInTheDocument();
 

@@ -239,10 +239,10 @@
       "codigo": "AC_SEM_PROVA",
       "feature": "resultado-persistido",
       "ref": "AC-010",
-      "ocorrencias": 3,
+      "ocorrencias": 5,
       "primeiraVez": "2026-08-22T16:18:36.551Z",
-      "ultimaVez": "2026-08-22T16:35:29.918Z",
-      "gitRev": "19b98ac"
+      "ultimaVez": "2026-08-22T21:25:37.330Z",
+      "gitRev": "254e9aa"
     },
     "AC_SEM_PROVA::resultado-persistido::AC-011": {
       "codigo": "AC_SEM_PROVA",
@@ -347,10 +347,10 @@
       "codigo": "VERIFY_FALHOU",
       "feature": "resultado-persistido",
       "ref": "AC-010",
-      "ocorrencias": 2,
+      "ocorrencias": 3,
       "primeiraVez": "2026-08-22T16:35:00.495Z",
-      "ultimaVez": "2026-08-22T16:36:43.388Z",
-      "gitRev": "f043a3b"
+      "ultimaVez": "2026-08-22T16:50:14.242Z",
+      "gitRev": "254e9aa"
     },
     "VERIFY_FALHOU::resultado-persistido::AC-011": {
       "codigo": "VERIFY_FALHOU",

@@ -1,11 +1,11 @@
 {
   "feature": "resultado-persistido",
-  "timestamp": "2026-08-22T16:36:43.314Z",
-  "gitRev": "f043a3b",
+  "timestamp": "2026-08-22T21:34:21.166Z",
+  "gitRev": "254e9aa",
   "command": "npx vitest run --reporter=json --outputFile=.spec/verification/raw.json",
   "reporter": "vitest-json",
-  "exitCode": 1,
-  "testsParsed": 76,
+  "exitCode": 0,
+  "testsParsed": 77,
   "results": {
     "AC-001": {
       "status": "pass",
@@ -53,18 +53,18 @@
       "method": "vitest-json"
     },
     "AC-010": {
-      "status": "fail",
-      "testName": "AC-010: Concluir leva ao resultado da simulação criada @spec:AC-010 AC-010: Concluir leva ao resultado da simulação criada @spec:AC-010",
+      "status": "pass",
+      "testName": "conclusão da simulação AC-010: Concluir leva ao resultado da simulação criada @spec:AC-010 AC-010: Concluir leva ao resultado da simulação criada @spec:AC-010",
       "method": "vitest-json"
     },
     "AC-011": {
-      "status": "fail",
-      "testName": "AC-011: O resultado mostra os números da simulação @spec:AC-011 AC-011: O resultado mostra os números da simulação @spec:AC-011",
+      "status": "pass",
+      "testName": "ResultPage AC-011: O resultado mostra os números da simulação @spec:AC-011 AC-011: O resultado mostra os números da simulação @spec:AC-011",
       "method": "vitest-json"
     },
     "AC-012": {
-      "status": "fail",
-      "testName": "AC-012: Endereço de simulação inexistente é explicado @spec:AC-012 AC-012: Endereço de simulação inexistente é explicado @spec:AC-012",
+      "status": "pass",
+      "testName": "ResultPage AC-012: Endereço de simulação inexistente é explicado @spec:AC-012 AC-012: Endereço de simulação inexistente é explicado @spec:AC-012",
       "method": "vitest-json"
     }
   },

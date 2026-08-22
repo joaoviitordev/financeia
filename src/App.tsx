@@ -24,7 +24,7 @@ function App() {
           // Navegar para `/` — mesmo já estando lá — gera uma `location.key`
           // nova, e é essa troca que remonta a `SimulationPage` com as
           // respostas limpas.
-          navigate('/');
+          void navigate('/');
         }}
         onShowHistory={() => {
           setHistoryOpen(true);
@@ -40,10 +40,11 @@ function App() {
       <Sheet open={historyOpen} onOpenChange={setHistoryOpen} title="Histórico">
         <div className="flex flex-col items-center gap-3 py-6 text-center">
           <History aria-hidden="true" className="h-9 w-9 text-label-tertiary" strokeWidth={1.5} />
-          <p className="text-headline text-label">Nenhuma simulação guardada</p>
+          <p className="text-headline text-label">Nenhuma simulação por aqui ainda</p>
           <p className="text-subheadline text-balance text-label-secondary">
-            As respostas vivem enquanto esta aba está aberta e somem ao recarregar a página. Como
-            nada é gravado no dispositivo, não há o que listar aqui.
+            As simulações que você concluir ficam guardadas neste dispositivo, e só nele — dá para
+            apagá-las quando quiser, limpando os dados do navegador. A listagem delas chega numa
+            próxima etapa.
           </p>
         </div>
       </Sheet>
