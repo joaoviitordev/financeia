@@ -2,8 +2,9 @@ import './index.css';
 
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { RouterProvider } from 'react-router-dom';
 
-import App from '@/App';
+import { router } from '@/router';
 import { ThemeProvider } from '@/theme/ThemeProvider';
 
 const rootElement = document.getElementById('root');
@@ -15,7 +16,7 @@ if (!rootElement) {
 createRoot(rootElement).render(
   <StrictMode>
     <ThemeProvider>
-      <App />
+      <RouterProvider router={router} />
     </ThemeProvider>
   </StrictMode>,
 );
