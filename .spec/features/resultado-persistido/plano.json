@@ -1,0 +1,112 @@
+{
+  "runId": "financeia-resultado-persistido-mt4l3dyw",
+  "feature": "resultado-persistido",
+  "agent": "claude",
+  "modo": "paralelo",
+  "paralelizar": ["T-001", "T-002", "T-003"],
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-08-22 16:19",
+  "branchTrabalho": "spec/resultado-persistido",
+  "baseDir": ".spec/features/resultado-persistido",
+  "specDir": ".spec",
+  "repoName": "financeia",
+  "logsDir": "../onp-worktrees/financeia-resultado-persistido-logs",
+  "ondas": [["faixa-1", "faixa-2", "faixa-3"]],
+  "faixas": [
+    {
+      "id": "faixa-1",
+      "branch": "spec/resultado-persistido-faixa-1",
+      "worktree": "../onp-worktrees/financeia-resultado-persistido-faixa-1",
+      "tarefas": [
+        {
+          "id": "T-001",
+          "titulo": "Rotas e layout raiz",
+          "modelo": "claude-sonnet-5",
+          "esforco": "medium",
+          "arquivos": [
+            "src/router.tsx",
+            "src/routes/SimulationPage.tsx",
+            "src/App.tsx",
+            "src/main.tsx",
+            "src/App.test.tsx",
+            "src/routes/SimulationPage.test.tsx"
+          ],
+          "refs": ["US-001", "AC-001", "AC-002"]
+        }
+      ]
+    },
+    {
+      "id": "faixa-2",
+      "branch": "spec/resultado-persistido-faixa-2",
+      "worktree": "../onp-worktrees/financeia-resultado-persistido-faixa-2",
+      "tarefas": [
+        {
+          "id": "T-002",
+          "titulo": "Perguntas de dívidas e prazo, com o cálculo",
+          "modelo": "claude-sonnet-5",
+          "esforco": "high",
+          "arquivos": [
+            "src/features/onboarding/questions.ts",
+            "src/features/onboarding/fields/types.ts",
+            "src/features/onboarding/fields/registry.ts",
+            "src/features/onboarding/answers-to-plan.ts",
+            "src/features/onboarding/goals.ts",
+            "src/components/ui/Field.tsx",
+            "src/features/onboarding/goals.test.ts",
+            "src/features/onboarding/Onboarding.test.tsx",
+            "src/features/onboarding/dividas-e-prazo.test.tsx"
+          ],
+          "refs": ["US-002", "AC-003", "AC-004", "AC-005", "AC-006"]
+        }
+      ]
+    },
+    {
+      "id": "faixa-3",
+      "branch": "spec/resultado-persistido-faixa-3",
+      "worktree": "../onp-worktrees/financeia-resultado-persistido-faixa-3",
+      "tarefas": [
+        {
+          "id": "T-003",
+          "titulo": "Armazenamento das simulações",
+          "modelo": "claude-sonnet-5",
+          "esforco": "high",
+          "arquivos": [
+            "src/features/simulations/storage.ts",
+            "src/features/simulations/storage.test.ts"
+          ],
+          "refs": ["US-003", "AC-007", "AC-008", "AC-009"]
+        }
+      ]
+    }
+  ],
+  "sequenciais": [
+    {
+      "id": "T-004",
+      "titulo": "Página de resultado",
+      "modelo": "claude-sonnet-5",
+      "esforco": "high",
+      "arquivos": [
+        "src/routes/ResultPage.tsx",
+        "src/features/simulations/SimulationCards.tsx",
+        "src/routes/ResultPage.test.tsx"
+      ],
+      "refs": ["US-004", "AC-011", "AC-012"]
+    },
+    {
+      "id": "T-005",
+      "titulo": "Conclusão guarda a simulação e navega",
+      "modelo": "claude-sonnet-5",
+      "esforco": "medium",
+      "arquivos": [
+        "src/features/onboarding/useOnboarding.ts",
+        "src/routes/SimulationPage.tsx",
+        "src/App.tsx",
+        "src/features/simulations/conclusao.test.tsx"
+      ],
+      "refs": ["US-004", "AC-010"]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}
