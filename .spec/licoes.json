@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "proximoId": 2,
+  "licoes": [
+    {
+      "id": "L-001",
+      "texto": "Sair com código 0 não é prova: o agente headless também sai 0 quando desiste e pede ajuda. Só marque a tarefa concluída depois do verify apontar PASS no critério dela.",
+      "chave": "TASK_CONCLUIDA_SEM_PROVA::sair com codigo 0 nao e prova o agente headless tambem sai 0 quando desiste e pede ajuda so marque a tarefa concluida depois do verify apontar pass no criterio dela",
+      "sinal": "TASK_CONCLUIDA_SEM_PROVA",
+      "escopo": null,
+      "status": "candidata",
+      "recorrencia": 1,
+      "features": ["diagnostico-ia"],
+      "evidencias": [
+        {
+          "fonte": "T-006",
+          "feature": "diagnostico-ia",
+          "quando": "2026-08-22T23:19:59.393Z",
+          "gitRev": "4bf278e"
+        }
+      ],
+      "penalidades": 0,
+      "criadaEm": "2026-08-22T23:19:59.393Z",
+      "ultimaVez": "2026-08-22T23:19:59.393Z"
+    }
+  ]
+}
