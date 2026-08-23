@@ -1,3 +1,4 @@
+import { type ChatMessage, isChatMessages } from '@/features/insights/chat-types';
 import { type InsightData, isInsightData } from '@/features/insights/types';
 import type { Answers } from '@/features/onboarding/questions';
 
@@ -19,15 +20,23 @@ export interface SimulationRecord {
   answers: Answers;
   /** O diagnóstico já gerado. Ausente enquanto ninguém abriu o resultado. */
   insight?: InsightData;
+  /**
+   * A conversa com o educador sobre esta simulação (ASM-025). Ausente
+   * enquanto ninguém perguntou nada. A ordem é a de gravação — ao contrário
+   * da lista do histórico, aqui nada é reordenado por data.
+   */
+  messages?: ChatMessage[];
 }
 
 /**
  * O que pode ser corrigido depois de guardado. O id nunca muda.
  *
  * `insight: undefined` apaga o diagnóstico: é assim que uma resposta alterada
- * descarta o texto que falava dos números antigos (AC-026).
+ * descarta o texto que falava dos números antigos (AC-026). `messages:
+ * undefined` apaga a conversa pelo mesmo caminho e pela mesma razão — ela
+ * falava dos mesmos números (AC-046).
  */
-export type SimulationPatch = Partial<Pick<SimulationRecord, 'answers' | 'insight'>>;
+export type SimulationPatch = Partial<Pick<SimulationRecord, 'answers' | 'insight' | 'messages'>>;
 
 function isUnknownArray(value: unknown): value is unknown[] {
   return Array.isArray(value);
@@ -66,6 +75,23 @@ function withValidInsight(record: SimulationRecord): SimulationRecord {
   return semInsight;
 }
 
+/**
+ * Mesma regra do diagnóstico, aplicada à conversa (ASM-026): uma mensagem
+ * corrompida custa a conversa daquele registro, nunca o registro nem a lista.
+ *
+ * Descartar a conversa inteira, e não só a mensagem quebrada, é de propósito:
+ * uma conversa com buraco no meio faz o educador responder ao que ninguém
+ * perguntou, e isso é pior do que recomeçar.
+ */
+function withValidMessages(record: SimulationRecord): SimulationRecord {
+  if (record.messages === undefined || isChatMessages(record.messages)) {
+    return record;
+  }
+  const { messages: _descartadas, ...semMensagens } = record;
+
+  return semMensagens;
+}
+
 /** Lê a chave inteira, descartando qualquer entrada que não seja uma simulação válida. */
 function readAll(): SimulationRecord[] {
   let raw: string | null;
@@ -88,7 +114,7 @@ function readAll(): SimulationRecord[] {
   if (!isUnknownArray(parsed)) {
     return [];
   }
-  return parsed.filter(isSimulationRecord).map(withValidInsight);
+  return parsed.filter(isSimulationRecord).map(withValidInsight).map(withValidMessages);
 }
 
 /** Grava a lista inteira. Devolve false quando o navegador recusa a escrita. */

@@ -9,7 +9,7 @@
   Status: pendente | em-andamento | concluida
 -->
 
-## T-017 — A conversa no armazenamento [pendente]
+## T-017 — A conversa no armazenamento [concluida]
 
 - Refs: US-015, AC-045, AC-046
 - Arquivos: src/features/insights/chat-types.ts, src/features/insights/chat-types.test.ts, src/features/simulations/storage.ts, src/features/simulations/storage.test.ts

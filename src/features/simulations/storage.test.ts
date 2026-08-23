@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
+import type { ChatMessage } from '@/features/insights/chat-types';
 import type { InsightData } from '@/features/insights/types';
 import { EMPTY_ANSWERS } from '@/features/onboarding/questions';
 import {
@@ -163,6 +164,105 @@ describe('o diagnóstico dentro da simulação', () => {
 
     expect(guardada?.id).toBe('quebrada');
     expect(guardada?.insight).toBeUndefined();
+  });
+});
+
+/* --- A conversa dentro da simulação (T-017) ------------------------------ */
+
+const mensagens: ChatMessage[] = [
+  {
+    id: 'm1',
+    role: 'user',
+    content: 'E se eu cortar o aluguel?',
+    createdAt: '2026-08-23T12:00:00.000Z',
+  },
+  {
+    id: 'm2',
+    role: 'assistant',
+    content: 'Cortando 300 por mês você chega dois meses antes.',
+    createdAt: '2026-08-23T12:00:04.000Z',
+  },
+];
+
+describe('a conversa dentro da simulação', () => {
+  // US-015 — A conversa acompanha a simulação
+  it('AC-045: A conversa sobrevive ao recarregar @spec:AC-045', () => {
+    // Dado: uma conversa com perguntas e respostas numa simulação
+    const id = saveSimulation(answers());
+    expect(updateSimulation(id, { messages: mensagens })).toBe(true);
+
+    // Quando: releio o armazenamento do zero, como faria um reload
+    const relida = getSimulation(id);
+
+    // Então: as mesmas mensagens, na mesma ordem. A prova é a releitura do
+    // armazenamento, não o estado do React: estado sobrevive à remontagem por
+    // acidente, armazenamento sobrevive de propósito.
+    expect(relida?.messages).toEqual(mensagens);
+    expect(relida?.messages?.map((m) => m.id)).toEqual(['m1', 'm2']);
+  });
+
+  // US-015 — A conversa acompanha a simulação
+  it('AC-046: Mudar uma resposta descarta a conversa junto com o diagnóstico @spec:AC-046', () => {
+    // Dado: uma simulação com diagnóstico e conversa guardados
+    const id = saveSimulation(answers());
+    updateSimulation(id, { insight, messages: mensagens });
+
+    // Quando: uma resposta muda e os dois são descartados pelo mesmo caminho
+    expect(
+      updateSimulation(id, {
+        answers: answers({ renda: '9000' }),
+        insight: undefined,
+        messages: undefined,
+      }),
+    ).toBe(true);
+
+    // Então: nem conversa nem diagnóstico sobraram — os dois falavam dos
+    // números que deixaram de valer.
+    const relida = getSimulation(id);
+    expect(relida?.messages).toBeUndefined();
+    expect(relida?.insight).toBeUndefined();
+    expect(relida?.answers.renda).toBe('9000');
+  });
+
+  it('aceita simulação guardada antes de existir conversa', () => {
+    window.localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify([{ id: 'antiga', createdAt: '2026-01-01T00:00:00.000Z', answers: answers() }]),
+    );
+
+    expect(listSimulations()).toHaveLength(1);
+    expect(getSimulation('antiga')?.messages).toBeUndefined();
+  });
+
+  // ASM-026: a conversa quebrada custa a conversa, nunca o registro.
+  it('descarta só a conversa corrompida, nunca a simulação nem o diagnóstico', () => {
+    window.localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify([
+        {
+          id: 'quebrada',
+          createdAt: '2026-01-01T00:00:00.000Z',
+          answers: answers(),
+          insight,
+          messages: [mensagens[0], { id: 'm2' }],
+        },
+      ]),
+    );
+
+    const [guardada] = listSimulations();
+
+    expect(guardada?.id).toBe('quebrada');
+    expect(guardada?.messages).toBeUndefined();
+    // O diagnóstico não é atingido: cada um responde pelo próprio formato.
+    expect(guardada?.insight).toEqual(insight);
+  });
+
+  it('excluir a simulação leva a conversa junto', () => {
+    const id = saveSimulation(answers());
+    updateSimulation(id, { messages: mensagens });
+
+    expect(deleteSimulation(id)).toBe(true);
+    expect(getSimulation(id)).toBeUndefined();
   });
 });
 

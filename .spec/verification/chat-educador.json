@@ -1,11 +1,22 @@
 {
   "feature": "chat-educador",
-  "timestamp": "2026-08-23T12:16:22.927Z",
-  "gitRev": "5e033e0",
+  "timestamp": "2026-08-23T12:34:05.150Z",
+  "gitRev": "eabb728",
   "command": "npx vitest run --reporter=json --outputFile=.spec/verification/raw.json",
   "reporter": "vitest-json",
   "exitCode": 0,
-  "testsParsed": 132,
-  "results": {},
+  "testsParsed": 144,
+  "results": {
+    "AC-045": {
+      "status": "pass",
+      "testName": "a conversa dentro da simulação AC-045: A conversa sobrevive ao recarregar @spec:AC-045 AC-045: A conversa sobrevive ao recarregar @spec:AC-045",
+      "method": "vitest-json"
+    },
+    "AC-046": {
+      "status": "pass",
+      "testName": "a conversa dentro da simulação AC-046: Mudar uma resposta descarta a conversa junto com o diagnóstico @spec:AC-046 AC-046: Mudar uma resposta descarta a conversa junto com o diagnóstico @spec:AC-046",
+      "method": "vitest-json"
+    }
+  },
   "principles": {}
 }
