@@ -635,10 +635,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "diagnostico-ia",
       "ref": "T-007",
-      "ocorrencias": 8,
+      "ocorrencias": 10,
       "primeiraVez": "2026-08-22T21:54:20.780Z",
-      "ultimaVez": "2026-08-22T22:09:20.360Z",
-      "gitRev": "968e144"
+      "ultimaVez": "2026-08-23T13:45:11.623Z",
+      "gitRev": "e6fb2d6"
     },
     "ARQUIVO_INEXISTENTE::diagnostico-ia::T-008": {
       "codigo": "ARQUIVO_INEXISTENTE",

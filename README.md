@@ -14,10 +14,36 @@ npm install   # instala deps e configura os hooks do Husky (script `prepare`)
 npm run dev
 ```
 
-Para o diagnóstico com IA, copie `.env.example` para `.env.local` e preencha
-`VITE_GEMINI_API_KEY` com uma chave do [Google AI Studio](https://aistudio.google.com/).
-Sem a chave o aplicativo roda normalmente — só o diagnóstico não é gerado, e a
-tela de resultado avisa que falta configurá-la.
+Para o diagnóstico com IA e a conversa, copie `.env.example` para `.env.local` e
+preencha `GEMINI_API_KEY` com uma chave do
+[Google AI Studio](https://aistudio.google.com/). Sem a chave o aplicativo roda
+normalmente: só o diagnóstico e a conversa não são gerados, e a tela de
+resultado avisa que falta configurá-la.
+
+### A chave fica no servidor
+
+O nome não tem o prefixo `VITE_` de propósito. Esse prefixo é o mecanismo pelo
+qual o Vite embute uma variável no pacote que o navegador baixa, e uma chave
+embutida ali é lida por qualquer pessoa que abra as ferramentas de
+desenvolvedor.
+
+O navegador nunca fala com o Google. Ele manda o texto para `/api/gemini`, no
+próprio domínio, e quem guarda a chave é o proxy:
+
+- em produção, `api/gemini.ts`, publicado pela Vercel;
+- em desenvolvimento, um plugin do `vite.config.ts`.
+
+Os dois são adaptadores de dez linhas em cima do mesmo módulo,
+`src/server/gemini-proxy.ts`. Essa divisão é o que impede desenvolvimento e
+produção de divergirem, e há um teste que falha se alguém escrever um segundo
+proxy.
+
+Ao publicar na Vercel, cadastre `GEMINI_API_KEY` em Settings > Environment
+Variables.
+
+**O que esta divisão ainda não resolve:** o endereço `/api/gemini` fica aberto a
+quem souber dele, e a cota continua sendo a de quem publicou. Limitar por
+origem, IP ou sessão é trabalho de outra etapa.
 
 ## Scripts
 

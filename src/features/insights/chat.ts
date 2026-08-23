@@ -1,11 +1,6 @@
 import type { ChatMessage } from '@/features/insights/chat-types';
-import { getGeminiApiKey } from '@/features/insights/config';
 import { assessFeasibility } from '@/features/insights/feasibility';
-import {
-  extractText,
-  type InsightErrorKind,
-  type InsightFailure,
-} from '@/features/insights/gemini';
+import { askGemini, type InsightFailure } from '@/features/insights/gemini';
 import { toPlanInput } from '@/features/onboarding/answers-to-plan';
 import { buildPlan } from '@/features/onboarding/goals';
 import type { SimulationRecord } from '@/features/simulations/storage';
@@ -14,18 +9,16 @@ import { formatBRL } from '@/lib/format';
 /**
  * A conversa de acompanhamento com o educador.
  *
- * Mesmo endpoint e mesma chave do diagnóstico, com uma diferença que decide o
+ * Passa pelo mesmo proxy do diagnóstico, com uma diferença que decide o
  * desenho: aqui a resposta é prosa, não JSON (ASM-024). Por isso esta chamada
- * NÃO reusa `generateInsight`, que força `responseMimeType: application/json`
- * e só devolve `InsightData` — reaproveitá-la faria o modelo responder um
- * objeto onde a tela espera uma frase.
+ * NÃO reusa `generateInsight`, que pede JSON ao modelo e só devolve
+ * `InsightData`; reaproveitá-la faria o modelo responder um objeto onde a tela
+ * espera uma frase.
  *
  * As causas de falha são as mesmas do diagnóstico e usam o mesmo vocabulário
  * (`InsightErrorKind`): inventar nomes novos para chave recusada e cota
  * estourada só faria o mesmo problema ter dois nomes no mesmo produto.
  */
-const MODEL = 'gemini-flash-latest';
-const ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
 
 /**
  * Teto de mensagens que viajam no pedido (ASM-023).
@@ -37,20 +30,6 @@ const ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${MODE
 export const CHAT_CONTEXT_LIMIT = 10;
 
 export type ChatResult = { ok: true; content: string } | { ok: false; error: InsightFailure };
-
-const MESSAGES: Record<InsightErrorKind, string> = {
-  'missing-key':
-    'Falta configurar a chave da API para conversar. Copie o .env.example para .env.local e preencha a chave.',
-  'invalid-key':
-    'A chave da API foi recusada. Confira o valor de VITE_GEMINI_API_KEY no seu .env.local.',
-  quota: 'A cota da chave acabou por enquanto. Tente enviar de novo daqui a pouco.',
-  network: 'Não consegui falar com o serviço agora. Verifique a conexão e envie de novo.',
-  'unexpected-response': 'A resposta veio vazia. Envie a pergunta de novo.',
-};
-
-function fail(kind: InsightErrorKind): ChatResult {
-  return { ok: false, error: { kind, message: MESSAGES[kind] } };
-}
 
 const QUEM_FALA: Record<ChatMessage['role'], string> = {
   user: 'Pessoa',
@@ -125,46 +104,14 @@ REGRAS
 - Responda apenas com o texto da resposta, sem títulos, sem listas e sem cerca de código.`;
 }
 
-/** Manda a pergunta e devolve a resposta em prosa. Nunca lança. */
+/**
+ * Manda a pergunta e devolve a resposta em prosa. Nunca lança.
+ *
+ * Sem `json`: a conversa quer uma frase, e pedir JSON aqui faria o modelo
+ * embrulhar a resposta num objeto que ninguém vai desembrulhar.
+ */
 export async function sendChatMessage(prompt: string): Promise<ChatResult> {
-  const key = getGeminiApiKey();
-  if (key === null) {
-    return fail('missing-key');
-  }
+  const resultado = await askGemini(prompt);
 
-  let response: Response;
-  try {
-    response = await fetch(ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
-      // Sem `responseMimeType`: a resposta aqui é prosa, e pedir JSON faria o
-      // modelo embrulhar a frase num objeto que ninguém vai desembrulhar.
-      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
-    });
-  } catch {
-    return fail('network');
-  }
-
-  if (!response.ok) {
-    if (response.status === 401 || response.status === 403) {
-      return fail('invalid-key');
-    }
-    if (response.status === 429) {
-      return fail('quota');
-    }
-    return fail('network');
-  }
-
-  let payload: unknown;
-  try {
-    payload = await response.json();
-  } catch {
-    return fail('unexpected-response');
-  }
-
-  const text = extractText(payload)?.trim();
-
-  return text === undefined || text === ''
-    ? fail('unexpected-response')
-    : { ok: true, content: text };
+  return resultado.ok ? { ok: true, content: resultado.text } : resultado;
 }

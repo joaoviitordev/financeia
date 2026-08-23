@@ -19,10 +19,12 @@
 ## T-007 — Chave da API e ambiente [concluida]
 
 - Refs: US-007
-- Arquivos: .env.example, src/env.d.ts, src/features/insights/config.ts, src/features/insights/config.test.ts, README.md
+- Arquivos: .env.example, src/env.d.ts, README.md
 - Modelo: claude-sonnet-5
 - Esforço: baixo
-- Notas: não depende de nenhuma outra tarefa. `.env.example` versionado com a chave vazia; `.env.local` é do dono do projeto e o `.gitignore` já cobre. `src/env.d.ts` declara `VITE_GEMINI_API_KEY` — sem isso o `noPropertyAccessFromIndexSignature` recusa o acesso. `config.ts` expõe a chave como `string | null` (vazia ou ausente é null) para o painel poder avisar em vez de tentar a rede (AC-022). Uma linha no README dizendo que sem a chave o app roda e o diagnóstico não é gerado. Nenhum segredo entra no repositório.
+- Notas: não depende de nenhuma outra tarefa. `.env.example` versionado com a chave vazia; `.env.local` é do dono do projeto e o `.gitignore` já cobre. `src/env.d.ts` declara a variável de ambiente, sem o que o `noPropertyAccessFromIndexSignature` recusa o acesso. Uma linha no README dizendo que sem a chave o app roda e o diagnóstico não é gerado. Nenhum segredo entra no repositório.
+
+  **Superada pela feature chave-no-servidor.** A chave saiu do navegador: perdeu o prefixo `VITE_`, e `src/features/insights/config.ts` foi apagado junto com `getGeminiApiKey`/`hasGeminiApiKey`. Com a chave no servidor não sobrou pergunta que o cliente possa responder sozinho sobre ela. O AC-022 continua valendo e continua provado; o que mudou foi de onde vem a resposta, que agora é o proxy.
 
 ## T-008 — Serviço do Gemini e leitura da resposta [concluida]
 

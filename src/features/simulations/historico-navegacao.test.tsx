@@ -4,7 +4,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { createMemoryRouter, RouterProvider } from 'react-router-dom';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import type { InsightData } from '@/features/insights/types';
 import { EMPTY_ANSWERS } from '@/features/onboarding/questions';
@@ -46,14 +46,7 @@ function renderAt(path: string) {
   return router;
 }
 
-beforeEach(() => {
-  // Com chave configurada, uma simulação sem diagnóstico chamaria a API — é o
-  // que dá sentido a contar zero chamadas quando ela já tem um.
-  vi.stubEnv('VITE_GEMINI_API_KEY', 'chave-de-teste');
-});
-
 afterEach(() => {
-  vi.unstubAllEnvs();
   vi.unstubAllGlobals();
 });
 

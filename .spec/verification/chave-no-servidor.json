@@ -1,0 +1,47 @@
+{
+  "feature": "chave-no-servidor",
+  "timestamp": "2026-08-23T13:50:25.477Z",
+  "gitRev": "e6fb2d6",
+  "command": "npx vitest run --reporter=json --outputFile=.spec/verification/raw.json",
+  "reporter": "vitest-json",
+  "exitCode": 0,
+  "testsParsed": 185,
+  "results": {
+    "AC-049": {
+      "status": "pass",
+      "testName": "a chave fora do cliente AC-049: Nenhum módulo do cliente lê a chave @spec:AC-049 AC-049: Nenhum módulo do cliente lê a chave @spec:AC-049",
+      "method": "vitest-json"
+    },
+    "AC-050": {
+      "status": "pass",
+      "testName": "sendChatMessage AC-050: a conversa também pede ao próprio domínio, sem chave @spec:AC-050 AC-050: a conversa também pede ao próprio domínio, sem chave @spec:AC-050",
+      "method": "vitest-json"
+    },
+    "AC-051": {
+      "status": "pass",
+      "testName": "handleGeminiRequest AC-051: O proxy fala com o Gemini usando a chave do ambiente @spec:AC-051 AC-051: O proxy fala com o Gemini usando a chave do ambiente @spec:AC-051",
+      "method": "vitest-json"
+    },
+    "AC-052": {
+      "status": "pass",
+      "testName": "handleGeminiRequest AC-052: Sem a chave no ambiente, a tela continua explicando o que falta @spec:AC-052 AC-052: Sem a chave no ambiente, a tela continua explicando o que falta @spec:AC-052",
+      "method": "vitest-json"
+    },
+    "AC-053": {
+      "status": "pass",
+      "testName": "handleGeminiRequest AC-053: status 401 do Gemini chega à tela como invalid-key @spec:AC-053 AC-053: status 401 do Gemini chega à tela como invalid-key @spec:AC-053",
+      "method": "vitest-json"
+    },
+    "AC-054": {
+      "status": "pass",
+      "testName": "handleGeminiRequest AC-054: O proxy só atende o que ele existe para atender @spec:AC-054 AC-054: O proxy só atende o que ele existe para atender @spec:AC-054",
+      "method": "vitest-json"
+    },
+    "AC-055": {
+      "status": "pass",
+      "testName": "o proxy é um só AC-055: O servidor de desenvolvimento serve o mesmo proxy @spec:AC-055 AC-055: O servidor de desenvolvimento serve o mesmo proxy @spec:AC-055",
+      "method": "vitest-json"
+    }
+  },
+  "principles": {}
+}

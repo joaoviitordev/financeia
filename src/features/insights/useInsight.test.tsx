@@ -3,8 +3,9 @@
 // que liga o teste à especificação em .spec/features/diagnostico-ia/.
 import { act, renderHook, waitFor } from '@testing-library/react';
 import { StrictMode } from 'react';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
+import { proxyResponde, proxySemChave } from '@/features/insights/proxy-double';
 import type { InsightData } from '@/features/insights/types';
 import { useInsight } from '@/features/insights/useInsight';
 import { EMPTY_ANSWERS } from '@/features/onboarding/questions';
@@ -32,21 +33,7 @@ function novaSimulacao(): string {
   });
 }
 
-function fetchOk(data: InsightData = INSIGHT) {
-  return vi.fn().mockResolvedValue({
-    ok: true,
-    status: 200,
-    json: () =>
-      Promise.resolve({ candidates: [{ content: { parts: [{ text: JSON.stringify(data) }] } }] }),
-  });
-}
-
-beforeEach(() => {
-  vi.stubEnv('VITE_GEMINI_API_KEY', 'chave-de-teste');
-});
-
 afterEach(() => {
-  vi.unstubAllEnvs();
   vi.unstubAllGlobals();
 });
 
@@ -54,8 +41,7 @@ describe('useInsight', () => {
   // US-008 — Gerado uma vez, guardado com a simulação
   it('AC-023: Uma conclusão, uma chamada @spec:AC-023', async () => {
     const id = novaSimulacao();
-    const fetchMock = fetchOk();
-    vi.stubGlobal('fetch', fetchMock);
+    const fetchMock = proxyResponde(JSON.stringify(INSIGHT));
 
     // StrictMode monta duas vezes de propósito: é o cenário que a trava existe
     // para cobrir.
@@ -90,14 +76,15 @@ describe('useInsight', () => {
     const id = novaSimulacao();
     const fetchMock = vi
       .fn()
-      .mockResolvedValueOnce({ ok: false, status: 429, json: () => Promise.resolve({}) })
+      .mockResolvedValueOnce({
+        ok: false,
+        status: 429,
+        json: () => Promise.resolve({ kind: 'quota' }),
+      })
       .mockResolvedValue({
         ok: true,
         status: 200,
-        json: () =>
-          Promise.resolve({
-            candidates: [{ content: { parts: [{ text: JSON.stringify(INSIGHT) }] } }],
-          }),
+        json: () => Promise.resolve({ text: JSON.stringify(INSIGHT) }),
       });
     vi.stubGlobal('fetch', fetchMock);
 
@@ -119,18 +106,18 @@ describe('useInsight', () => {
     expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 
-  it('sem chave configurada, nem tenta a rede', async () => {
-    vi.stubEnv('VITE_GEMINI_API_KEY', '');
+  // A falta da chave passou a ser resposta do servidor: o cliente pergunta e
+  // recebe a causa nomeada, em vez de decidir sozinho antes de tentar.
+  it('sem chave no servidor, a causa chega nomeada', async () => {
     const id = novaSimulacao();
-    const fetchMock = vi.fn();
-    vi.stubGlobal('fetch', fetchMock);
+    const fetchMock = proxySemChave();
 
     const { result } = renderHook(() => useInsight(id));
 
     await waitFor(() => {
       expect(result.current.error?.kind).toBe('missing-key');
     });
-    expect(fetchMock).not.toHaveBeenCalled();
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
   it('id inexistente não gera nada nem quebra', () => {

@@ -87,6 +87,34 @@ export default defineConfig([
   },
 
   /* ---------------------------------------------------------------- *
+   * Proxy publicado (api/): roda no servidor, não no navegador        *
+   * ---------------------------------------------------------------- */
+  {
+    name: 'financeia/api',
+    files: ['api/**/*.ts'],
+    extends: [
+      js.configs.recommended,
+      tseslint.configs.strictTypeChecked,
+      tseslint.configs.stylisticTypeChecked,
+    ],
+    languageOptions: {
+      // Globais do Node, e não do navegador: é justamente o ponto de existir
+      // esta pasta. Sem este bloco o `eslint .` passava por cima do arquivo em
+      // silêncio, e só o hook de commit acusava, com um aviso enigmático.
+      globals: globals.node,
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+    plugins: { 'simple-import-sort': simpleImportSort },
+    rules: {
+      'simple-import-sort/imports': 'error',
+      'simple-import-sort/exports': 'error',
+    },
+  },
+
+  /* ---------------------------------------------------------------- *
    * Testes                                                            *
    * ---------------------------------------------------------------- */
   {

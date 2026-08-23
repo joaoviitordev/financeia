@@ -3,14 +3,17 @@
 /**
  * As variáveis de ambiente do projeto, declaradas.
  *
- * Sem esta declaração o `noPropertyAccessFromIndexSignature` recusa
- * `import.meta.env.VITE_GEMINI_API_KEY` — e é bom que recuse: o erro obriga a
- * registrar aqui toda variável nova, que é onde alguém procura para saber o
- * que o app espera do ambiente.
+ * Está vazia de propósito, e isso é o resultado da feature chave-no-servidor: a
+ * única variável que existia aqui era a chave do Gemini, com prefixo `VITE_`, e
+ * prefixo `VITE_` significa que a variável é embutida no pacote que o navegador
+ * baixa. Ela virou `GEMINI_API_KEY`, sem prefixo, lida só no servidor.
+ *
+ * Ao acrescentar uma variável nova, pergunte antes se ela pode ser lida por
+ * qualquer pessoa que abra as ferramentas de desenvolvedor. Se não puder, ela
+ * não pertence a este arquivo.
  */
 interface ImportMetaEnv {
-  /** Chave do Gemini. Ausente ou vazia: o app roda e o diagnóstico não é gerado. */
-  readonly VITE_GEMINI_API_KEY?: string;
+  readonly _vazio?: never;
 }
 
 interface ImportMeta {

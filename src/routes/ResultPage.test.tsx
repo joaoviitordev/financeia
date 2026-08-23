@@ -1,11 +1,12 @@
 // Spec da feature resultado-persistido (T-004).
 // Cada teste prova um critério de aceite; a tag @spec:AC-xxx no título é o
 // que liga o teste à especificação em .spec/features/resultado-persistido/.
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { proxyAdiado, proxySemChave } from '@/features/insights/proxy-double';
 import type { InsightData } from '@/features/insights/types';
 import { EMPTY_ANSWERS } from '@/features/onboarding/questions';
 import { saveSimulation, updateSimulation } from '@/features/simulations/storage';
@@ -124,20 +125,19 @@ describe('a conversa na página de resultado', () => {
 
   // US-013 — Perguntar sobre o meu plano
   it('AC-038: A conversa só abre quando há diagnóstico @spec:AC-038', async () => {
-    // Dado: sem chave configurada, o diagnóstico nunca chega à tela
-    vi.stubEnv('VITE_GEMINI_API_KEY', '');
+    // Dado: o servidor sem chave, o diagnóstico nunca chega à tela
+    proxySemChave();
     const id = simulacao();
 
     const { unmount } = renderAt(`/resultado/${id}`);
 
-    // Então: não há conversa nenhuma ali — nem campo, nem botão de enviar.
+    // Então: não há conversa nenhuma ali, nem campo, nem botão de enviar.
     expect(await screen.findByText(/Falta configurar a chave/i)).toBeInTheDocument();
     expect(screen.queryByLabelText('Sua pergunta')).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Enviar pergunta' })).not.toBeInTheDocument();
 
     // E com o diagnóstico na tela, ela aparece.
     unmount();
-    vi.stubEnv('VITE_GEMINI_API_KEY', 'chave-de-teste');
     updateSimulation(id, { insight: INSIGHT });
     renderAt(`/resultado/${id}`);
 
@@ -146,29 +146,18 @@ describe('a conversa na página de resultado', () => {
   });
 
   it('enquanto o diagnóstico está a caminho, também não há conversa', async () => {
-    vi.stubEnv('VITE_GEMINI_API_KEY', 'chave-de-teste');
-
-    // Uma requisição adiada deixa o painel carregando. Ela é liberada no fim
-    // do teste de propósito: promessa que nunca resolve trava o encerramento
-    // do worker do vitest, e o teste passa a pendurar a suíte inteira.
-    let liberar: () => void = () => undefined;
-    const adiada = new Promise<void>((resolve) => {
-      liberar = resolve;
-    });
-    vi.stubGlobal(
-      'fetch',
-      vi.fn().mockImplementation(async () => {
-        await adiada;
-        return { ok: false, status: 500, json: () => Promise.resolve({}) };
-      }),
-    );
+    // A resposta adiada é liberada no fim de propósito: promessa que nunca
+    // resolve trava o encerramento do worker do vitest e pendura a suíte.
+    const { liberar } = proxyAdiado();
     const id = simulacao();
 
     renderAt(`/resultado/${id}`);
 
     expect(screen.queryByLabelText('Sua pergunta')).not.toBeInTheDocument();
 
-    liberar();
-    await adiada;
+    liberar(JSON.stringify(INSIGHT));
+    await waitFor(() => {
+      expect(screen.getByLabelText('Sua pergunta')).toBeInTheDocument();
+    });
   });
 });

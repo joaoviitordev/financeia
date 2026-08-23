@@ -27,5 +27,11 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["vite.config.ts", "eslint.config.js", "commitlint.config.js", "lint-staged.config.js"]
+  "include": [
+    "vite.config.ts",
+    "eslint.config.js",
+    "commitlint.config.js",
+    "lint-staged.config.js",
+    "api"
+  ]
 }

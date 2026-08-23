@@ -7,6 +7,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { ChatMessage } from '@/features/insights/chat-types';
 import { InsightChat } from '@/features/insights/InsightChat';
+import { proxyAdiado, proxyFalha, proxyResponde } from '@/features/insights/proxy-double';
 import type { InsightData } from '@/features/insights/types';
 import { EMPTY_ANSWERS } from '@/features/onboarding/questions';
 import type { SimulationRecord } from '@/features/simulations/storage';
@@ -43,42 +44,14 @@ function mensagem(id: string, role: ChatMessage['role'], content: string): ChatM
   return { id, role, content, createdAt: '2026-08-23T12:00:00.000Z' };
 }
 
-/** O Gemini respondendo texto livre. */
-function respondeCom(texto: string) {
-  const fetchMock = vi.fn().mockResolvedValue({
-    ok: true,
-    status: 200,
-    json: () => Promise.resolve({ candidates: [{ content: { parts: [{ text: texto }] } }] }),
-  });
-  vi.stubGlobal('fetch', fetchMock);
-
-  return fetchMock;
-}
+/** O proxy respondendo texto livre. */
+const respondeCom = proxyResponde;
 
 /** Uma resposta que só chega quando o teste mandar. */
 function respondeQuandoEuMandar() {
-  let liberar: (texto: string) => void = () => undefined;
-  const promessa = new Promise<string>((resolve) => {
-    liberar = resolve;
-  });
+  const { liberar } = proxyAdiado();
 
-  vi.stubGlobal(
-    'fetch',
-    vi.fn().mockImplementation(async () => {
-      const texto = await promessa;
-      return {
-        ok: true,
-        status: 200,
-        json: () => Promise.resolve({ candidates: [{ content: { parts: [{ text: texto }] } }] }),
-      };
-    }),
-  );
-
-  return {
-    liberar: (texto: string) => {
-      liberar(texto);
-    },
-  };
+  return { liberar };
 }
 
 function renderChat(messages?: ChatMessage[]) {
@@ -98,13 +71,11 @@ type ScrollIntoView = (arg?: boolean | ScrollIntoViewOptions) => void;
 let scrollIntoView: ReturnType<typeof vi.fn<ScrollIntoView>>;
 
 beforeEach(() => {
-  vi.stubEnv('VITE_GEMINI_API_KEY', 'chave-de-teste');
   scrollIntoView = vi.fn<ScrollIntoView>();
   Element.prototype.scrollIntoView = scrollIntoView;
 });
 
 afterEach(() => {
-  vi.unstubAllEnvs();
   vi.unstubAllGlobals();
   vi.restoreAllMocks();
 });
@@ -279,10 +250,7 @@ describe('InsightChat', () => {
   // US-016 — Uma pergunta que falha não leva a conversa junto
   it('AC-048: A pergunta que falhou é dita pelo nome e pode ser reenviada @spec:AC-048', async () => {
     const user = userEvent.setup();
-    vi.stubGlobal(
-      'fetch',
-      vi.fn().mockResolvedValue({ ok: false, status: 429, json: () => Promise.resolve({}) }),
-    );
+    proxyFalha('quota', 429);
     const { onMessagesChange } = renderChat([
       mensagem('m1', 'user', 'pergunta antiga'),
       mensagem('m2', 'assistant', 'resposta antiga'),

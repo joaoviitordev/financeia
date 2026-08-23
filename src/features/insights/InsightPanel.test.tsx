@@ -3,9 +3,10 @@
 // que liga o teste à especificação em .spec/features/diagnostico-ia/.
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { InsightPanel } from '@/features/insights/InsightPanel';
+import { proxyAdiado, proxyResponde, proxySemChave } from '@/features/insights/proxy-double';
 import type { InsightData } from '@/features/insights/types';
 import { EMPTY_ANSWERS } from '@/features/onboarding/questions';
 import { saveSimulation } from '@/features/simulations/storage';
@@ -32,35 +33,15 @@ function novaSimulacao(): string {
   });
 }
 
-/** Uma resposta que nunca resolve: congela a tela no estado de carregamento. */
-function fetchPendente() {
-  return vi.fn().mockReturnValue(new Promise(() => undefined));
-}
-
-function fetchOk() {
-  return vi.fn().mockResolvedValue({
-    ok: true,
-    status: 200,
-    json: () =>
-      Promise.resolve({
-        candidates: [{ content: { parts: [{ text: JSON.stringify(INSIGHT) }] } }],
-      }),
-  });
-}
-
-beforeEach(() => {
-  vi.stubEnv('VITE_GEMINI_API_KEY', 'chave-de-teste');
-});
-
 afterEach(() => {
-  vi.unstubAllEnvs();
   vi.unstubAllGlobals();
 });
 
 describe('InsightPanel', () => {
   // US-007 — A espera e a falha são explicadas
   it('AC-019: Enquanto o diagnóstico não chega, a tela mostra que está vindo @spec:AC-019', () => {
-    vi.stubGlobal('fetch', fetchPendente());
+    // Uma resposta adiada congela a tela no estado de carregamento.
+    proxyAdiado();
 
     render(<InsightPanel id={novaSimulacao()} />);
 
@@ -78,10 +59,19 @@ describe('InsightPanel', () => {
   // US-007 — A espera e a falha são explicadas
   it('AC-020: Cada falha é dita pelo nome, com caminho de volta @spec:AC-020', async () => {
     const user = userEvent.setup();
+    // As causas agora vêm nomeadas pelo proxy, não deduzidas de um status.
     const fetchMock = vi
       .fn()
-      .mockResolvedValueOnce({ ok: false, status: 401, json: () => Promise.resolve({}) })
-      .mockResolvedValueOnce({ ok: false, status: 429, json: () => Promise.resolve({}) })
+      .mockResolvedValueOnce({
+        ok: false,
+        status: 502,
+        json: () => Promise.resolve({ kind: 'invalid-key' }),
+      })
+      .mockResolvedValueOnce({
+        ok: false,
+        status: 429,
+        json: () => Promise.resolve({ kind: 'quota' }),
+      })
       .mockRejectedValueOnce(new TypeError('Failed to fetch'));
     vi.stubGlobal('fetch', fetchMock);
 
@@ -102,7 +92,7 @@ describe('InsightPanel', () => {
 
   // US-007 — A espera e a falha são explicadas
   it('AC-021: Nunca dois estados ao mesmo tempo @spec:AC-021', async () => {
-    vi.stubGlobal('fetch', fetchOk());
+    proxyResponde(JSON.stringify(INSIGHT));
 
     render(<InsightPanel id={novaSimulacao()} />);
 
@@ -123,15 +113,14 @@ describe('InsightPanel', () => {
 
   // US-007 — A espera e a falha são explicadas
   it('AC-022: Sem chave configurada, o aplicativo continua de pé @spec:AC-022', async () => {
-    vi.stubEnv('VITE_GEMINI_API_KEY', '');
-    const fetchMock = vi.fn();
-    vi.stubGlobal('fetch', fetchMock);
+    // A falta da chave é do SERVIDOR agora, e chega nomeada na resposta: o
+    // navegador não tem mais como saber disso sozinho.
+    proxySemChave();
 
     render(<InsightPanel id={novaSimulacao()} />);
 
     expect(await screen.findByText(/Falta configurar a chave/i)).toBeInTheDocument();
-    // Nada de erro de rede: nem chegamos a tentar.
-    expect(fetchMock).not.toHaveBeenCalled();
+    // Nada de erro de rede na tela: a causa foi dita pelo nome.
     expect(screen.queryByText(/Verifique a conexão/i)).not.toBeInTheDocument();
   });
 });

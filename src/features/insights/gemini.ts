@@ -1,17 +1,18 @@
-import { getGeminiApiKey } from '@/features/insights/config';
 import { type InsightData, isInsightData } from '@/features/insights/types';
 
 /**
- * A conversa com o Gemini. HTTP puro, sem React.
+ * O cliente do proxy. HTTP puro, sem React.
  *
- * A chave viaja no header `x-goog-api-key`, e não na query string: assim ela
- * não aparece em URL, em histórico nem em log de proxy.
+ * O navegador não fala mais com o Google e não conhece chave nenhuma: manda o
+ * texto para `/api/gemini`, no próprio domínio, e quem guarda a chave é a
+ * função do servidor (AC-049, AC-050). Antes desta mudança a chave tinha
+ * prefixo `VITE_`, o que significa exatamente uma coisa: ela ia embutida no
+ * pacote que qualquer pessoa baixa ao abrir o site.
  *
- * O `responseMimeType` reduz muito a chance de a resposta vir embrulhada em
- * cerca de código — mas não elimina, e por isso a limpeza continua aqui.
+ * Como o endereço é relativo, ele funciona em qualquer domínio onde o site for
+ * publicado, sem configuração e sem CORS.
  */
-const MODEL = 'gemini-flash-latest';
-const ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
+const PROXY_ENDPOINT = '/api/gemini';
 
 /**
  * Cada causa tem nome próprio: chave errada e cota estourada são problemas de
@@ -30,16 +31,39 @@ export type InsightResult = { ok: true; data: InsightData } | { ok: false; error
 
 const MESSAGES: Record<InsightErrorKind, string> = {
   'missing-key':
-    'Falta configurar a chave da API para gerar o diagnóstico. Copie o .env.example para .env.local e preencha a chave.',
-  'invalid-key':
-    'A chave da API foi recusada. Confira o valor de VITE_GEMINI_API_KEY no seu .env.local.',
+    'Falta configurar a chave da API no servidor para gerar o diagnóstico. Defina GEMINI_API_KEY no ambiente.',
+  'invalid-key': 'A chave da API foi recusada. Confira o valor de GEMINI_API_KEY no servidor.',
   quota: 'A cota da chave acabou por enquanto. Tente de novo daqui a pouco.',
   network: 'Não consegui falar com o serviço agora. Verifique a conexão e tente de novo.',
   'unexpected-response': 'A resposta veio fora do formato esperado. Tente gerar de novo.',
 };
 
-function fail(kind: InsightErrorKind): InsightResult {
-  return { ok: false, error: { kind, message: MESSAGES[kind] } };
+export function failure(kind: InsightErrorKind): InsightFailure {
+  return { kind, message: MESSAGES[kind] };
+}
+
+const CONHECIDAS: readonly InsightErrorKind[] = [
+  'missing-key',
+  'invalid-key',
+  'quota',
+  'network',
+  'unexpected-response',
+];
+
+/**
+ * A causa que o proxy nomeou.
+ *
+ * Uma causa que o cliente não conhece (o `bad-request` do proxy, ou algo que
+ * uma versão futura do servidor invente) vira "resposta inesperada": é honesto,
+ * porque de fato não sabemos, e é melhor que mostrar na tela um nome interno.
+ */
+function readKind(payload: unknown): InsightErrorKind {
+  if (typeof payload !== 'object' || payload === null) {
+    return 'unexpected-response';
+  }
+  const kind = (payload as { kind?: unknown }).kind;
+
+  return CONHECIDAS.find((conhecida) => conhecida === kind) ?? 'unexpected-response';
 }
 
 /** Remove a cerca de código (```json … ```) que o modelo às vezes insiste em pôr. */
@@ -69,73 +93,55 @@ export function parseInsight(text: string): InsightData | null {
   return isInsightData(parsed) ? parsed : null;
 }
 
+export type AskResult = { ok: true; text: string } | { ok: false; error: InsightFailure };
+
 /**
- * O texto que o Gemini devolve, sem confiar em nenhum nível da estrutura.
+ * Pede um texto ao proxy.
  *
- * Exportado porque a conversa (`chat.ts`) lê a resposta do mesmo endpoint e
- * pela mesma casca: o que muda entre os dois é o que se faz com o texto, não
- * como se chega até ele.
+ * `json` pede ao modelo uma resposta em JSON, que o diagnóstico precisa e a
+ * conversa não. Quem decide o que fazer com o texto é quem chamou: o proxy só
+ * sabe pedir texto (ASM-031).
  */
-export function extractText(payload: unknown): string | null {
-  if (typeof payload !== 'object' || payload === null) {
-    return null;
-  }
-  const candidates = (payload as { candidates?: unknown }).candidates;
-  if (!Array.isArray(candidates) || candidates.length === 0) {
-    return null;
-  }
-  const parts = (candidates[0] as { content?: { parts?: unknown } }).content?.parts;
-  if (!Array.isArray(parts) || parts.length === 0) {
-    return null;
-  }
-  const text = (parts[0] as { text?: unknown }).text;
-
-  return typeof text === 'string' ? text : null;
-}
-
-export async function generateInsight(prompt: string): Promise<InsightResult> {
-  const key = getGeminiApiKey();
-  if (key === null) {
-    return fail('missing-key');
-  }
-
+export async function askGemini(prompt: string, json = false): Promise<AskResult> {
   let response: Response;
   try {
-    response = await fetch(ENDPOINT, {
+    response = await fetch(PROXY_ENDPOINT, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { responseMimeType: 'application/json' },
-      }),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(json ? { prompt, json: true } : { prompt }),
     });
   } catch {
-    return fail('network');
-  }
-
-  if (!response.ok) {
-    if (response.status === 401 || response.status === 403) {
-      return fail('invalid-key');
-    }
-    if (response.status === 429) {
-      return fail('quota');
-    }
-    return fail('network');
+    return { ok: false, error: failure('network') };
   }
 
   let payload: unknown;
   try {
     payload = await response.json();
   } catch {
-    return fail('unexpected-response');
+    return { ok: false, error: failure('unexpected-response') };
   }
 
-  const text = extractText(payload);
-  if (text === null) {
-    return fail('unexpected-response');
+  if (!response.ok) {
+    return { ok: false, error: failure(readKind(payload)) };
   }
 
-  const data = parseInsight(text);
+  const text =
+    typeof payload === 'object' && payload !== null
+      ? (payload as { text?: unknown }).text
+      : undefined;
 
-  return data === null ? fail('unexpected-response') : { ok: true, data };
+  return typeof text === 'string' && text.trim() !== ''
+    ? { ok: true, text: text.trim() }
+    : { ok: false, error: failure('unexpected-response') };
+}
+
+export async function generateInsight(prompt: string): Promise<InsightResult> {
+  const resultado = await askGemini(prompt, true);
+  if (!resultado.ok) {
+    return { ok: false, error: resultado.error };
+  }
+
+  const data = parseInsight(resultado.text);
+
+  return data === null ? { ok: false, error: failure('unexpected-response') } : { ok: true, data };
 }

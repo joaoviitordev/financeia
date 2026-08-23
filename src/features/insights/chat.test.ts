@@ -1,10 +1,17 @@
 // Spec da feature chat-educador (T-018).
 // Cada teste prova um critério de aceite; a tag @spec:AC-xxx no título é o
 // que liga o teste à especificação em .spec/features/chat-educador/.
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { buildChatPrompt, CHAT_CONTEXT_LIMIT, sendChatMessage } from '@/features/insights/chat';
 import type { ChatMessage } from '@/features/insights/chat-types';
+import {
+  corpoEnviado,
+  enderecoChamado,
+  proxyFalha,
+  proxyResponde,
+  proxySemChave,
+} from '@/features/insights/proxy-double';
 import type { InsightData } from '@/features/insights/types';
 import { EMPTY_ANSWERS } from '@/features/onboarding/questions';
 import type { SimulationRecord } from '@/features/simulations/storage';
@@ -124,72 +131,44 @@ describe('buildChatPrompt', () => {
 });
 
 describe('sendChatMessage', () => {
-  beforeEach(() => {
-    vi.stubEnv('VITE_GEMINI_API_KEY', 'chave-de-teste');
-  });
-
   afterEach(() => {
-    vi.unstubAllEnvs();
     vi.unstubAllGlobals();
   });
 
-  function respondeCom(payload: unknown, init: Partial<Response> = {}) {
-    const fetchMock = vi.fn().mockResolvedValue({
-      ok: init.ok ?? true,
-      status: init.status ?? 200,
-      json: () => Promise.resolve(payload),
-    });
-    vi.stubGlobal('fetch', fetchMock);
-
-    return fetchMock;
-  }
-
-  it('devolve a resposta em prosa', async () => {
-    respondeCom({ candidates: [{ content: { parts: [{ text: '  Corte o streaming.  ' }] } }] });
+  // US-017 — A chave não vai para o navegador
+  it('AC-050: a conversa também pede ao próprio domínio, sem chave @spec:AC-050', async () => {
+    const fetchMock = proxyResponde('Corte o streaming.');
 
     const resultado = await sendChatMessage('pergunta');
 
     expect(resultado).toEqual({ ok: true, content: 'Corte o streaming.' });
-  });
+    expect(enderecoChamado(fetchMock)).toBe('/api/gemini');
+    expect(enderecoChamado(fetchMock)).not.toContain('googleapis.com');
 
-  // ASM-024: pedir JSON aqui faria o modelo embrulhar a frase num objeto.
-  it('não pede JSON ao modelo, e manda a chave no header', async () => {
-    const fetchMock = respondeCom({ candidates: [{ content: { parts: [{ text: 'ok' }] } }] });
-
-    await sendChatMessage('pergunta');
-
-    const [, init] = fetchMock.mock.calls[0] as [
-      string,
-      { body: string; headers: Record<string, string> },
-    ];
-    const body = JSON.parse(init.body) as Record<string, unknown>;
-    expect(body['generationConfig']).toBeUndefined();
-    expect(init.headers['x-goog-api-key']).toBe('chave-de-teste');
-  });
-
-  it('sem chave configurada, nem tenta a rede', async () => {
-    vi.stubEnv('VITE_GEMINI_API_KEY', '');
-    const fetchMock = respondeCom({});
-
-    const resultado = await sendChatMessage('pergunta');
-
-    expect(resultado.ok).toBe(false);
-    expect(resultado.ok ? null : resultado.error.kind).toBe('missing-key');
-    expect(fetchMock).not.toHaveBeenCalled();
+    // Sem `json`: a conversa quer prosa (ASM-024). E sem chave nenhuma.
+    expect(corpoEnviado(fetchMock)).toEqual({ prompt: 'pergunta' });
+    const [, init] = fetchMock.mock.calls[0] as [string, { headers: Record<string, string> }];
+    expect(init.headers['x-goog-api-key']).toBeUndefined();
   });
 
   // Cada causa com nome próprio, o mesmo vocabulário do diagnóstico.
-  it.each([
-    [401, 'invalid-key'],
-    [403, 'invalid-key'],
-    [429, 'quota'],
-    [500, 'network'],
-  ])('status %i vira a falha %s', async (status, kind) => {
-    respondeCom({}, { ok: false, status });
+  it.each(['invalid-key', 'quota', 'network', 'missing-key'] as const)(
+    'a causa %s do servidor chega com o mesmo nome',
+    async (kind) => {
+      proxyFalha(kind);
+
+      const resultado = await sendChatMessage('pergunta');
+
+      expect(resultado.ok ? null : resultado.error.kind).toBe(kind);
+    },
+  );
+
+  it('a falta de chave chega como resposta do servidor', async () => {
+    proxySemChave();
 
     const resultado = await sendChatMessage('pergunta');
 
-    expect(resultado.ok ? null : resultado.error.kind).toBe(kind);
+    expect(resultado.ok ? null : resultado.error.kind).toBe('missing-key');
   });
 
   it('a rede caindo vira falha de rede, não exceção', async () => {
@@ -201,7 +180,10 @@ describe('sendChatMessage', () => {
   });
 
   it('resposta sem texto aproveitável vira erro tratado', async () => {
-    respondeCom({ candidates: [] });
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({ ok: true, status: 200, json: () => Promise.resolve({}) }),
+    );
 
     const resultado = await sendChatMessage('pergunta');
 
@@ -209,7 +191,7 @@ describe('sendChatMessage', () => {
   });
 
   it('resposta só com espaços conta como vazia', async () => {
-    respondeCom({ candidates: [{ content: { parts: [{ text: '   ' }] } }] });
+    proxyResponde('   ');
 
     const resultado = await sendChatMessage('pergunta');
 

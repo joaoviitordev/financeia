@@ -7,7 +7,9 @@
     "src/routes/**",
     "src/features/simulations/**",
     "src/features/insights/**",
-    "src/router.tsx"
+    "src/server/**",
+    "src/router.tsx",
+    "api/**"
   ],
   "ignoreGlobs": ["node_modules/**", ".git/**", "dist/**", "build/**", "coverage/**", ".spec/**"]
 }

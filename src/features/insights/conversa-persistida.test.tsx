@@ -7,6 +7,7 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { ChatMessage } from '@/features/insights/chat-types';
+import { proxyResponde } from '@/features/insights/proxy-double';
 import type { InsightData } from '@/features/insights/types';
 import { Onboarding } from '@/features/onboarding/Onboarding';
 import { EMPTY_ANSWERS } from '@/features/onboarding/questions';
@@ -61,27 +62,18 @@ function renderResultado(id: string) {
   );
 }
 
-/** O Gemini respondendo texto livre. */
+/** O proxy respondendo texto livre. */
 function respondeCom(texto: string) {
-  vi.stubGlobal(
-    'fetch',
-    vi.fn().mockResolvedValue({
-      ok: true,
-      status: 200,
-      json: () => Promise.resolve({ candidates: [{ content: { parts: [{ text: texto }] } }] }),
-    }),
-  );
+  proxyResponde(texto);
 }
 
 type ScrollIntoView = (arg?: boolean | ScrollIntoViewOptions) => void;
 
 beforeEach(() => {
-  vi.stubEnv('VITE_GEMINI_API_KEY', 'chave-de-teste');
   Element.prototype.scrollIntoView = vi.fn<ScrollIntoView>();
 });
 
 afterEach(() => {
-  vi.unstubAllEnvs();
   vi.unstubAllGlobals();
   vi.restoreAllMocks();
 });
