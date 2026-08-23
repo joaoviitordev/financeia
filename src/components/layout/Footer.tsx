@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom';
-
 import { cn } from '@/lib/cn';
 
 const PROJECT_NAME = 'Finance IA';
@@ -25,11 +23,6 @@ export function Footer({ className }: FooterProps) {
 
   return (
     <footer className={cn('flex w-full flex-col items-center gap-1 py-6 text-center', className)}>
-      {/* O botão do cabeçalho abre a sheet; sem este link a página /historico
-          existiria sem porta de entrada. */}
-      <Link to="/historico" className="text-caption-1 text-accent-text hover:underline">
-        Suas simulações
-      </Link>
       <p className="text-caption-1 text-label-tertiary">
         © {year} {PROJECT_NAME}
       </p>
