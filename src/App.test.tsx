@@ -46,16 +46,15 @@ describe('App', () => {
 
   // O texto mudou junto com o armazenamento (Q-001): dizer que nada é gravado
   // passou a ser mentira no momento em que a conclusão guarda a simulação.
-  it('abre o histórico e diz que as simulações ficam no dispositivo', async () => {
+  it('leva ao histórico e diz que as simulações ficam no dispositivo', async () => {
     const user = userEvent.setup();
     renderApp();
 
     await user.click(screen.getByRole('button', { name: 'Suas simulações' }));
 
-    expect(screen.getByRole('dialog', { name: 'Histórico' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Suas simulações', level: 1 })).toBeInTheDocument();
     expect(screen.getByText('Nenhuma simulação por aqui ainda')).toBeInTheDocument();
     expect(screen.getByText(/fica guardada neste dispositivo/i)).toBeInTheDocument();
-    // A sheet passou a hospedar a lista de verdade: o estado vazio agora é o dela.
     expect(screen.getByRole('button', { name: 'Começar uma simulação' })).toBeInTheDocument();
   });
 });

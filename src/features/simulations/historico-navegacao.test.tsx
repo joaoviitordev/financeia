@@ -1,14 +1,14 @@
 // Spec da feature historico (T-016).
 // Cada teste prova um critério de aceite; a tag @spec:AC-xxx no título é o
 // que liga o teste à especificação em .spec/features/historico/.
-import { render, screen, waitFor, within } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { createMemoryRouter, RouterProvider } from 'react-router-dom';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { InsightData } from '@/features/insights/types';
 import { EMPTY_ANSWERS } from '@/features/onboarding/questions';
-import { listSimulations, saveSimulation, updateSimulation } from '@/features/simulations/storage';
+import { saveSimulation, updateSimulation } from '@/features/simulations/storage';
 import { routes } from '@/router';
 import { ThemeProvider } from '@/theme/ThemeProvider';
 
@@ -65,22 +65,16 @@ describe('histórico e navegação', () => {
     updateSimulation(id, { insight: INSIGHT });
     vi.stubGlobal('fetch', vi.fn());
 
-    const router = renderAt('/');
-    await user.click(screen.getByRole('button', { name: 'Suas simulações' }));
+    const router = renderAt('/historico');
+    await user.click(await screen.findByRole('button', { name: 'Ver detalhes' }));
 
-    const sheet = screen.getByRole('dialog', { name: 'Histórico' });
-    await user.click(within(sheet).getByRole('button', { name: 'Ver detalhes' }));
-
-    // Cheguei ao endereço de resultado dela...
+    // Cheguei ao endereço de resultado dela, com os números na tela.
     await waitFor(() => {
       expect(router.state.location.pathname).toBe(`/resultado/${id}`);
     });
     expect(
       screen.getByRole('heading', { name: 'Resultado da sua simulação', level: 1 }),
     ).toBeInTheDocument();
-
-    // ...e o histórico se fechou.
-    expect(screen.queryByRole('dialog', { name: 'Histórico' })).not.toBeInTheDocument();
   });
 
   // US-010 — Voltar a uma simulação guardada
@@ -91,10 +85,8 @@ describe('histórico e navegação', () => {
     const fetchMock = vi.fn();
     vi.stubGlobal('fetch', fetchMock);
 
-    renderAt('/');
-    await user.click(screen.getByRole('button', { name: 'Suas simulações' }));
-    const sheet = screen.getByRole('dialog', { name: 'Histórico' });
-    await user.click(within(sheet).getByRole('button', { name: 'Ver detalhes' }));
+    renderAt('/historico');
+    await user.click(await screen.findByRole('button', { name: 'Ver detalhes' }));
 
     // O diagnóstico guardado aparece...
     expect(await screen.findByText('A meta cabe no seu orçamento.')).toBeInTheDocument();
@@ -102,33 +94,45 @@ describe('histórico e navegação', () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
-  // US-011 — Apagar o que não quero mais
-  it('AC-035: Apagar a simulação aberta devolve a pessoa ao início @spec:AC-035', async () => {
+  // US-012 — O histórico tem endereço próprio
+  it('AC-037: Voltar do histórico devolve a pessoa à tela em que estava @spec:AC-037', async () => {
     const user = userEvent.setup();
     const id = simulacao('Comprar um carro');
     updateSimulation(id, { insight: INSIGHT });
     vi.stubGlobal('fetch', vi.fn());
 
+    // Cheguei ao histórico a partir do resultado, pelo botão do cabeçalho.
     const router = renderAt(`/resultado/${id}`);
+    await user.click(screen.getByRole('button', { name: 'Suas simulações' }));
+    await waitFor(() => {
+      expect(router.state.location.pathname).toBe('/historico');
+    });
+
+    await user.click(screen.getByRole('button', { name: 'Voltar' }));
+
+    // Estou de novo naquele resultado.
+    await waitFor(() => {
+      expect(router.state.location.pathname).toBe(`/resultado/${id}`);
+    });
     expect(
       screen.getByRole('heading', { name: 'Resultado da sua simulação', level: 1 }),
     ).toBeInTheDocument();
+  });
 
-    await user.click(screen.getByRole('button', { name: 'Suas simulações' }));
-    const sheet = screen.getByRole('dialog', { name: 'Histórico' });
-    await user.click(
-      within(sheet).getByRole('button', { name: 'Excluir a simulação Comprar um carro' }),
-    );
-    await user.click(screen.getByRole('button', { name: 'Apagar' }));
+  // US-012 — O histórico tem endereço próprio
+  it('AC-037: Sem tela anterior, voltar leva à apresentação @spec:AC-037', async () => {
+    const user = userEvent.setup();
+    vi.stubGlobal('fetch', vi.fn());
 
-    // Volto para a apresentação, sem passar por "simulação não encontrada".
+    // Link direto ou favorito: `/historico` é a primeira entrada da pilha.
+    const router = renderAt('/historico');
+    await user.click(screen.getByRole('button', { name: 'Voltar' }));
+
     await waitFor(() => {
       expect(router.state.location.pathname).toBe('/');
     });
     expect(
       screen.getByRole('heading', { name: 'Vamos planejar seu futuro', level: 1 }),
     ).toBeInTheDocument();
-    expect(screen.queryByText('Simulação não encontrada')).not.toBeInTheDocument();
-    expect(listSimulations()).toEqual([]);
   });
 });

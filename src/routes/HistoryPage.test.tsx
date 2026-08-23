@@ -37,13 +37,13 @@ function renderAt(path: string) {
 
 describe('HistoryPage', () => {
   // US-012 — O histórico tem endereço próprio
-  it('AC-036: /historico mostra a mesma lista em página cheia @spec:AC-036', () => {
+  it('AC-036: /historico mostra a lista em página cheia @spec:AC-036', () => {
     simulacao('Viagem');
     simulacao('Comprar um carro');
 
     renderAt('/historico');
 
-    // A mesma lista da sheet: as duas simulações, com os mesmos controles.
+    // As duas simulações guardadas, com os controles de cada uma.
     expect(screen.getByRole('heading', { name: 'Suas simulações', level: 1 })).toBeInTheDocument();
     expect(screen.getAllByRole('listitem')).toHaveLength(2);
     expect(screen.getByText('Comprar um carro')).toBeInTheDocument();

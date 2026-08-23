@@ -1,10 +1,7 @@
-import { useState } from 'react';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
-import { Sheet } from '@/components/ui/Sheet';
-import { HistoryList } from '@/features/simulations/HistoryList';
 
 /**
  * Casca da aplicação: cabeçalho fixo, conteúdo cresce, rodapé encosta embaixo.
@@ -15,13 +12,6 @@ import { HistoryList } from '@/features/simulations/HistoryList';
  */
 function App() {
   const navigate = useNavigate();
-  const location = useLocation();
-  const [historyOpen, setHistoryOpen] = useState(false);
-
-  const goTo = (path: string) => {
-    setHistoryOpen(false);
-    void navigate(path);
-  };
 
   return (
     <div className="flex min-h-dvh flex-col bg-grouped">
@@ -33,7 +23,7 @@ function App() {
           void navigate('/');
         }}
         onShowHistory={() => {
-          setHistoryOpen(true);
+          void navigate('/historico');
         }}
       />
 
@@ -45,24 +35,6 @@ function App() {
       </main>
 
       <Footer />
-
-      <Sheet open={historyOpen} onOpenChange={setHistoryOpen} title="Histórico">
-        <HistoryList
-          onOpen={(id) => {
-            goTo(`/resultado/${id}`);
-          }}
-          onStart={() => {
-            goTo('/');
-          }}
-          onDeleted={(ids) => {
-            // Apagou justamente a simulação que está na tela: ficar ali seria
-            // mostrar números de algo que deixou de existir (ASM-017).
-            if (ids.some((id) => location.pathname === `/resultado/${id}`)) {
-              goTo('/');
-            }
-          }}
-        />
-      </Sheet>
     </div>
   );
 }

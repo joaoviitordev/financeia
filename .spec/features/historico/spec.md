@@ -44,9 +44,9 @@ números e o texto sem gerar tudo de novo.
 
 #### AC-030 — Abrir uma simulação leva ao resultado dela
 
-- **Dado** o histórico aberto com uma simulação na lista
+- **Dado** o histórico com uma simulação na lista
 - **Quando** aciono "ver detalhes" nessa simulação
-- **Então** chego ao endereço de resultado dela, e o histórico se fecha
+- **Então** chego ao endereço de resultado dela, com os números daquela simulação na tela
 
 #### AC-031 — Reabrir pelo histórico não custa uma nova geração
 
@@ -77,22 +77,23 @@ para não deixar minha renda e minhas dívidas na máquina para sempre.
 - **Quando** aciono apagar tudo e confirmo
 - **Então** nenhuma simulação continua guardada e a lista mostra o estado vazio
 
-#### AC-035 — Apagar a simulação aberta devolve a pessoa ao início
-
-- **Dado** que estou na página de resultado de uma simulação
-- **Quando** apago justamente essa simulação pelo histórico
-- **Então** vou para a apresentação da simulação, sem passar por tela de erro
-
 ### US-012 — O histórico tem endereço próprio
 
 Como pessoa no celular ou com um link salvo, quero uma página de histórico, para chegar à lista
-direto, sem depender do painel do cabeçalho.
+direto e poder guardar o endereço.
 
-#### AC-036 — `/historico` mostra a mesma lista em página cheia
+#### AC-036 — `/historico` mostra a lista em página cheia
 
 - **Dado** que tenho simulações guardadas
 - **Quando** abro o endereço `/historico`
-- **Então** vejo a mesma lista da sheet do cabeçalho, dentro do cabeçalho e do rodapé da aplicação
+- **Então** vejo a lista das minhas simulações, dentro do cabeçalho e do rodapé da aplicação
+
+#### AC-037 — Voltar do histórico devolve a pessoa à tela em que estava
+
+- **Dado** que cheguei ao histórico a partir do resultado de uma simulação
+- **Quando** aciono voltar
+- **Então** estou de novo naquele resultado; e se eu tiver aberto `/historico` direto, sem tela
+  anterior, voltar me leva à apresentação da simulação
 
 ## Fora de escopo
 
@@ -106,11 +107,11 @@ direto, sem depender do painel do cabeçalho.
 
 | ID      | Suposição                                                                                     | Status     | Resolução                                                                                                  |
 | ------- | --------------------------------------------------------------------------------------------- | ---------- | ---------------------------------------------------------------------------------------------------------- |
-| ASM-013 | A mesma lista serve a sheet do cabeçalho e a rota `/historico` — um componente, dois lugares  | confirmada | Decisão técnica (roteiro E10): a sheet é acesso rápido, a rota é link direto e celular                     |
+| ASM-013 | A rota `/historico` é a única casa da lista; a sheet do cabeçalho foi retirada                | confirmada | Decisão do dono do produto em 2026-08-23: duas portas para a mesma lista na mesma tela é redundância       |
 | ASM-014 | A confirmação de exclusão usa a sheet do design system, nunca o `window.confirm`              | confirmada | Decisão técnica (roteiro E10): o diálogo do navegador ignora o tema, o foco e o idioma do produto          |
 | ASM-015 | Não há teto de simulações guardadas                                                           | confirmada | Decisão do dono do produto em 2026-08-22: descartar trabalho sem a pessoa pedir é pior que o risco de cota |
 | ASM-016 | Existe um "apagar tudo", com a mesma confirmação da exclusão única                            | confirmada | Decisão do dono do produto em 2026-08-22: é o que o estado vazio já promete                                |
-| ASM-017 | Apagar a simulação que está aberta leva para a raiz                                           | confirmada | Decisão do dono do produto em 2026-08-22: é consequência do que a pessoa fez, não erro                     |
+| ASM-019 | Voltar do histórico sem tela anterior (link direto, favorito) leva à apresentação             | confirmada | Decisão técnica: é melhor que um botão morto ou um passo para fora do aplicativo                           |
 | ASM-018 | A ordem da lista vem do campo `createdAt` de cada registro, e não da posição no armazenamento | confirmada | Decisão técnica: a posição é detalhe de gravação; a data é o que a pessoa entende por "mais recente"       |
 
 ## Perguntas em aberto

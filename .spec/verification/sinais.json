@@ -873,6 +873,195 @@
       "primeiraVez": "2026-08-22T23:11:39.970Z",
       "ultimaVez": "2026-08-22T23:11:39.970Z",
       "gitRev": "ac94a6f"
+    },
+    "ID_DUPLICADO::historico::AC-037": {
+      "codigo": "ID_DUPLICADO",
+      "feature": "historico",
+      "ref": "AC-037",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-23T12:02:33.341Z",
+      "ultimaVez": "2026-08-23T12:02:33.342Z",
+      "gitRev": "0b6acc2"
+    },
+    "ID_DUPLICADO::resultado-persistido::ASM-001": {
+      "codigo": "ID_DUPLICADO",
+      "feature": "resultado-persistido",
+      "ref": "ASM-001",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-23T12:02:33.342Z",
+      "ultimaVez": "2026-08-23T12:02:33.342Z",
+      "gitRev": "0b6acc2"
+    },
+    "ID_DUPLICADO::resultado-persistido::Q-001": {
+      "codigo": "ID_DUPLICADO",
+      "feature": "resultado-persistido",
+      "ref": "Q-001",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-23T12:02:33.342Z",
+      "ultimaVez": "2026-08-23T12:02:33.342Z",
+      "gitRev": "0b6acc2"
+    },
+    "ARQUIVO_INEXISTENTE::chat-educador::T-001": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "chat-educador",
+      "ref": "T-001",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-23T12:02:33.342Z",
+      "ultimaVez": "2026-08-23T12:02:33.342Z",
+      "gitRev": "0b6acc2"
+    },
+    "AC_SEM_PROVA::chat-educador::AC-037": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "chat-educador",
+      "ref": "AC-037",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-23T12:02:33.342Z",
+      "ultimaVez": "2026-08-23T12:02:33.342Z",
+      "gitRev": "0b6acc2"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::historico::T-016": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "historico",
+      "ref": "T-016",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-23T12:02:33.342Z",
+      "ultimaVez": "2026-08-23T12:02:33.342Z",
+      "gitRev": "0b6acc2"
+    },
+    "ARQUIVO_INEXISTENTE::chat-educador::T-017": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "chat-educador",
+      "ref": "T-017",
+      "ocorrencias": 4,
+      "primeiraVez": "2026-08-23T12:05:16.673Z",
+      "ultimaVez": "2026-08-23T12:05:27.865Z",
+      "gitRev": "0b6acc2"
+    },
+    "ARQUIVO_INEXISTENTE::chat-educador::T-018": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "chat-educador",
+      "ref": "T-018",
+      "ocorrencias": 4,
+      "primeiraVez": "2026-08-23T12:05:16.674Z",
+      "ultimaVez": "2026-08-23T12:05:27.865Z",
+      "gitRev": "0b6acc2"
+    },
+    "ARQUIVO_INEXISTENTE::chat-educador::T-019": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "chat-educador",
+      "ref": "T-019",
+      "ocorrencias": 4,
+      "primeiraVez": "2026-08-23T12:05:16.674Z",
+      "ultimaVez": "2026-08-23T12:05:27.865Z",
+      "gitRev": "0b6acc2"
+    },
+    "ARQUIVO_INEXISTENTE::chat-educador::T-020": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "chat-educador",
+      "ref": "T-020",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-23T12:05:16.674Z",
+      "ultimaVez": "2026-08-23T12:05:27.865Z",
+      "gitRev": "0b6acc2"
+    },
+    "AC_SEM_TESTE::chat-educador::AC-038": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "chat-educador",
+      "ref": "AC-038",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-23T12:05:16.674Z",
+      "ultimaVez": "2026-08-23T12:05:27.865Z",
+      "gitRev": "0b6acc2"
+    },
+    "AC_SEM_TESTE::chat-educador::AC-039": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "chat-educador",
+      "ref": "AC-039",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-23T12:05:16.674Z",
+      "ultimaVez": "2026-08-23T12:05:27.865Z",
+      "gitRev": "0b6acc2"
+    },
+    "AC_SEM_TESTE::chat-educador::AC-040": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "chat-educador",
+      "ref": "AC-040",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-23T12:05:16.674Z",
+      "ultimaVez": "2026-08-23T12:05:27.865Z",
+      "gitRev": "0b6acc2"
+    },
+    "AC_SEM_TESTE::chat-educador::AC-041": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "chat-educador",
+      "ref": "AC-041",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-23T12:05:16.674Z",
+      "ultimaVez": "2026-08-23T12:05:27.865Z",
+      "gitRev": "0b6acc2"
+    },
+    "AC_SEM_TESTE::chat-educador::AC-042": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "chat-educador",
+      "ref": "AC-042",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-23T12:05:16.674Z",
+      "ultimaVez": "2026-08-23T12:05:27.865Z",
+      "gitRev": "0b6acc2"
+    },
+    "AC_SEM_TESTE::chat-educador::AC-043": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "chat-educador",
+      "ref": "AC-043",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-23T12:05:16.674Z",
+      "ultimaVez": "2026-08-23T12:05:27.865Z",
+      "gitRev": "0b6acc2"
+    },
+    "AC_SEM_TESTE::chat-educador::AC-044": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "chat-educador",
+      "ref": "AC-044",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-23T12:05:16.674Z",
+      "ultimaVez": "2026-08-23T12:05:27.865Z",
+      "gitRev": "0b6acc2"
+    },
+    "AC_SEM_TESTE::chat-educador::AC-045": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "chat-educador",
+      "ref": "AC-045",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-23T12:05:16.674Z",
+      "ultimaVez": "2026-08-23T12:05:27.865Z",
+      "gitRev": "0b6acc2"
+    },
+    "AC_SEM_TESTE::chat-educador::AC-046": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "chat-educador",
+      "ref": "AC-046",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-23T12:05:16.674Z",
+      "ultimaVez": "2026-08-23T12:05:27.865Z",
+      "gitRev": "0b6acc2"
+    },
+    "AC_SEM_TESTE::chat-educador::AC-047": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "chat-educador",
+      "ref": "AC-047",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-23T12:05:16.674Z",
+      "ultimaVez": "2026-08-23T12:05:27.865Z",
+      "gitRev": "0b6acc2"
+    },
+    "AC_SEM_TESTE::chat-educador::AC-048": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "chat-educador",
+      "ref": "AC-048",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-23T12:05:16.674Z",
+      "ultimaVez": "2026-08-23T12:05:27.865Z",
+      "gitRev": "0b6acc2"
     }
   }
 }

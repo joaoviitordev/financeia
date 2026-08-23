@@ -53,8 +53,8 @@ function goalOf(record: SimulationRecord) {
 /**
  * As simulações guardadas neste dispositivo.
  *
- * O mesmo componente serve a sheet do cabeçalho e a página `/historico`
- * (ASM-013): a lista não sabe onde está, só avisa quem a usa quando alguém
+ * A lista não sabe onde está (ASM-013): serve a página `/historico` e serviria
+ * qualquer outro lugar, porque só avisa quem a usa quando alguém
  * pede para abrir ou some com um registro.
  *
  * Excluir é irreversível e não tem lixeira — daí a confirmação obrigatória,

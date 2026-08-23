@@ -1,11 +1,11 @@
 {
   "feature": "historico",
-  "timestamp": "2026-08-23T11:53:08.882Z",
-  "gitRev": "f0d1c51",
+  "timestamp": "2026-08-23T12:02:33.024Z",
+  "gitRev": "0b6acc2",
   "command": "npx vitest run --reporter=json --outputFile=.spec/verification/raw.json",
   "reporter": "vitest-json",
   "exitCode": 0,
-  "testsParsed": 131,
+  "testsParsed": 132,
   "results": {
     "AC-027": {
       "status": "pass",
@@ -47,14 +47,14 @@
       "testName": "clearSimulations AC-034: Apagar tudo limpa o histórico inteiro, com a mesma cerimônia @spec:AC-034 AC-034: Apagar tudo limpa o histórico inteiro, com a mesma cerimônia @spec:AC-034",
       "method": "vitest-json"
     },
-    "AC-035": {
-      "status": "pass",
-      "testName": "histórico e navegação AC-035: Apagar a simulação aberta devolve a pessoa ao início @spec:AC-035 AC-035: Apagar a simulação aberta devolve a pessoa ao início @spec:AC-035",
-      "method": "vitest-json"
-    },
     "AC-036": {
       "status": "pass",
-      "testName": "HistoryPage AC-036: /historico mostra a mesma lista em página cheia @spec:AC-036 AC-036: /historico mostra a mesma lista em página cheia @spec:AC-036",
+      "testName": "HistoryPage AC-036: /historico mostra a lista em página cheia @spec:AC-036 AC-036: /historico mostra a lista em página cheia @spec:AC-036",
+      "method": "vitest-json"
+    },
+    "AC-037": {
+      "status": "pass",
+      "testName": "histórico e navegação AC-037: Voltar do histórico devolve a pessoa à tela em que estava @spec:AC-037 AC-037: Voltar do histórico devolve a pessoa à tela em que estava @spec:AC-037",
       "method": "vitest-json"
     }
   },
