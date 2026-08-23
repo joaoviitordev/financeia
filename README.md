@@ -38,8 +38,17 @@ Os dois são adaptadores de dez linhas em cima do mesmo módulo,
 produção de divergirem, e há um teste que falha se alguém escrever um segundo
 proxy.
 
-Ao publicar na Vercel, cadastre `GEMINI_API_KEY` em Settings > Environment
-Variables.
+### Publicar na Vercel
+
+1. Cadastre `GEMINI_API_KEY` em Settings > Environment Variables. Sem isso o
+   site sobe e o diagnóstico avisa que falta a chave.
+2. O `vercel.json` redireciona qualquer caminho que não seja `/api/` para o
+   `index.html`. Sem esse redirecionamento, `/historico` e `/resultado/:id`
+   devolvem 404: são rotas do React Router, existem só no navegador e não como
+   arquivo. O 404 aparece ao abrir o link direto, ao recarregar a página e ao
+   voltar pelo navegador, que são justamente os caminhos que a feature
+   `historico` existe para servir.
+3. A pasta `api/` é publicada sozinha, sem configuração.
 
 **O que esta divisão ainda não resolve:** o endereço `/api/gemini` fica aberto a
 quem souber dele, e a cota continua sendo a de quem publicou. Limitar por
