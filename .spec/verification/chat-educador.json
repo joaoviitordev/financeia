@@ -1,0 +1,11 @@
+{
+  "feature": "chat-educador",
+  "timestamp": "2026-08-23T12:16:22.927Z",
+  "gitRev": "5e033e0",
+  "command": "npx vitest run --reporter=json --outputFile=.spec/verification/raw.json",
+  "reporter": "vitest-json",
+  "exitCode": 0,
+  "testsParsed": 132,
+  "results": {},
+  "principles": {}
+}

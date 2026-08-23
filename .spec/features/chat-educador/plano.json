@@ -1,0 +1,90 @@
+{
+  "runId": "financeia-chat-educador-mt5rk1is",
+  "feature": "chat-educador",
+  "agent": "claude",
+  "modo": "paralelo",
+  "paralelizar": ["T-017", "T-018"],
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-08-23 12:08",
+  "branchTrabalho": "spec/chat-educador",
+  "baseDir": ".spec/features/chat-educador",
+  "specDir": ".spec",
+  "repoName": "financeia",
+  "logsDir": "../onp-worktrees/financeia-chat-educador-logs",
+  "ondas": [["faixa-1", "faixa-2"]],
+  "faixas": [
+    {
+      "id": "faixa-1",
+      "branch": "spec/chat-educador-faixa-1",
+      "worktree": "../onp-worktrees/financeia-chat-educador-faixa-1",
+      "tarefas": [
+        {
+          "id": "T-017",
+          "titulo": "A conversa no armazenamento",
+          "modelo": "claude-sonnet-5",
+          "esforco": "medium",
+          "arquivos": [
+            "src/features/insights/chat-types.ts",
+            "src/features/insights/chat-types.test.ts",
+            "src/features/simulations/storage.ts",
+            "src/features/simulations/storage.test.ts"
+          ],
+          "refs": ["US-015", "AC-045", "AC-046"]
+        }
+      ]
+    },
+    {
+      "id": "faixa-2",
+      "branch": "spec/chat-educador-faixa-2",
+      "worktree": "../onp-worktrees/financeia-chat-educador-faixa-2",
+      "tarefas": [
+        {
+          "id": "T-018",
+          "titulo": "O pedido de acompanhamento",
+          "modelo": "claude-sonnet-5",
+          "esforco": "high",
+          "arquivos": ["src/features/insights/chat.ts", "src/features/insights/chat.test.ts"],
+          "refs": ["US-013", "AC-040", "AC-041"]
+        }
+      ]
+    }
+  ],
+  "sequenciais": [
+    {
+      "id": "T-019",
+      "titulo": "O painel da conversa",
+      "modelo": "claude-sonnet-5",
+      "esforco": "high",
+      "arquivos": [
+        "src/features/insights/InsightChat.tsx",
+        "src/features/insights/InsightChat.test.tsx"
+      ],
+      "refs": [
+        "US-013",
+        "US-014",
+        "US-016",
+        "AC-039",
+        "AC-042",
+        "AC-043",
+        "AC-044",
+        "AC-047",
+        "AC-048"
+      ]
+    },
+    {
+      "id": "T-020",
+      "titulo": "A conversa na página de resultado",
+      "modelo": "claude-sonnet-5",
+      "esforco": "high",
+      "arquivos": [
+        "src/routes/ResultPage.tsx",
+        "src/routes/ResultPage.test.tsx",
+        "src/features/insights/conversa-persistida.test.tsx"
+      ],
+      "refs": ["US-013", "US-015", "AC-038", "AC-045", "AC-046"]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}

@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "proximoId": 3,
+  "proximoId": 4,
   "licoes": [
     {
       "id": "L-001",
@@ -43,6 +43,27 @@
       "penalidades": 0,
       "criadaEm": "2026-08-23T11:40:27.755Z",
       "ultimaVez": "2026-08-23T11:40:27.755Z"
+    },
+    {
+      "id": "L-003",
+      "texto": "Antes de rodar o executor headless, confira se o formato de commit do plano passa no commit-msg do projeto: hook que recusa o commit faz a faixa perder o trabalho no worktree e ainda marcar a tarefa como concluida.",
+      "chave": "TASK_CONCLUIDA_SEM_PROVA::antes de rodar o executor headless confira se o formato de commit do plano passa no commit msg do projeto hook que recusa o commit faz a faixa perder o trabalho no worktree e ainda marcar a tarefa como concluida",
+      "sinal": "TASK_CONCLUIDA_SEM_PROVA",
+      "escopo": null,
+      "status": "candidata",
+      "recorrencia": 1,
+      "features": ["chat-educador"],
+      "evidencias": [
+        {
+          "fonte": "T-017",
+          "feature": "chat-educador",
+          "quando": "2026-08-23T12:19:59.203Z",
+          "gitRev": "5e033e0"
+        }
+      ],
+      "penalidades": 0,
+      "criadaEm": "2026-08-23T12:19:59.203Z",
+      "ultimaVez": "2026-08-23T12:19:59.203Z"
     }
   ]
 }

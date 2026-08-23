@@ -25,6 +25,12 @@ Vistas em uma feature só. Registradas, não confiadas.
 - features: resultado-persistido
 - última evidência: — (resultado-persistido, 2026-08-23T11:40:27.755Z)
 
+### L-003 — Antes de rodar o executor headless, confira se o formato de commit do plano passa no commit-msg do projeto: hook que recusa o commit faz a faixa perder o trabalho no worktree e ainda marcar a tarefa como concluida.
+
+- sinal: `TASK_CONCLUIDA_SEM_PROVA` · recorrência: 1 feature(s) · penalidades: 0
+- features: chat-educador
+- última evidência: T-017 (chat-educador, 2026-08-23T12:19:59.203Z)
+
 ## Quarentena — aplicadas e falharam, ignorar
 
 A falha recorreu mesmo com a lição aplicada. Revisão é do usuário.
