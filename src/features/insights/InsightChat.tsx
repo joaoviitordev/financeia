@@ -53,8 +53,15 @@ export function InsightChat({ record, onMessagesChange }: InsightChatProps) {
   // `behavior` sai da preferência do sistema — quem pediu menos movimento
   // recebe o salto, não a animação.
   useEffect(() => {
+    const fim = fimRef.current;
+    // O jsdom não implementa scrollIntoView, e sem esta guarda a conversa
+    // derrubaria com exceção qualquer teste de outra tela que só passe por
+    // aqui. Rolar é enfeite: nada do que importa depende de ter acontecido.
+    if (typeof fim?.scrollIntoView !== 'function') {
+      return;
+    }
     const preferMenosMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    fimRef.current?.scrollIntoView({ behavior: preferMenosMovimento ? 'auto' : 'smooth' });
+    fim.scrollIntoView({ behavior: preferMenosMovimento ? 'auto' : 'smooth' });
   }, [messages, pendente]);
 
   async function perguntar(pergunta: string) {

@@ -1,4 +1,5 @@
 import { KeyRound, TriangleAlert } from 'lucide-react';
+import { useEffect } from 'react';
 
 import { Button } from '@/components/ui/Button';
 import { Card, CardBody } from '@/components/ui/Card';
@@ -9,6 +10,21 @@ import { useInsight } from '@/features/insights/useInsight';
 interface InsightPanelProps {
   /** Simulação cujo diagnóstico será lido ou gerado. */
   id: string;
+  /**
+   * Avisa quando o diagnóstico entra ou sai da tela.
+   *
+   * Existe porque a conversa só abre depois dele (AC-038) e quem decide isso é
+   * a página, não o painel. Sem este aviso a página teria de chamar
+   * `useInsight` por conta própria, e aí seriam duas requisições por simulação,
+   * exatamente o que o AC-023 proíbe.
+   *
+   * Avisa um booleano, e não o diagnóstico: o `useInsight` relê o armazenamento
+   * a cada render, então o objeto tem identidade nova toda vez. Entregá-lo aqui
+   * faria a página guardar um estado sempre "diferente", re-renderizar, e o
+   * efeito disparar de novo, sem fim. O conteúdo a página lê do armazenamento,
+   * que a essa altura já o tem.
+   */
+  onInsightChange?: (temDiagnostico: boolean) => void;
 }
 
 const TITLE = 'Insight financeiro personalizado';
@@ -25,8 +41,13 @@ const TITLE = 'Insight financeiro personalizado';
  * não existe para essa pessoa, e sem isso a chegada do diagnóstico seria
  * silenciosa.
  */
-export function InsightPanel({ id }: InsightPanelProps) {
+export function InsightPanel({ id, onInsightChange }: InsightPanelProps) {
   const { insight, isLoading, error, retry } = useInsight(id);
+  const temDiagnostico = insight !== null;
+
+  useEffect(() => {
+    onInsightChange?.(temDiagnostico);
+  }, [temDiagnostico, onInsightChange]);
 
   return (
     <Card>

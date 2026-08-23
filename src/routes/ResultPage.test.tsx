@@ -4,10 +4,11 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
+import type { InsightData } from '@/features/insights/types';
 import { EMPTY_ANSWERS } from '@/features/onboarding/questions';
-import { saveSimulation } from '@/features/simulations/storage';
+import { saveSimulation, updateSimulation } from '@/features/simulations/storage';
 import { formatBRL } from '@/lib/format';
 import { ResultPage } from '@/routes/ResultPage';
 
@@ -81,5 +82,93 @@ describe('ResultPage', () => {
     await user.click(restart);
 
     expect(screen.getByText('Início da simulação')).toBeInTheDocument();
+  });
+});
+
+/* --- A conversa abaixo do diagnóstico (T-020) ---------------------------- */
+
+const INSIGHT: InsightData = {
+  feasibility: { status: 'viable', content: 'A meta cabe no seu orçamento.' },
+  diagnosis: { content: 'Sobra saudável todo mês.' },
+  suggestions: { items: ['Automatize o aporte.'] },
+  extraIncome: { items: [] },
+  investment: { items: ['Tesouro Selic.'] },
+  motivation: { content: 'Siga assim.' },
+};
+
+type ScrollIntoView = (arg?: boolean | ScrollIntoViewOptions) => void;
+
+function simulacao(): string {
+  return saveSimulation({
+    ...EMPTY_ANSWERS,
+    renda: '5000',
+    gastosFixos: '2000',
+    dividas: '0',
+    guardado: '3000',
+    objetivo: 'Comprar um carro',
+    custoObjetivo: '45000',
+    prazo: '12',
+  });
+}
+
+describe('a conversa na página de resultado', () => {
+  beforeEach(() => {
+    Element.prototype.scrollIntoView = vi.fn<ScrollIntoView>();
+  });
+
+  afterEach(() => {
+    vi.unstubAllEnvs();
+    vi.unstubAllGlobals();
+    vi.restoreAllMocks();
+  });
+
+  // US-013 — Perguntar sobre o meu plano
+  it('AC-038: A conversa só abre quando há diagnóstico @spec:AC-038', async () => {
+    // Dado: sem chave configurada, o diagnóstico nunca chega à tela
+    vi.stubEnv('VITE_GEMINI_API_KEY', '');
+    const id = simulacao();
+
+    const { unmount } = renderAt(`/resultado/${id}`);
+
+    // Então: não há conversa nenhuma ali — nem campo, nem botão de enviar.
+    expect(await screen.findByText(/Falta configurar a chave/i)).toBeInTheDocument();
+    expect(screen.queryByLabelText('Sua pergunta')).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Enviar pergunta' })).not.toBeInTheDocument();
+
+    // E com o diagnóstico na tela, ela aparece.
+    unmount();
+    vi.stubEnv('VITE_GEMINI_API_KEY', 'chave-de-teste');
+    updateSimulation(id, { insight: INSIGHT });
+    renderAt(`/resultado/${id}`);
+
+    expect(await screen.findByText('A meta cabe no seu orçamento.')).toBeInTheDocument();
+    expect(screen.getByLabelText('Sua pergunta')).toBeInTheDocument();
+  });
+
+  it('enquanto o diagnóstico está a caminho, também não há conversa', async () => {
+    vi.stubEnv('VITE_GEMINI_API_KEY', 'chave-de-teste');
+
+    // Uma requisição adiada deixa o painel carregando. Ela é liberada no fim
+    // do teste de propósito: promessa que nunca resolve trava o encerramento
+    // do worker do vitest, e o teste passa a pendurar a suíte inteira.
+    let liberar: () => void = () => undefined;
+    const adiada = new Promise<void>((resolve) => {
+      liberar = resolve;
+    });
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockImplementation(async () => {
+        await adiada;
+        return { ok: false, status: 500, json: () => Promise.resolve({}) };
+      }),
+    );
+    const id = simulacao();
+
+    renderAt(`/resultado/${id}`);
+
+    expect(screen.queryByLabelText('Sua pergunta')).not.toBeInTheDocument();
+
+    liberar();
+    await adiada;
   });
 });

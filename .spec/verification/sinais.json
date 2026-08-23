@@ -1098,6 +1098,33 @@
       "primeiraVez": "2026-08-23T12:16:23.560Z",
       "ultimaVez": "2026-08-23T12:16:23.560Z",
       "gitRev": "5e033e0"
+    },
+    "Q_ABERTA::chat-educador::Q-007": {
+      "codigo": "Q_ABERTA",
+      "feature": "chat-educador",
+      "ref": "Q-007",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-23T13:13:16.256Z",
+      "ultimaVez": "2026-08-23T13:13:26.872Z",
+      "gitRev": "f81e610"
+    },
+    "Q_ABERTA::chat-educador::Q-008": {
+      "codigo": "Q_ABERTA",
+      "feature": "chat-educador",
+      "ref": "Q-008",
+      "ocorrencias": 4,
+      "primeiraVez": "2026-08-23T13:13:16.257Z",
+      "ultimaVez": "2026-08-23T13:15:37.202Z",
+      "gitRev": "f81e610"
+    },
+    "Q_STATUS_INVALIDO::chat-educador::Q-008": {
+      "codigo": "Q_STATUS_INVALIDO",
+      "feature": "chat-educador",
+      "ref": "Q-008",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-23T13:15:53.831Z",
+      "ultimaVez": "2026-08-23T13:16:31.782Z",
+      "gitRev": "f81e610"
     }
   }
 }

@@ -1,11 +1,11 @@
 {
   "feature": "diagnostico-ia",
-  "timestamp": "2026-08-23T12:02:15.686Z",
-  "gitRev": "0b6acc2",
+  "timestamp": "2026-08-23T13:11:24.472Z",
+  "gitRev": "f81e610",
   "command": "npx vitest run --reporter=json --outputFile=.spec/verification/raw.json",
   "reporter": "vitest-json",
   "exitCode": 0,
-  "testsParsed": 132,
+  "testsParsed": 170,
   "results": {
     "AC-013": {
       "status": "pass",

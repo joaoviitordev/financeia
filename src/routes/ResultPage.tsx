@@ -1,12 +1,15 @@
 import { SearchX } from 'lucide-react';
+import { useCallback, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Button } from '@/components/ui/Button';
+import type { ChatMessage } from '@/features/insights/chat-types';
+import { InsightChat } from '@/features/insights/InsightChat';
 import { InsightPanel } from '@/features/insights/InsightPanel';
 import { toPlanInput } from '@/features/onboarding/answers-to-plan';
 import { buildPlan } from '@/features/onboarding/goals';
 import { SimulationCards } from '@/features/simulations/SimulationCards';
-import { getSimulation } from '@/features/simulations/storage';
+import { getSimulation, updateSimulation } from '@/features/simulations/storage';
 
 /**
  * Tela de resultado (`/resultado/:id`).
@@ -19,11 +22,28 @@ import { getSimulation } from '@/features/simulations/storage';
  * Um id que não existe no armazenamento (apagado, digitado à mão, de outro
  * dispositivo) não é um bug — é um estado esperado, com um caminho de volta
  * em vez de tela em branco ou erro (AC-012).
+ *
+ * A conversa entra abaixo do diagnóstico e só quando ele já está na tela
+ * (AC-038, ASM-021): carregando, erro e falta de chave não rendem conversa,
+ * porque o pedido de acompanhamento precisa do diagnóstico para não responder
+ * genérico.
  */
 export function ResultPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const record = id === undefined ? undefined : getSimulation(id);
+  const [temDiagnostico, setTemDiagnostico] = useState(false);
+
+  // `useCallback` porque o painel avisa dentro de um efeito: uma função nova a
+  // cada render faria esse efeito rodar em loop.
+  const guardarConversa = useCallback(
+    (messages: ChatMessage[]) => {
+      if (id !== undefined) {
+        updateSimulation(id, { messages });
+      }
+    },
+    [id],
+  );
 
   if (record === undefined) {
     return (
@@ -58,7 +78,13 @@ export function ResultPage() {
 
       <SimulationCards plan={plan} />
 
-      <InsightPanel id={record.id} />
+      <InsightPanel id={record.id} onInsightChange={setTemDiagnostico} />
+
+      {/* `record` é relido do armazenamento a cada render, e quando o painel
+          avisa que o diagnóstico chegou ele já está gravado ali. É por isso
+          que a conversa recebe os três de que precisa (AC-040) sem que nada
+          precise ser costurado à mão aqui. */}
+      {temDiagnostico ? <InsightChat record={record} onMessagesChange={guardarConversa} /> : null}
     </div>
   );
 }

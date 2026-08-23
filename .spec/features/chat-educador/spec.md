@@ -1,7 +1,7 @@
 # Spec: Chat educador
 
 > feature: chat-educador
-> status: rascunho
+> status: auditada
 
 <!--
   Como ler este arquivo (o formato é verificado por `onp-spec audit`):
@@ -122,6 +122,8 @@ inteira por causa de uma resposta que não veio.
 - Respostas em fluxo (streaming) — a resposta aparece inteira quando chega.
 - Anexar arquivo, imagem ou áudio à pergunta.
 - Levar a conversa para outro dispositivo: ela vive no mesmo armazenamento local da simulação.
+- Apagar só a conversa, mantendo simulação e diagnóstico (Q-008).
+- Teto de mensagens guardadas por simulação (Q-007). O teto de ASM-023 vale só para o que viaja no pedido.
 
 ## Suposições
 
@@ -137,7 +139,7 @@ inteira por causa de uma resposta que não veio.
 
 ## Perguntas em aberto
 
-| ID    | Pergunta                                                                                                                                                   | Status | Resposta |
-| ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | -------- |
-| Q-007 | Há teto de mensagens **guardadas** por simulação? O teto de ASM-023 é só do que se envia à IA; o armazenamento cresce sem limite e o localStorage tem cota | aberta | —        |
-| Q-008 | Dá para apagar só a conversa, mantendo a simulação e o diagnóstico? Hoje a única saída seria apagar a simulação inteira                                    | aberta | —        |
+| ID    | Pergunta                                                                                                                                                   | Status     | Resposta                                                                                                                                                                                                                                       |
+| ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Q-007 | Há teto de mensagens **guardadas** por simulação? O teto de ASM-023 é só do que se envia à IA; o armazenamento cresce sem limite e o localStorage tem cota | respondida | Não nesta etapa: decisão do dono do produto em 2026-08-23. Uma conversa longa ocupa poucos KB contra alguns MB de cota, e descartar mensagem sem a pessoa pedir é pior que o risco. É o mesmo raciocínio da ASM-015 sobre número de simulações |
+| Q-008 | Dá para apagar só a conversa, mantendo a simulação e o diagnóstico? Hoje a única saída seria apagar a simulação inteira                                    | respondida | Não nesta etapa: decisão do dono do produto em 2026-08-23. A conversa é da simulação e morre com ela; quem quiser recomeçar altera uma resposta, o que já a descarta pelo AC-046                                                               |

@@ -94,10 +94,13 @@ export function useOnboarding(
     // próprio antes de qualquer tela aparecer.
     // `insight: undefined` apaga o diagnóstico da conclusão anterior: ele
     // falava dos números antigos, e texto velho ao lado de card novo é o pior
-    // resultado possível (ASM-012).
+    // resultado possível (ASM-012). `messages: undefined` leva a conversa pelo
+    // mesmo motivo e no mesmo movimento (ASM-022, AC-046): ela discutia esses
+    // mesmos números, e sobreviver a eles seria deixar conselho errado na tela.
     const previous = savedId.current;
     const id =
-      previous !== null && updateSimulation(previous, { answers, insight: undefined })
+      previous !== null &&
+      updateSimulation(previous, { answers, insight: undefined, messages: undefined })
         ? previous
         : saveSimulation(answers);
     savedId.current = id;
