@@ -17,7 +17,7 @@
 - Esforço: medio
 - Notas: `ChatMessage = { id, role: 'user' | 'assistant', content, createdAt }` e o guardião `isChatMessage`, no molde do `isInsightData` — o armazenamento é hostil e a conversa vem dele. `SimulationRecord` ganha `messages?: ChatMessage[]` (ASM-025) e `SimulationPatch` passa a aceitá-lo, para que `messages: undefined` descarte a conversa do mesmo jeito que `insight: undefined` descarta o diagnóstico (AC-046). Uma mensagem corrompida custa a conversa daquele registro, nunca o registro nem a lista (ASM-026): mesmo tratamento do `withValidInsight`, que já está ali ao lado e deve ser o modelo. A ordem das mensagens é a de gravação — aqui não há reordenação por data, ao contrário da lista do histórico.
 
-## T-018 — O pedido de acompanhamento [pendente]
+## T-018 — O pedido de acompanhamento [concluida]
 
 - Refs: US-013, AC-040, AC-041
 - Arquivos: src/features/insights/chat.ts, src/features/insights/chat.test.ts

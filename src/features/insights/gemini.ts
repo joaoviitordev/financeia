@@ -69,8 +69,14 @@ export function parseInsight(text: string): InsightData | null {
   return isInsightData(parsed) ? parsed : null;
 }
 
-/** O texto que o Gemini devolve, sem confiar em nenhum nível da estrutura. */
-function extractText(payload: unknown): string | null {
+/**
+ * O texto que o Gemini devolve, sem confiar em nenhum nível da estrutura.
+ *
+ * Exportado porque a conversa (`chat.ts`) lê a resposta do mesmo endpoint e
+ * pela mesma casca: o que muda entre os dois é o que se faz com o texto, não
+ * como se chega até ele.
+ */
+export function extractText(payload: unknown): string | null {
   if (typeof payload !== 'object' || payload === null) {
     return null;
   }

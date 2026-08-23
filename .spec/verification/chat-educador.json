@@ -1,12 +1,22 @@
 {
   "feature": "chat-educador",
-  "timestamp": "2026-08-23T12:34:05.150Z",
-  "gitRev": "eabb728",
+  "timestamp": "2026-08-23T12:40:53.448Z",
+  "gitRev": "10e38f5",
   "command": "npx vitest run --reporter=json --outputFile=.spec/verification/raw.json",
   "reporter": "vitest-json",
   "exitCode": 0,
-  "testsParsed": 144,
+  "testsParsed": 158,
   "results": {
+    "AC-040": {
+      "status": "pass",
+      "testName": "buildChatPrompt AC-040: O pedido carrega a simulação, o diagnóstico e a conversa até aqui @spec:AC-040 AC-040: O pedido carrega a simulação, o diagnóstico e a conversa até aqui @spec:AC-040",
+      "method": "vitest-json"
+    },
+    "AC-041": {
+      "status": "pass",
+      "testName": "buildChatPrompt AC-041: A conversa enviada tem teto @spec:AC-041 AC-041: A conversa enviada tem teto @spec:AC-041",
+      "method": "vitest-json"
+    },
     "AC-045": {
       "status": "pass",
       "testName": "a conversa dentro da simulação AC-045: A conversa sobrevive ao recarregar @spec:AC-045 AC-045: A conversa sobrevive ao recarregar @spec:AC-045",
