@@ -1,12 +1,17 @@
 {
   "feature": "chat-educador",
-  "timestamp": "2026-08-23T12:40:53.448Z",
-  "gitRev": "10e38f5",
+  "timestamp": "2026-08-23T12:46:46.937Z",
+  "gitRev": "656ebe9",
   "command": "npx vitest run --reporter=json --outputFile=.spec/verification/raw.json",
   "reporter": "vitest-json",
   "exitCode": 0,
-  "testsParsed": 158,
+  "testsParsed": 166,
   "results": {
+    "AC-039": {
+      "status": "pass",
+      "testName": "InsightChat AC-039: Perguntar devolve uma resposta na conversa @spec:AC-039 AC-039: Perguntar devolve uma resposta na conversa @spec:AC-039",
+      "method": "vitest-json"
+    },
     "AC-040": {
       "status": "pass",
       "testName": "buildChatPrompt AC-040: O pedido carrega a simulação, o diagnóstico e a conversa até aqui @spec:AC-040 AC-040: O pedido carrega a simulação, o diagnóstico e a conversa até aqui @spec:AC-040",
@@ -17,6 +22,21 @@
       "testName": "buildChatPrompt AC-041: A conversa enviada tem teto @spec:AC-041 AC-041: A conversa enviada tem teto @spec:AC-041",
       "method": "vitest-json"
     },
+    "AC-042": {
+      "status": "pass",
+      "testName": "InsightChat AC-042: Enter envia, Shift+Enter quebra linha @spec:AC-042 AC-042: Enter envia, Shift+Enter quebra linha @spec:AC-042",
+      "method": "vitest-json"
+    },
+    "AC-043": {
+      "status": "pass",
+      "testName": "InsightChat AC-043: Não dá para enviar vazio nem duas vezes @spec:AC-043 AC-043: Não dá para enviar vazio nem duas vezes @spec:AC-043",
+      "method": "vitest-json"
+    },
+    "AC-044": {
+      "status": "pass",
+      "testName": "InsightChat AC-044: A conversa rola até a mensagem nova @spec:AC-044 AC-044: A conversa rola até a mensagem nova @spec:AC-044",
+      "method": "vitest-json"
+    },
     "AC-045": {
       "status": "pass",
       "testName": "a conversa dentro da simulação AC-045: A conversa sobrevive ao recarregar @spec:AC-045 AC-045: A conversa sobrevive ao recarregar @spec:AC-045",
@@ -25,6 +45,16 @@
     "AC-046": {
       "status": "pass",
       "testName": "a conversa dentro da simulação AC-046: Mudar uma resposta descarta a conversa junto com o diagnóstico @spec:AC-046 AC-046: Mudar uma resposta descarta a conversa junto com o diagnóstico @spec:AC-046",
+      "method": "vitest-json"
+    },
+    "AC-047": {
+      "status": "pass",
+      "testName": "InsightChat AC-047: Enquanto a resposta não chega, a pergunta mostra que ela está vindo @spec:AC-047 AC-047: Enquanto a resposta não chega, a pergunta mostra que ela está vindo @spec:AC-047",
+      "method": "vitest-json"
+    },
+    "AC-048": {
+      "status": "pass",
+      "testName": "InsightChat AC-048: A pergunta que falhou é dita pelo nome e pode ser reenviada @spec:AC-048 AC-048: A pergunta que falhou é dita pelo nome e pode ser reenviada @spec:AC-048",
       "method": "vitest-json"
     }
   },

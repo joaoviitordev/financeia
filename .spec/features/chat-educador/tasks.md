@@ -25,7 +25,7 @@
 - Esforço: alto
 - Notas: independente de T-017 — pode correr em paralelo. Duas coisas: `buildChatPrompt(plan, insight, messages)`, que monta o texto com os números da simulação, o diagnóstico já gerado e a conversa recente (AC-040), e `sendChatMessage(prompt)`, que fala com o Gemini. Os números chegam prontos do `buildPlan`, como manda o `prompt.ts` que já existe — a IA nunca faz conta. O corte de contexto é das 10 últimas mensagens (ASM-023, AC-041) e mora aqui, não no componente: é uma regra do pedido. A chamada NÃO pode reusar `generateInsight`, que força `responseMimeType: application/json` e devolve `InsightData` — a resposta aqui é prosa (ASM-024). Reaproveite `getGeminiApiKey`, o mesmo `InsightErrorKind` e o mesmo header `x-goog-api-key`: as causas de falha são as mesmas, e dar nome novo a elas seria inventar vocabulário.
 
-## T-019 — O painel da conversa [pendente]
+## T-019 — O painel da conversa [concluida]
 
 - Refs: US-013, US-014, US-016, AC-039, AC-042, AC-043, AC-044, AC-047, AC-048
 - Arquivos: src/features/insights/InsightChat.tsx, src/features/insights/InsightChat.test.tsx
