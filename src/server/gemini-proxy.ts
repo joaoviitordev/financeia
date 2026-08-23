@@ -22,7 +22,14 @@ const ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${MODE
  * e o acoplamento certo entre os dois é o contrato, não o arquivo.
  */
 export type ProxyErrorKind =
-  'missing-key' | 'invalid-key' | 'quota' | 'network' | 'unexpected-response' | 'bad-request';
+  | 'missing-key'
+  | 'invalid-key'
+  | 'quota'
+  | 'network'
+  | 'unexpected-response'
+  | 'bad-request'
+  | 'forbidden-origin'
+  | 'rate-limited';
 
 /** O que o navegador manda. Nada de chave: é justamente o ponto (ASM-031). */
 interface ProxyRequestBody {
@@ -38,7 +45,97 @@ const STATUS: Record<ProxyErrorKind, number> = {
   network: 502,
   'unexpected-response': 502,
   'bad-request': 400,
+  'forbidden-origin': 403,
+  'rate-limited': 429,
 };
+
+/**
+ * Teto de tamanho do texto enviado (ASM-035).
+ *
+ * A única das três barreiras que vale contra alguém decidido: ela limita o dano
+ * POR CHAMADA, em vez de tentar contar chamadas. O maior texto que o produto
+ * monta (o diagnóstico com a conversa cheia) fica bem abaixo disto; o teto
+ * existe para o abuso, não para o uso.
+ */
+const TETO_DO_PROMPT = 8000;
+
+/** Janela deslizante do limite de rajada (ASM-038). */
+const JANELA_MS = 5 * 60 * 1000;
+const CHAMADAS_POR_JANELA = 30;
+
+/**
+ * O contador de rajada, por endereço de rede.
+ *
+ * Vive em escopo de módulo, o que significa: por instância da função. Cada
+ * instância conta só o que ela mesma viu, e instâncias nascem e morrem sozinhas
+ * — logo isto é amortecedor, não tranca, exatamente como a ASM-036 admite. Um
+ * limite de verdade precisaria de armazenamento durável, que a Q-010 deixou
+ * fora desta etapa.
+ */
+const chamadas = new Map<string, number[]>();
+
+/** Quem está chamando, do ponto de vista da rede. */
+function identifica(request: Request): string {
+  const encaminhado = request.headers.get('x-forwarded-for');
+  // O primeiro da lista é o cliente; o resto são os proxies do caminho.
+  const primeiro = encaminhado?.split(',')[0]?.trim();
+
+  return primeiro === undefined || primeiro === '' ? 'sem-endereco' : primeiro;
+}
+
+/**
+ * Registra a chamada e diz se ela passou do teto.
+ *
+ * Poda a cada passagem (ASM-039): um mapa que só cresce vira vazamento de
+ * memória na instância, e o remédio não pode virar o problema.
+ */
+function estourouRajada(quem: string, agora: number): boolean {
+  for (const [chave, marcas] of chamadas) {
+    const vivas = marcas.filter((marca) => agora - marca < JANELA_MS);
+    if (vivas.length === 0) {
+      chamadas.delete(chave);
+    } else {
+      chamadas.set(chave, vivas);
+    }
+  }
+
+  const minhas = chamadas.get(quem) ?? [];
+  if (minhas.length >= CHAMADAS_POR_JANELA) {
+    return true;
+  }
+  chamadas.set(quem, [...minhas, agora]);
+
+  return false;
+}
+
+/**
+ * A origem do pedido é o próprio site? (AC-056, ASM-033)
+ *
+ * Compara o HOST, e não a URL inteira: esquema e porta mudam entre
+ * desenvolvimento e produção, e exigir igualdade completa quebraria em um dos
+ * dois. Ausência de origem também reprova (ASM-034): o navegador manda o
+ * cabeçalho em todo POST, e quem não manda é ferramenta de linha de comando,
+ * que é justamente o alvo desta barreira.
+ */
+function daMesmaCasa(request: Request): boolean {
+  const origem = request.headers.get('origin');
+  if (origem === null) {
+    return false;
+  }
+
+  try {
+    const host = request.headers.get('host') ?? new URL(request.url).host;
+
+    return new URL(origem).host === host;
+  } catch {
+    return false;
+  }
+}
+
+/** Só para o teste poder começar do zero: rajada é estado, e estado vaza entre casos. */
+export function esqueceRajada(): void {
+  chamadas.clear();
+}
 
 function fail(kind: ProxyErrorKind): Response {
   return new Response(JSON.stringify({ kind }), {
@@ -60,12 +157,18 @@ function readBody(value: unknown): ProxyRequestBody | null {
   if (typeof prompt !== 'string' || prompt.trim() === '') {
     return null;
   }
+  // Escrito em dois passos, e não numa condição composta: partindo de
+  // `unknown`, nem toda versão do TypeScript estreita o tipo através de um
+  // `&&`, e o build da Vercel recusou o que o build local aceitava.
   const json = value['json'];
-  if (json !== undefined && typeof json !== 'boolean') {
+  if (json === undefined) {
+    return { prompt };
+  }
+  if (typeof json !== 'boolean') {
     return null;
   }
 
-  return json === undefined ? { prompt } : { prompt, json };
+  return { prompt, json };
 }
 
 /** O texto que o Gemini devolve, sem confiar em nenhum nível da estrutura. */
@@ -108,6 +211,16 @@ export async function handleGeminiRequest(
     return fail('bad-request');
   }
 
+  // As três barreiras vêm ANTES de tudo, inclusive antes de ler a chave: recusa
+  // que custa cota não é recusa.
+  if (!daMesmaCasa(request)) {
+    return fail('forbidden-origin');
+  }
+
+  if (estourouRajada(identifica(request), Date.now())) {
+    return fail('rate-limited');
+  }
+
   let payload: unknown;
   try {
     payload = await request.json();
@@ -117,6 +230,10 @@ export async function handleGeminiRequest(
 
   const body = readBody(payload);
   if (body === null) {
+    return fail('bad-request');
+  }
+
+  if (body.prompt.length > TETO_DO_PROMPT) {
     return fail('bad-request');
   }
 

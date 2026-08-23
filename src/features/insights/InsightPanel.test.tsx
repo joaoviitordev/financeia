@@ -6,7 +6,12 @@ import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { InsightPanel } from '@/features/insights/InsightPanel';
-import { proxyAdiado, proxyResponde, proxySemChave } from '@/features/insights/proxy-double';
+import {
+  proxyAdiado,
+  proxyFalha,
+  proxyResponde,
+  proxySemChave,
+} from '@/features/insights/proxy-double';
 import type { InsightData } from '@/features/insights/types';
 import { EMPTY_ANSWERS } from '@/features/onboarding/questions';
 import { saveSimulation } from '@/features/simulations/storage';
@@ -122,5 +127,21 @@ describe('InsightPanel', () => {
     expect(await screen.findByText(/Falta configurar a chave/i)).toBeInTheDocument();
     // Nada de erro de rede na tela: a causa foi dita pelo nome.
     expect(screen.queryByText(/Verifique a conexão/i)).not.toBeInTheDocument();
+  });
+  // US-022 — Rajada é contida e explicada
+  it('AC-061: A tela diz que foi limite de uso, e não erro @spec:AC-061', async () => {
+    proxyFalha('rate-limited', 429);
+
+    render(<InsightPanel id={novaSimulacao()} />);
+
+    // Diz que foram muitos pedidos em pouco tempo, e que é para tentar de novo
+    // em seguida.
+    expect(await screen.findByText(/muitos pedidos em pouco tempo/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Tentar novamente' })).toBeInTheDocument();
+
+    // E com texto DIFERENTE do da cota da API esgotada: as duas esperas são de
+    // ordem de grandeza diferente, e um texto só faria a pessoa esperar pela
+    // razão errada (ASM-037).
+    expect(screen.queryByText(/cota da chave acabou/i)).not.toBeInTheDocument();
   });
 });

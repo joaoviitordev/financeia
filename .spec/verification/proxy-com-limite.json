@@ -1,0 +1,42 @@
+{
+  "feature": "proxy-com-limite",
+  "timestamp": "2026-08-23T14:11:34.064Z",
+  "gitRev": "16a88d7",
+  "command": "npx vitest run --reporter=json --outputFile=.spec/verification/raw.json",
+  "reporter": "vitest-json",
+  "exitCode": 0,
+  "testsParsed": 196,
+  "results": {
+    "AC-056": {
+      "status": "pass",
+      "testName": "as barreiras antes do Gemini AC-056: Pedido de fora do site é recusado sem tocar no Gemini @spec:AC-056 AC-056: Pedido de fora do site é recusado sem tocar no Gemini @spec:AC-056",
+      "method": "vitest-json"
+    },
+    "AC-057": {
+      "status": "pass",
+      "testName": "as barreiras antes do Gemini AC-057: O site continua funcionando sem cadastrar domínio @spec:AC-057 AC-057: O site continua funcionando sem cadastrar domínio @spec:AC-057",
+      "method": "vitest-json"
+    },
+    "AC-058": {
+      "status": "pass",
+      "testName": "as barreiras antes do Gemini AC-058: Prompt acima do teto é recusado antes do Gemini @spec:AC-058 AC-058: Prompt acima do teto é recusado antes do Gemini @spec:AC-058",
+      "method": "vitest-json"
+    },
+    "AC-059": {
+      "status": "pass",
+      "testName": "as barreiras antes do Gemini AC-059: Passado o teto de chamadas na janela, o proxy recusa @spec:AC-059 AC-059: Passado o teto de chamadas na janela, o proxy recusa @spec:AC-059",
+      "method": "vitest-json"
+    },
+    "AC-060": {
+      "status": "pass",
+      "testName": "as barreiras antes do Gemini AC-060: O limite é de quem estourou, não de todo mundo @spec:AC-060 AC-060: O limite é de quem estourou, não de todo mundo @spec:AC-060",
+      "method": "vitest-json"
+    },
+    "AC-061": {
+      "status": "pass",
+      "testName": "InsightChat AC-061: A conversa diz que foi limite de uso, e não erro @spec:AC-061 AC-061: A conversa diz que foi limite de uso, e não erro @spec:AC-061",
+      "method": "vitest-json"
+    }
+  },
+  "principles": {}
+}

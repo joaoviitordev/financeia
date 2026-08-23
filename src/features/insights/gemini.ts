@@ -20,7 +20,7 @@ const PROXY_ENDPOINT = '/api/gemini';
  * conserto em meia hora de mistério.
  */
 export type InsightErrorKind =
-  'missing-key' | 'invalid-key' | 'quota' | 'network' | 'unexpected-response';
+  'missing-key' | 'invalid-key' | 'quota' | 'network' | 'unexpected-response' | 'rate-limited';
 
 export interface InsightFailure {
   kind: InsightErrorKind;
@@ -36,6 +36,10 @@ const MESSAGES: Record<InsightErrorKind, string> = {
   quota: 'A cota da chave acabou por enquanto. Tente de novo daqui a pouco.',
   network: 'Não consegui falar com o serviço agora. Verifique a conexão e tente de novo.',
   'unexpected-response': 'A resposta veio fora do formato esperado. Tente gerar de novo.',
+  // Texto próprio, e não o de `quota` (ASM-037): cota da API esgotada e rajada
+  // contida pedem esperas de ordem de grandeza muito diferente, e um texto só
+  // faria a pessoa esperar pela razão errada.
+  'rate-limited': 'Você fez muitos pedidos em pouco tempo. Espere um instante e tente de novo.',
 };
 
 export function failure(kind: InsightErrorKind): InsightFailure {
@@ -48,14 +52,17 @@ const CONHECIDAS: readonly InsightErrorKind[] = [
   'quota',
   'network',
   'unexpected-response',
+  'rate-limited',
 ];
 
 /**
  * A causa que o proxy nomeou.
  *
- * Uma causa que o cliente não conhece (o `bad-request` do proxy, ou algo que
- * uma versão futura do servidor invente) vira "resposta inesperada": é honesto,
+ * Uma causa que o cliente não conhece vira "resposta inesperada": é honesto,
  * porque de fato não sabemos, e é melhor que mostrar na tela um nome interno.
+ * É onde caem o `bad-request` e o `forbidden-origin` do proxy, de propósito:
+ * nenhum dos dois acontece com quem usa o site de verdade, e dar texto próprio
+ * a eles seria escrever tela para um caso que ninguém vê.
  */
 function readKind(payload: unknown): InsightErrorKind {
   if (typeof payload !== 'object' || payload === null) {

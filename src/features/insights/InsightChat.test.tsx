@@ -279,4 +279,22 @@ describe('InsightChat', () => {
       expect(onMessagesChange).toHaveBeenCalled();
     });
   });
+  // US-022 — Rajada é contida e explicada
+  it('AC-061: A conversa diz que foi limite de uso, e não erro @spec:AC-061', async () => {
+    const user = userEvent.setup();
+    proxyFalha('rate-limited', 429);
+    renderChat([mensagem('m1', 'user', 'pergunta antiga')]);
+
+    await user.type(screen.getByLabelText('Sua pergunta'), 'a que esbarra no limite{Enter}');
+
+    // A recusa aparece NAQUELA pergunta, dita pelo que ela é...
+    expect(await screen.findByText(/muitos pedidos em pouco tempo/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Tentar de novo' })).toBeInTheDocument();
+
+    // ...com texto diferente do da cota esgotada (ASM-037)...
+    expect(screen.queryByText(/cota da chave acabou/i)).not.toBeInTheDocument();
+
+    // ...e o resto da conversa continua ali, como em qualquer outra falha.
+    expect(screen.getByText('pergunta antiga')).toBeInTheDocument();
+  });
 });

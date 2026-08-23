@@ -1,0 +1,44 @@
+{
+  /*
+   * A pasta `api/` compilada como a Vercel compila.
+   *
+   * Existe porque o build local passava e o da Vercel quebrava: aqui o `api/`
+   * ficava sob o `tsconfig.node.json`, com resolução `nodenext` e tipos do
+   * Node, e nenhuma das duas coisas vale lá. O resultado era descobrir o erro
+   * depois de publicar.
+   *
+   * `moduleResolution: bundler` aceita import sem extensão, que é o que a
+   * Vercel exige. `types: []` tira os tipos do Node, que ela não fornece no
+   * runtime de borda. As duas escolhas são deliberadamente mais restritas que
+   * as nossas: o objetivo não é facilitar a vida aqui, é falhar aqui antes de
+   * falhar lá.
+   */
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.api.tsbuildinfo",
+    "target": "es2023",
+    "lib": ["ES2023", "DOM"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "types": [],
+    "skipLibCheck": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+
+    /* Type checking */
+    "strict": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    "useUnknownInCatchVariables": true,
+
+    /* Linting */
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true
+  },
+  "include": ["api"]
+}

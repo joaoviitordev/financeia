@@ -69,7 +69,13 @@ describe('generateInsight', () => {
 
   // A causa agora é NOMEADA pelo proxy; o cliente repassa o nome à tela.
   it('dá nome a cada falha em vez de um erro genérico', async () => {
-    for (const kind of ['invalid-key', 'quota', 'network', 'missing-key'] as const) {
+    for (const kind of [
+      'invalid-key',
+      'quota',
+      'network',
+      'missing-key',
+      'rate-limited',
+    ] as const) {
       proxyFalha(kind);
       const result = await generateInsight('prompt');
 
@@ -78,14 +84,19 @@ describe('generateInsight', () => {
     }
   });
 
-  // Nome que o cliente não conhece não pode virar texto interno na tela.
-  it('causa desconhecida do servidor vira resposta inesperada', async () => {
-    proxyFalha('bad-request', 400);
+  // Nome que o cliente não conhece não pode virar texto interno na tela. É onde
+  // caem `bad-request` e `forbidden-origin`, que nunca acontecem com quem usa o
+  // site de verdade.
+  it.each(['bad-request', 'forbidden-origin', 'coisa-que-nao-existe'])(
+    'causa %s do servidor vira resposta inesperada',
+    async (kind) => {
+      proxyFalha(kind, 400);
 
-    const result = await generateInsight('prompt');
+      const result = await generateInsight('prompt');
 
-    expect(result.ok ? null : result.error.kind).toBe('unexpected-response');
-  });
+      expect(result.ok ? null : result.error.kind).toBe('unexpected-response');
+    },
+  );
 
   it('trata queda de rede como queda de rede', async () => {
     vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new TypeError('Failed to fetch')));

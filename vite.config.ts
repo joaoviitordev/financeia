@@ -48,7 +48,15 @@ function geminiProxyDev(apiKey: string | undefined): Plugin {
       server.middlewares.use('/api/gemini', (req: IncomingMessage, res: ServerResponse) => {
         void (async () => {
           const corpo = await lerCorpo(req);
-          const request = new Request('http://localhost/api/gemini', {
+          // A URL é montada a partir do pedido real, e não fixa: a checagem de
+          // origem do proxy compara o cabeçalho `Origin` com o host do pedido,
+          // e uma URL inventada aqui reprovaria tudo em desenvolvimento. O
+          // `originalUrl` existe porque o middleware está montado num prefixo,
+          // e o Connect corta o prefixo de `req.url`.
+          const host = req.headers.host ?? 'localhost';
+          const caminho =
+            (req as IncomingMessage & { originalUrl?: string }).originalUrl ?? '/api/gemini';
+          const request = new Request(`http://${host}${caminho}`, {
             method: req.method ?? 'GET',
             headers: cabecalhos(req),
             ...(req.method === 'GET' || req.method === 'HEAD' ? {} : { body: corpo }),

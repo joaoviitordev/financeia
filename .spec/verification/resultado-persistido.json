@@ -1,11 +1,11 @@
 {
   "feature": "resultado-persistido",
-  "timestamp": "2026-08-23T13:49:24.431Z",
-  "gitRev": "e6fb2d6",
+  "timestamp": "2026-08-23T14:10:16.348Z",
+  "gitRev": "16a88d7",
   "command": "npx vitest run --reporter=json --outputFile=.spec/verification/raw.json",
   "reporter": "vitest-json",
   "exitCode": 0,
-  "testsParsed": 185,
+  "testsParsed": 196,
   "results": {
     "AC-001": {
       "status": "pass",
