@@ -1,6 +1,27 @@
 # Finance IA
 
-Aplicação de finanças com IA. React 19 + TypeScript + Vite + Tailwind CSS v4.
+Simulador de planejamento financeiro pessoal com diagnóstico por IA.
+React 19 + TypeScript + Vite + Tailwind CSS v4.
+
+## O que ele faz
+
+Sete perguntas sobre renda, gastos fixos, dívidas, quanto já está guardado e qual
+é a meta. Com isso o aplicativo monta um plano, diz se a meta cabe no orçamento
+no prazo desejado, e pede à IA um diagnóstico em português sobre aqueles números.
+Da tela de resultado dá para conversar com o educador financeiro sobre o próprio
+plano.
+
+Cada simulação vira um endereço próprio (`/resultado/:id`) e fica guardada no
+dispositivo, em `/historico`. O diagnóstico é gerado uma vez e guardado junto:
+reabrir uma simulação não custa outra chamada à IA.
+
+**Tudo mora no navegador de quem usa.** Não há conta, servidor de dados nem
+sincronização: as simulações ficam no `localStorage` daquele dispositivo e sob o
+controle de quem está lá.
+
+O produto é o **desafio final do bootcamp**, e o caminho até cada decisão está
+registrado em `.spec/` (especificações com critérios de aceite, todos com teste e
+prova) e em `docs/roteiro-planejai.md` (as etapas do curso).
 
 ## Requisitos
 
@@ -50,9 +71,25 @@ proxy.
    `historico` existe para servir.
 3. A pasta `api/` é publicada sozinha, sem configuração.
 
-**O que esta divisão ainda não resolve:** o endereço `/api/gemini` fica aberto a
-quem souber dele, e a cota continua sendo a de quem publicou. Limitar por
-origem, IP ou sessão é trabalho de outra etapa.
+### Quem pode chamar o proxy
+
+Três barreiras, e vale saber qual é qual antes de confiar demais nelas:
+
+- **origem**: o cabeçalho `Origin` tem que bater com o host do pedido. Barra
+  `curl`, script solto e bot. Quem forjar o cabeçalho passa, e isso é fácil.
+- **tamanho**: nenhum texto acima de 8000 caracteres é enviado. É a única das
+  três que vale contra alguém decidido, porque limita o dano **por chamada** em
+  vez de tentar contar chamadas.
+- **rajada**: 30 chamadas por endereço de rede a cada 5 minutos. O contador vive
+  na memória de cada instância da função, então instâncias novas começam do
+  zero. É amortecedor, não tranca.
+
+As três acontecem **antes** de qualquer chamada ao Gemini, e antes até de ler a
+chave: recusa que custa cota não é recusa.
+
+**O que continua em aberto:** um limite que valha de verdade precisa de contagem
+durável entre instâncias (Upstash, Vercel KV). Está registrado como Q-010 em
+`.spec/features/proxy-com-limite/`, fora do escopo por ora.
 
 ## Scripts
 
@@ -132,8 +169,11 @@ Direção: **Liquid Glass restrito à navegação** (sidebar, toolbar, tab bar, 
 de conteúdo e gráficos ficam opacas, porque translucidez atrás de dado financeiro denso torna o
 contraste dependente do que passa por baixo.
 
-Layout segue **macOS no desktop** (sidebar + toolbar) e **iOS no mobile** (tab bar + listas
-agrupadas inset), a partir de um único conjunto de tokens.
+O sistema foi desenhado para **macOS no desktop** (sidebar + toolbar) e **iOS no mobile** (tab bar
+
+- listas agrupadas inset), a partir de um único conjunto de tokens. O produto que nasceu dele não
+  precisou dessa navegação: são três telas, com cabeçalho fixo e rodapé. Os componentes daquele
+  layout continuam no repositório e estão marcados como não usados mais abaixo.
 
 ### Tokens
 
@@ -226,8 +266,9 @@ overshoot, que é justamente o que faz o movimento parecer da Apple.
 
 ### Componentes
 
-Em `src/components/ui/`: `Button`, `Card`, `ListGroup`/`ListRow`, `SegmentedControl`, `Switch`,
-`Separator`, `Toolbar`/`Sidebar`/`TabBar`, `Sheet`, `StatTile`, `Sparkline`.
+Em `src/components/ui/`: `Button`, `Card`, `Field`, `ListGroup`/`ListRow`, `ProgressBar`,
+`SegmentedControl`, `Switch`, `Separator`, `Toolbar`/`Sidebar`/`TabBar`, `Sheet`, `Skeleton`,
+`StatTile`, `Sparkline`.
 
 `Sheet` é a única com dependência externa (`@radix-ui/react-dialog`): focus trap, devolução de
 foco e `aria-modal` são fáceis de errar à mão e falham silenciosamente.
@@ -236,7 +277,10 @@ foco e `aria-modal` são fáceis de errar à mão e falham silenciosamente.
 daltonismo vermelho-verde é exatamente o eixo de ganho e perda, então o sinal precisa sobreviver
 sem a cor.
 
-A rota `/` é uma vitrine do sistema nos dois temas. Use `npm run dev` para percorrê-la.
+**Nem tudo aqui está em uso.** `Toolbar`, `Sidebar`, `TabBar`, `ListGroup`, `ListRow`, `Switch` e
+`Sparkline` foram construídos na fase de sistema de design e nenhuma tela do produto os usa hoje:
+o aplicativo é cabeçalho, conteúdo e rodapé. Ficaram porque são o vocabulário do sistema e o custo
+de mantê-los é zero, mas ninguém deveria abrir este arquivo achando que descreve as telas.
 
 ## Editor
 
