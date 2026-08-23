@@ -50,7 +50,7 @@ describe('App', () => {
     const user = userEvent.setup();
     renderApp();
 
-    await user.click(screen.getByRole('button', { name: 'Ver histórico' }));
+    await user.click(screen.getByRole('button', { name: 'Suas simulações' }));
 
     expect(screen.getByRole('dialog', { name: 'Histórico' })).toBeInTheDocument();
     expect(screen.getByText('Nenhuma simulação por aqui ainda')).toBeInTheDocument();

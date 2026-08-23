@@ -1,7 +1,7 @@
 {
   "feature": "historico",
-  "timestamp": "2026-08-23T11:39:42.256Z",
-  "gitRev": "59fbf8e",
+  "timestamp": "2026-08-23T11:48:48.302Z",
+  "gitRev": "84eb2ff",
   "command": "npx vitest run --reporter=json --outputFile=.spec/verification/raw.json",
   "reporter": "vitest-json",
   "exitCode": 0,

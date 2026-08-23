@@ -31,7 +31,7 @@ describe('Header', () => {
     const { onNewSimulation, onShowHistory } = renderHeader();
 
     await user.click(screen.getByRole('button', { name: 'Nova simulação' }));
-    await user.click(screen.getByRole('button', { name: 'Ver histórico' }));
+    await user.click(screen.getByRole('button', { name: 'Suas simulações' }));
 
     expect(onNewSimulation).toHaveBeenCalledTimes(1);
     expect(onShowHistory).toHaveBeenCalledTimes(1);

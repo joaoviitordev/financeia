@@ -50,9 +50,9 @@ export function Header({ onNewSimulation, onShowHistory, className }: HeaderProp
           <span className="hidden sm:inline">Nova simulação</span>
         </Button>
 
-        <Button variant="gray" aria-label="Ver histórico" onClick={onShowHistory}>
+        <Button variant="gray" aria-label="Suas simulações" onClick={onShowHistory}>
           <History aria-hidden="true" className="h-4 w-4" />
-          <span className="hidden sm:inline">Ver histórico</span>
+          <span className="hidden sm:inline">Suas simulações</span>
         </Button>
       </div>
     </header>

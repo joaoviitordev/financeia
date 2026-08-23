@@ -66,7 +66,7 @@ describe('histórico e navegação', () => {
     vi.stubGlobal('fetch', vi.fn());
 
     const router = renderAt('/');
-    await user.click(screen.getByRole('button', { name: 'Ver histórico' }));
+    await user.click(screen.getByRole('button', { name: 'Suas simulações' }));
 
     const sheet = screen.getByRole('dialog', { name: 'Histórico' });
     await user.click(within(sheet).getByRole('button', { name: 'Ver detalhes' }));
@@ -92,7 +92,7 @@ describe('histórico e navegação', () => {
     vi.stubGlobal('fetch', fetchMock);
 
     renderAt('/');
-    await user.click(screen.getByRole('button', { name: 'Ver histórico' }));
+    await user.click(screen.getByRole('button', { name: 'Suas simulações' }));
     const sheet = screen.getByRole('dialog', { name: 'Histórico' });
     await user.click(within(sheet).getByRole('button', { name: 'Ver detalhes' }));
 
@@ -114,7 +114,7 @@ describe('histórico e navegação', () => {
       screen.getByRole('heading', { name: 'Resultado da sua simulação', level: 1 }),
     ).toBeInTheDocument();
 
-    await user.click(screen.getByRole('button', { name: 'Ver histórico' }));
+    await user.click(screen.getByRole('button', { name: 'Suas simulações' }));
     const sheet = screen.getByRole('dialog', { name: 'Histórico' });
     await user.click(
       within(sheet).getByRole('button', { name: 'Excluir a simulação Comprar um carro' }),
