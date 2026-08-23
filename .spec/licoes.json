@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "proximoId": 2,
+  "proximoId": 3,
   "licoes": [
     {
       "id": "L-001",
@@ -22,6 +22,27 @@
       "penalidades": 0,
       "criadaEm": "2026-08-22T23:19:59.393Z",
       "ultimaVez": "2026-08-22T23:19:59.393Z"
+    },
+    {
+      "id": "L-002",
+      "texto": "Commit que toca src depois do verify deixa a prova obsoleta: rode verify de novo e regrave antes de dar a feature por fechada.",
+      "chave": "VERIFY_OBSOLETO::commit que toca src depois do verify deixa a prova obsoleta rode verify de novo e regrave antes de dar a feature por fechada",
+      "sinal": "VERIFY_OBSOLETO",
+      "escopo": null,
+      "status": "candidata",
+      "recorrencia": 1,
+      "features": ["resultado-persistido"],
+      "evidencias": [
+        {
+          "fonte": "—",
+          "feature": "resultado-persistido",
+          "quando": "2026-08-23T11:40:27.755Z",
+          "gitRev": "ac94a6f"
+        }
+      ],
+      "penalidades": 0,
+      "criadaEm": "2026-08-23T11:40:27.755Z",
+      "ultimaVez": "2026-08-23T11:40:27.755Z"
     }
   ]
 }

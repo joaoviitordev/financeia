@@ -1,11 +1,11 @@
 {
   "feature": "historico",
-  "timestamp": "2026-08-22T23:34:54.920Z",
-  "gitRev": "5ca09ce",
+  "timestamp": "2026-08-23T11:39:42.256Z",
+  "gitRev": "59fbf8e",
   "command": "npx vitest run --reporter=json --outputFile=.spec/verification/raw.json",
   "reporter": "vitest-json",
   "exitCode": 0,
-  "testsParsed": 131,
+  "testsParsed": 132,
   "results": {
     "AC-027": {
       "status": "pass",

@@ -19,6 +19,12 @@ Vistas em uma feature só. Registradas, não confiadas.
 - features: diagnostico-ia
 - última evidência: T-006 (diagnostico-ia, 2026-08-22T23:19:59.393Z)
 
+### L-002 — Commit que toca src depois do verify deixa a prova obsoleta: rode verify de novo e regrave antes de dar a feature por fechada.
+
+- sinal: `VERIFY_OBSOLETO` · recorrência: 1 feature(s) · penalidades: 0
+- features: resultado-persistido
+- última evidência: — (resultado-persistido, 2026-08-23T11:40:27.755Z)
+
 ## Quarentena — aplicadas e falharam, ignorar
 
 A falha recorreu mesmo com a lição aplicada. Revisão é do usuário.
