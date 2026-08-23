@@ -52,32 +52,37 @@ alias `@/`, `any` proibido, `!` proibido, e `String(n)` em template literal com 
 
 ## 3. Paridade: onde estamos
 
-| Capacidade                                 | Aula (lá)  | Estado aqui                                                            | Etapa   |
-| ------------------------------------------ | ---------- | ---------------------------------------------------------------------- | ------- |
-| Vite + React + TS, ESLint, Prettier, alias | 02         | ✅ pronto (e com Vitest, Husky, commitlint, que lá não existem)        | —       |
-| Tailwind v4 via plugin do Vite             | 03         | ✅ pronto                                                              | —       |
-| Variáveis de tema e estilos globais        | 04         | ✅ pronto, mais completo (`src/styles/tokens/`)                        | —       |
-| Tema claro/escuro com provider e hook      | 08         | ✅ pronto (`src/theme/`)                                               | —       |
-| `Button`, `Input`, `Divider`, `PageHero`   | 06, 11, 16 | ✅ equivalentes em `components/ui/`                                    | —       |
-| Cabeçalho e navegação                      | 07         | ✅ `components/layout/Header.tsx`                                      | —       |
-| Barra de progresso do formulário           | 10         | ✅ `components/ui/ProgressBar.tsx`, usada no `QuestionStep`            | —       |
-| Formulário multi-step com avançar/voltar   | 09, 13     | ✅ `useOnboarding` (máquina de estados, melhor que o `useState` de lá) | —       |
-| Máscara de moeda                           | 14         | ✅ `lib/format.ts` (`maskCurrencyInput` / `parseCurrencyInput`)        | —       |
-| Rotas com React Router                     | 05         | ❌ dependência instalada, nunca usada                                  | **E1**  |
-| Campos de dívidas e prazo da meta          | 12         | ❌ temos 5 perguntas, faltam 2                                         | **E2**  |
-| Persistência no `localStorage` + id único  | 15, 17     | ❌ hoje o estado morre ao recarregar                                   | **E3**  |
-| Página de resultado com cards              | 16         | ⚠️ temos `GoalsSummary`, falta a rota `/resultado/:id`                 | **E4**  |
-| Prompt para a IA                           | 18         | ❌                                                                     | **E5**  |
-| Chave de API do Gemini                     | 19         | ❌                                                                     | **E6**  |
-| Chamada HTTP ao Gemini                     | 20         | ❌                                                                     | **E7**  |
-| Deduplicação de chamadas + cache           | 21         | ❌                                                                     | **E7**  |
-| Skeleton de carregamento e estado de erro  | 22         | ❌                                                                     | **E8**  |
-| Exibição do diagnóstico                    | 23         | ❌                                                                     | **E9**  |
-| Histórico de simulações                    | Desafio 1  | ⚠️ existe o `Sheet` com estado vazio, sem dados                        | **E10** |
-| Chat com o educador financeiro             | Desafio 2  | ❌                                                                     | **E11** |
+| Capacidade                                 | Aula (lá)  | Estado aqui                                                            | Etapa |
+| ------------------------------------------ | ---------- | ---------------------------------------------------------------------- | ----- |
+| Vite + React + TS, ESLint, Prettier, alias | 02         | ✅ pronto (e com Vitest, Husky, commitlint, que lá não existem)        | —     |
+| Tailwind v4 via plugin do Vite             | 03         | ✅ pronto                                                              | —     |
+| Variáveis de tema e estilos globais        | 04         | ✅ pronto, mais completo (`src/styles/tokens/`)                        | —     |
+| Tema claro/escuro com provider e hook      | 08         | ✅ pronto (`src/theme/`)                                               | —     |
+| `Button`, `Input`, `Divider`, `PageHero`   | 06, 11, 16 | ✅ equivalentes em `components/ui/`                                    | —     |
+| Cabeçalho e navegação                      | 07         | ✅ `components/layout/Header.tsx`                                      | —     |
+| Barra de progresso do formulário           | 10         | ✅ `components/ui/ProgressBar.tsx`, usada no `QuestionStep`            | —     |
+| Formulário multi-step com avançar/voltar   | 09, 13     | ✅ `useOnboarding` (máquina de estados, melhor que o `useState` de lá) | —     |
+| Máscara de moeda                           | 14         | ✅ `lib/format.ts` (`maskCurrencyInput` / `parseCurrencyInput`)        | —     |
+| Rotas com React Router                     | 05         | ✅ `src/router.tsx`, três rotas                                        | E1    |
+| Campos de dívidas e prazo da meta          | 12         | ✅ sete perguntas (AC-003)                                             | E2    |
+| Persistência no `localStorage` + id único  | 15, 17     | ✅ `features/simulations/storage.ts`                                   | E3    |
+| Página de resultado com cards              | 16         | ✅ `/resultado/:id`                                                    | E4    |
+| Prompt para a IA                           | 18         | ✅ `insights/prompt.ts`                                                | E5    |
+| Chave de API do Gemini                     | 19         | ✅ e depois movida para o servidor (ver abaixo)                        | E6    |
+| Chamada HTTP ao Gemini                     | 20         | ✅ via proxy `/api/gemini`                                             | E7    |
+| Deduplicação de chamadas + cache           | 21         | ✅ `useInsight` (AC-023, AC-024)                                       | E7    |
+| Skeleton de carregamento e estado de erro  | 22         | ✅ `InsightPanel` (AC-019 a AC-022)                                    | E8    |
+| Exibição do diagnóstico                    | 23         | ✅ `InsightContent`                                                    | E9    |
+| Histórico de simulações                    | Desafio 1  | ✅ `/historico` (Desafio 1 entregue)                                   | E10   |
+| Chat com o educador financeiro             | Desafio 2  | ✅ `InsightChat` (Desafio 2 entregue)                                  | E11   |
 
-Resumo: os blocos 1 e 2 do curso estão essencialmente feitos (e em alguns pontos ultrapassados).
-O trabalho real é o **bloco 3 inteiro** — persistência, rota de resultado e integração com IA.
+Resumo: **o roteiro inteiro foi entregue, E1 a E11, com os dois desafios.** A tabela acima era o
+diagnóstico de antes de começar; ficou aqui com o estado atualizado para não mentir sobre o produto.
+
+Duas coisas foram além do roteiro, e nasceram de um risco que ele não tratava: a chave do Gemini
+tinha prefixo `VITE_` e ia embutida no pacote do navegador. Ela foi para um proxy no servidor
+(`api/gemini.ts`), e o proxy ganhou barreiras de origem, tamanho e rajada. Ver
+`.spec/features/chave-no-servidor/` e `.spec/features/proxy-com-limite/`.
 
 ---
 
@@ -555,16 +560,22 @@ uma pergunta não derruba a conversa; a lista rola sozinha.
 
 ## 5. Checklist final
 
-- [ ] `npm run validate` verde (typecheck + lint + format + testes)
-- [ ] `npm run build` e `npm run preview` funcionando
-- [ ] Fluxo completo: 7 perguntas → resultado com diagnóstico → histórico → reabrir → chat
-- [ ] Sem chamada à API ao reabrir uma simulação já diagnosticada
-- [ ] Uma requisição por simulação em dev, com StrictMode ligado
-- [ ] Tudo checado nos dois temas, claro e escuro
-- [ ] Mobile (375px) e desktop (1440px)
-- [ ] `.env.local` fora do Git; `.env.example` dentro
-- [ ] Sem chave de API em nenhum arquivo versionado
-- [ ] Fluxo navegável por teclado; painel de insight anunciado por leitor de tela
+Marcado só o que tem prova. O que não foi conferido continua desmarcado de propósito: um risco
+conhecido vale mais que um risco esquecido.
+
+- [x] `npm run validate` verde (typecheck + lint + format + testes)
+- [x] `npm run build` funcionando, e o site publicado na Vercel conferido à mão
+- [x] Fluxo completo: 7 perguntas → resultado com diagnóstico → histórico → reabrir → chat
+- [x] Sem chamada à API ao reabrir uma simulação já diagnosticada (AC-024, AC-031)
+- [x] Uma requisição por simulação em dev, com StrictMode ligado (AC-023)
+- [ ] **Tudo checado nos dois temas, claro e escuro** — não conferido à mão em nenhuma tela
+- [ ] **Mobile (375px) e desktop (1440px)** — não conferido à mão em nenhuma largura
+- [x] `.env.local` fora do Git; `.env.example` dentro
+- [x] Sem chave de API em nenhum arquivo versionado, nem no pacote publicado (AC-049)
+- [ ] **Fluxo navegável por teclado; painel anunciado por leitor de tela** — os papéis e rótulos
+      estão no lugar e testados por nome acessível (`role="status"` no painel, `role="log"` na
+      conversa, rótulo em todo campo), mas ninguém percorreu o fluxo inteiro só com o teclado nem
+      ouviu a tela num leitor de verdade
 
 ## 6. Pontos de atenção
 
