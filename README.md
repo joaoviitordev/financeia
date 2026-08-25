@@ -23,6 +23,10 @@ O produto é o **desafio final do bootcamp**, e o caminho até cada decisão est
 registrado em `.spec/` (especificações com critérios de aceite, todos com teste e
 prova) e em `docs/roteiro-planejai.md` (as etapas do curso).
 
+<p align="center">
+  <img src="public/finance-ia-1920x1200.png" alt="Apresentação Finance IA" width="100%" />
+</p>
+
 ## Requisitos
 
 - Node.js >= 20.19
